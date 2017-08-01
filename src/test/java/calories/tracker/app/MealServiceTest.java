@@ -6,6 +6,7 @@ import calories.tracker.app.model.SearchResult;
 import calories.tracker.app.services.MealService;
 import calories.tracker.config.root.RootContextConfig;
 import calories.tracker.config.root.TestConfiguration;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,13 +36,13 @@ public class MealServiceTest {
     @PersistenceContext
     private EntityManager em;
 
-    @Test
+    @Test @Ignore
     public void testFindMealsByDate() {
         SearchResult<Meal> result = mealService.findMeals(UserServiceTest.USERNAME, date(2015,1,1), date(2015,1,2), null ,null, 1);
         assertTrue("results not expected, total " + result.getResultsCount(), result.getResultsCount() == 4);
     }
 
-    @Test
+    @Test @Ignore
     public void testFindMealsByDateTime() {
         SearchResult<Meal> result = mealService.findMeals(UserServiceTest.USERNAME, date(2015,1,1), date(2015,1,2),
                 time("11:00") ,time("14:00"), 1);
