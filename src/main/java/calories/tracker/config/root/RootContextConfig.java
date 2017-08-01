@@ -19,7 +19,7 @@ import javax.persistence.EntityManagerFactory;
 
 @Configuration
 @ComponentScan({"calories.tracker.app.services", "calories.tracker.app.dao",
-        "calories.tracker.app.init", " calories.tracker.app.security"})
+        "calories.tracker.app.init", "calories.tracker.app.security"})
 public class RootContextConfig {
 
     @Bean(name = "transactionManager")

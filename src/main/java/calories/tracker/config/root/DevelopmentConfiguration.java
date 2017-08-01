@@ -15,12 +15,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- *
  * Development specific configuration - creates a localhost postgresql datasource,
  * sets hibernate on create drop mode and inserts some test data on the database.
- *
+ * <p>
  * Set -Dspring.profiles.active=development to activate this config.
- *
  */
 @Configuration
 @Profile("development")
@@ -36,9 +34,10 @@ public class DevelopmentConfiguration {
     public DriverManagerDataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("org.postgresql.Driver");
-        dataSource.setUrl("jdbc:postgresql://localhost:5432/calorie-tracker?loglevel=0");
-        dataSource.setUsername("postgres");
-        dataSource.setPassword("postgres");
+        dataSource.setUrl("jdbc:" + System.getenv("ODDS_DB_URL") + "?loglevel=0");
+//        dataSource.setUrl("jdbc:postgresql://localhost:5432/calories_tracker?loglevel=0");
+        dataSource.setUsername(System.getenv("ODDS_USER"));
+        dataSource.setPassword(System.getenv("ODDS_PASS"));
         return dataSource;
     }
 
