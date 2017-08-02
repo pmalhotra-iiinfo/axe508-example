@@ -3,6 +3,7 @@ package calories.tracker.app.model;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import java.sql.Time;
 import java.util.Date;
@@ -23,17 +24,23 @@ public class Meal extends AbstractEntity {
     private Time time;
     private String description;
     private Long calories;
+    private Integer servings;
+
+    @OneToOne
+    private MealType type;
 
     public Meal() {
 
     }
 
-    public Meal(User user, Date date, Time time, String description, Long calories) {
+    public Meal(User user, Date date, Time time, String description, Long calories, Integer servings, MealType type) {
         this.user = user;
         this.date = date;
         this.time = time;
         this.description = description;
         this.calories = calories;
+        this.servings = servings;
+        this.type = type;
     }
 
 
@@ -75,5 +82,21 @@ public class Meal extends AbstractEntity {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public Integer getServings() {
+        return servings;
+    }
+
+    public void setServings(Integer servings) {
+        this.servings = servings;
+    }
+
+    public MealType getType() {
+        return type;
+    }
+
+    public void setType(MealType type) {
+        this.type = type;
     }
 }
