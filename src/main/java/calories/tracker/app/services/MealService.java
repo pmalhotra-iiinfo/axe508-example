@@ -52,17 +52,17 @@ public class MealService {
     @Transactional(readOnly = true)
     public SearchResult<Meal> findMeals(String username, Date fromDate, Date toDate, Time fromTime, Time toTime, int pageNumber) {
 
-//        if (fromDate == null || toDate == null) {
-//            throw new IllegalArgumentException("Both the from and to date are needed.");
-//        }
-//
-//        if (fromDate.after(toDate)) {
-//            throw new IllegalArgumentException("From date cannot be after to date.");
-//        }
+        if (fromDate == null || toDate == null) {
+            throw new IllegalArgumentException("Both the from and to date are needed.");
+        }
 
-//        if (fromDate.equals(toDate) && fromTime != null && toTime != null && fromTime.after(toTime)) {
-//            throw new IllegalArgumentException("On searches on the same day, from time cannot be after to time.");
-//        }
+        if (fromDate.after(toDate)) {
+            throw new IllegalArgumentException("From date cannot be after to date.");
+        }
+
+        if (fromDate.equals(toDate) && fromTime != null && toTime != null && fromTime.after(toTime)) {
+            throw new IllegalArgumentException("On searches on the same day, from time cannot be after to time.");
+        }
 
         Long resultsCount = mealRepository.countMealsByDateTime(username, fromDate, toDate, fromTime, toTime);
 
