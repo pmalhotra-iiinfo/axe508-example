@@ -119,6 +119,14 @@ a.logout:hover {
         max-width: 14em;
         margin: 0 auto;
     }
+
+    .login-box {
+        width: 300px;
+        border: 1px solid #c2c2c2;
+        padding: 30px;
+        margin: 10px auto 10px auto;
+
+    }
 }
 
 .pure-skin-theme .pure-form.search-form,
