@@ -124,8 +124,14 @@ public class MealRepository {
         List<Predicate> predicates = new ArrayList<>();
         Join<Meal, User> user = searchRoot.join("user");
 
-        predicates.add(cb.equal(user.<String>get("username"), username));
-        predicates.add(cb.greaterThanOrEqualTo(searchRoot.<Date>get("date"), fromDate));
+
+        if (fromDate != null) {
+            predicates.add(cb.equal(user.<String>get("username"), username));
+        }
+
+        if (fromDate != null) {
+            predicates.add(cb.greaterThanOrEqualTo(searchRoot.<Date>get("date"), fromDate));
+        }
 
         if (toDate != null) {
             predicates.add(cb.lessThanOrEqualTo(searchRoot.<Date>get("date"), toDate));

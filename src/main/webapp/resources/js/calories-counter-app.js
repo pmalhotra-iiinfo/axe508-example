@@ -126,29 +126,29 @@ angular.module('caloriesCounterApp', ['editableTableWidgets', 'frontendServices'
 
             $scope.search = function (page) {
 
-                var fromDate = new Date($scope.vm.fromDate);
-                var toDate = new Date($scope.vm.toDate);
+                // var fromDate = new Date($scope.vm.fromDate);
+                // var toDate = new Date($scope.vm.toDate);
 
                 console.log('search from ' + $scope.vm.fromDate + ' ' + $scope.vm.fromTime + ' to ' + $scope.vm.toDate + ' ' + $scope.vm.toTime);
 
                 var errorsFound = false;
+                //
+                // if ($scope.vm.fromDate && !$scope.vm.toDate || !$scope.vm.fromDate && $scope.vm.toDate) {
+                //     showErrorMessage("Both from and to dates are needed");
+                //     errorsFound = true;
+                //     return;
+                // }
 
-                if ($scope.vm.fromDate && !$scope.vm.toDate || !$scope.vm.fromDate && $scope.vm.toDate) {
-                    showErrorMessage("Both from and to dates are needed");
-                    errorsFound = true;
-                    return;
-                }
-
-                if (fromDate > toDate) {
-                    showErrorMessage("From date cannot be larger than to date");
-                    errorsFound = true;
-                }
-
-                if (fromDate.getTime() == toDate.getTime() && $scope.vm.fromTime &&
-                    $scope.vm.toTime && $scope.vm.fromTime > $scope.vm.toTime) {
-                    showErrorMessage("Inside same day, from time cannot be larger than to time");
-                    errorsFound = true;
-                }
+                // if (fromDate > toDate) {
+                //     showErrorMessage("From date cannot be larger than to date");
+                //     errorsFound = true;
+                // }
+                //
+                // if (fromDate.getTime() == toDate.getTime() && $scope.vm.fromTime &&
+                //     $scope.vm.toTime && $scope.vm.fromTime > $scope.vm.toTime) {
+                //     showErrorMessage("Inside same day, from time cannot be larger than to time");
+                //     errorsFound = true;
+                // }
 
                 if (!errorsFound) {
                     loadMealData($scope.vm.fromDate, $scope.vm.fromTime, $scope.vm.toDate, $scope.vm.toTime, page == undefined ? 1 : page);

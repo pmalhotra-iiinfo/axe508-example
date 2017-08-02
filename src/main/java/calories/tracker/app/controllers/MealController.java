@@ -60,10 +60,10 @@ public class MealController {
             @RequestParam(value = "toTime", required = false) @DateTimeFormat(pattern = "yyyy/MM/dd HH:mm") Date toTime,
             @RequestParam(value = "pageNumber") Integer pageNumber) {
 
-        if (fromDate == null && toDate == null) {
-            fromDate = new Date(System.currentTimeMillis() - (3 * DAY_IN_MS));
-            toDate = new Date();
-        }
+//        if (fromDate == null && toDate == null) {
+//            fromDate = new Date(System.currentTimeMillis() - (3 * DAY_IN_MS));
+//            toDate = new Date();
+//        }
 
         SearchResult<Meal> result = mealService.findMeals(
                 principal.getName(),
