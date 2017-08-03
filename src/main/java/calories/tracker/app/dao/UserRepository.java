@@ -48,7 +48,7 @@ public class UserRepository {
 //        Long temp = (Long) em.createNamedQuery(User.COUNT_TODAYS_CALORIES).setParameter("username", username).getSingleResult();
 
         Session session = em.unwrap(Session.class);
-        SQLQuery query = session.createSQLQuery("select sum(m.calories) \n" +
+        SQLQuery query = session.createSQLQuery("select coalesce(sum(m.calories)) \n" +
                 "from meals m INNER JOIN users u on m.user_id = u.id\n" +
                 "where m.date\\:\\:timestamp\\:\\:date = current_date and u.username = :userName");
         query.setString("userName", username);

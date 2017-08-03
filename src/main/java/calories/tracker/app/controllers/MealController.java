@@ -62,7 +62,7 @@ public class MealController {
 
         if (fromDate == null && toDate == null) {
             fromDate = new Date(System.currentTimeMillis() - (3 * DAY_IN_MS));
-            toDate = new Date();
+            toDate = new Date(System.currentTimeMillis() + DAY_IN_MS);
         }
 
         SearchResult<Meal> result = mealService.findMeals(
