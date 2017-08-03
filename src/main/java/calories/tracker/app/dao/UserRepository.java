@@ -55,7 +55,7 @@ public class UserRepository {
 
         BigDecimal temp = (BigDecimal) query.uniqueResult();
 
-        return new Long(temp.toString());
+        return new Long(temp == null ? "0" : temp.toString());
 
     }
 
