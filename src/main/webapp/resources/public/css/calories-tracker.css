@@ -106,6 +106,10 @@ a.logout:hover {
 .container {
     margin: 0 0.6em;
 }
+.welcome-message {
+    margin: 0 auto;
+    width: 400px;
+}
 
 @media screen and (min-width: 48em) {
     .container {
