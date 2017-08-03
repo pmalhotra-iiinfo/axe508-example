@@ -35,7 +35,10 @@
     </div>
     <div class="pure-u-lg-1-2 pure-u-1 utilities">
         <div class="header-element">
-            Max. calories
+            <!--Today's Calories
+            <div class="today-calories-placeholder" ng-hide="vm.todaysCalories"></div>
+                <span ng-cloak>{{vm.todaysCalories}}</span>-->
+            Today's Goal
             <input tabindex="10" class="max-cal" type="number" ng-model="vm.maxCaloriesPerDay"
                    ng-model-options="{'updateOn':'blur'}" ng-blur="updateMaxCaloriesPerDay()">
         </div>
