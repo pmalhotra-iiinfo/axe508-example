@@ -110,6 +110,10 @@ a.logout:hover {
     margin: 0 auto;
     width: 400px;
 }
+.privacy-policy {
+    text-align: middle;
+    margin: 0 auto;
+}
 
 @media screen and (min-width: 48em) {
     .container {
@@ -219,7 +223,12 @@ a.logout:hover {
         max-width: 28em;
     }
 }
-
+.forgot-password-link {
+    float: left;
+    display: inline-block;
+    margin-top: 0.5em;
+    font-size: 80%;
+}
 .new-user-link {
     float: right;
     display: inline-block;
