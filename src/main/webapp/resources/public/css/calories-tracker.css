@@ -219,7 +219,12 @@ a.logout:hover {
         max-width: 28em;
     }
 }
-
+.forgot-password-link {
+    float: left;
+    display: inline-block;
+    margin-top: 0.5em;
+    font-size: 80%;
+}
 .new-user-link {
     float: right;
     display: inline-block;
