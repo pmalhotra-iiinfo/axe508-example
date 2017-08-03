@@ -24,16 +24,6 @@
         </a>
         <span class="header-element page-title">Calories Tracker</span>
 
-        <!--<div class="today-calories-container">
-            <div class="today-calories {{vm.caloriesStatusStyle}}">
-                Today' calories:
-                <div class="today-calories-placeholder" ng-hide="vm.todaysCalories"></div>
-                <span ng-cloak>{{vm.todaysCalories}}</span>
-            </div>
-        </div>-->
-
-    </div>
-    <div class="pure-u-lg-1-2 pure-u-1 utilities">
         <div class="today-calories-container">
             <div class="today-calories {{vm.caloriesStatusStyle}}">
                 Today' calories:
@@ -41,6 +31,9 @@
                 <span ng-cloak>{{vm.todaysCalories}}</span>
             </div>
         </div>
+
+    </div>
+    <div class="pure-u-lg-1-2 pure-u-1 utilities">
         <div class="header-element">
             Max. calories
             <input tabindex="10" class="max-cal" type="number" ng-model="vm.maxCaloriesPerDay"
