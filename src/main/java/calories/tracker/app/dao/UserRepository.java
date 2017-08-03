@@ -2,10 +2,13 @@ package calories.tracker.app.dao;
 
 
 import calories.tracker.app.model.User;
+import org.hibernate.SQLQuery;
+import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -42,7 +45,18 @@ public class UserRepository {
      * @return the total number of calories for the user for today
      */
     public Long findTodaysCaloriesForUser(String username) {
-        return (Long) em.createNamedQuery(User.COUNT_TODAYS_CALORIES).setParameter("username", username).getSingleResult();
+//        Long temp = (Long) em.createNamedQuery(User.COUNT_TODAYS_CALORIES).setParameter("username", username).getSingleResult();
+
+        Session session = em.unwrap(Session.class);
+        SQLQuery query = session.createSQLQuery("select sum(m.calories) \n" +
+                "from meals m INNER JOIN users u on m.user_id = u.id\n" +
+                "where m.date\\:\\:timestamp\\:\\:date = current_date and u.username = :userName");
+        query.setString("userName", username);
+
+        BigDecimal temp = (BigDecimal) query.uniqueResult();
+
+        return new Long(temp.toString());
+
     }
 
     /**
