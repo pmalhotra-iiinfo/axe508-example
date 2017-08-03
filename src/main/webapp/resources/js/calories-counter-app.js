@@ -34,7 +34,7 @@ angular.module('caloriesCounterApp', ['editableTableWidgets', 'frontendServices'
                     .then(function (userInfo) {
                         $scope.vm.userName = userInfo.userName;
                         $scope.vm.maxCaloriesPerDay = userInfo.maxCaloriesPerDay;
-                        $scope.vm.todaysCalories = userInfo.todaysCalories ? userInfo.todaysCalories : 'None';
+                        $scope.vm.todaysCalories = userInfo.todaysCalories ? userInfo.todaysCalories : '0';
                         updateCaloriesCounterStatus();
                     },
                     function (errorMessage) {
