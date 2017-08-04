@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AbstractEntity.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">calories-tracker Maven Webapp</a> &gt; <a href="index.source.html" class="el_package">calories.tracker.app.model</a> &gt; <span class="el_source">AbstractEntity.java</span></div><h1>AbstractEntity.java</h1><pre class="source lang-java linenums">package calories.tracker.app.model;
+
+
+import javax.persistence.*;
+import java.util.UUID;
+
+/**
+ * This is a base class for all entities. It provides an equals and hashcode that will always work correctly in all
+ * circumstances. This avoids frequent errors related to the implementation of those same methods.
+ *
+ */
+@MappedSuperclass
+<span class="fc" id="L13">public class AbstractEntity {</span>
+
+    @Id
+    @GeneratedValue
+    private Long id;
+
+    @Version
+    private Long version;
+
+    @Transient
+    private UUID uuid;
+
+    @Column(name = &quot;UUID&quot;)
+    private String uuidStr;
+
+    @PrePersist
+    protected void prePersist() {
+<span class="fc" id="L30">        syncUuidString();</span>
+<span class="fc" id="L31">    }</span>
+
+    protected void syncUuidString() {
+<span class="pc bpc" id="L34" title="1 of 2 branches missed.">        if (null == uuidStr) {</span>
+            // initial method call fills the uuid
+<span class="fc" id="L36">            getUuid();</span>
+        }
+<span class="fc" id="L38">    }</span>
+
+    public UUID getUuid() {
+<span class="pc bpc" id="L41" title="1 of 2 branches missed.">        if (uuidStr == null) {</span>
+<span class="pc bpc" id="L42" title="1 of 2 branches missed.">            if (uuid == null) {</span>
+<span class="fc" id="L43">                uuid = UUID.randomUUID();</span>
+            }
+<span class="fc" id="L45">            uuidStr = uuid.toString();</span>
+        }
+<span class="pc bpc" id="L47" title="3 of 4 branches missed.">        if (uuid == null &amp;&amp; uuidStr != null) {</span>
+<span class="nc" id="L48">            uuid = UUID.fromString(uuidStr);</span>
+        }
+<span class="fc" id="L50">        return uuid;</span>
+    }
+
+    public Long getId() {
+<span class="fc" id="L54">        return id;</span>
+    }
+
+    /*
+    *
+    *   This method is mean for testing purposes only (create mock data), as we should not set Ids manually,
+    *   Hibernate will do it automatically
+    *
+    **/
+    public void setId(Long id) {
+<span class="nc" id="L64">        this.id = id;</span>
+<span class="nc" id="L65">    }</span>
+
+    @Override
+    public boolean equals(Object o) {
+<span class="nc bnc" id="L69" title="All 2 branches missed.">        if (this == o) return true;</span>
+<span class="nc bnc" id="L70" title="All 4 branches missed.">        if (o == null || getClass() != o.getClass()) return false;</span>
+
+<span class="nc" id="L72">        AbstractEntity that = (AbstractEntity) o;</span>
+
+<span class="nc bnc" id="L74" title="All 6 branches missed.">        if (getUuid() != null ? !getUuid().equals(that.getUuid()) : that.getUuid() != null) return false;</span>
+
+<span class="nc" id="L76">        return true;</span>
+    }
+
+    @Override
+    public int hashCode() {
+<span class="nc bnc" id="L81" title="All 2 branches missed.">        return getUuid() != null ? getUuid().hashCode() : 0;</span>
+    }
+
+    public Long getVersion() {
+<span class="nc" id="L85">        return version;</span>
+    }
+
+    public String getUuidStr() {
+<span class="nc" id="L89">        return uuidStr;</span>
+    }
+}
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>
