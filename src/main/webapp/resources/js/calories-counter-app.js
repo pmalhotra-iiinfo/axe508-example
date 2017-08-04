@@ -6,15 +6,16 @@ angular.module('caloriesCounterApp', ['editableTableWidgets', 'frontendServices'
             });
         }
     })
-    .controller('CaloriesTrackerCtrl', ['$scope' , 'MealService', 'UserService', '$timeout',
-        function ($scope, MealService, UserService, $timeout) {
-
+    .controller('CaloriesTrackerCtrl', ['$scope' ,'$http', 'MealService', 'UserService', '$timeout',
+        function ($scope,$http, MealService, UserService, $timeout) {
+    	$scope.meal=[];
             $scope.vm = {
                 maxCaloriesPerDay: 2000,
                 currentPage: 1,
                 totalPages: 0,
                 originalMeals: [],
                 meals: [],
+                type: [],
                 isSelectionEmpty: true,
                 errorMessages: [],
                 infoMessages: []
@@ -22,7 +23,7 @@ angular.module('caloriesCounterApp', ['editableTableWidgets', 'frontendServices'
 
             updateUserInfo();
             loadMealData(null, null, null, null, 1);
-
+  
 
             function showErrorMessage(errorMessage) {
                 clearMessages();
@@ -42,6 +43,19 @@ angular.module('caloriesCounterApp', ['editableTableWidgets', 'frontendServices'
                         showErrorMessage(errorMessage);
                     });
             }
+            
+            $scope.getTypeOfMeal=function(){
+            	  $http.get('/meal/type')
+                  .then(function (response) {
+                      if (response.status == 200) {
+                    	  $scope.vm.type=response.data;
+                      }
+                      else {
+                         console.log('Error retrieving list of meal type');
+                      }
+                  });
+            }
+            $scope.getTypeOfMeal();
 
             function markAppAsInitialized() {
                 if ($scope.vm.appReady == undefined) {
@@ -184,7 +198,9 @@ angular.module('caloriesCounterApp', ['editableTableWidgets', 'frontendServices'
                 $scope.vm.meals.unshift({
                     id: null,
                     datetime: null,
+                    type:[],
                     description: null,
+                    servings:null,
                     calories: null,
                     selected: false,
                     new: true
@@ -244,9 +260,11 @@ angular.module('caloriesCounterApp', ['editableTableWidgets', 'frontendServices'
                     .map(function (meal) {
                         return {
                             id: meal.id,
-                            date: meal.date,
+                            date: meal.date,                            
                             time: meal.time,
+                            type:meal.type,
                             description: meal.description,
+                            servings:meal.servings,
                             calories: meal.calories,
                             version: meal.version
                         }
@@ -255,7 +273,11 @@ angular.module('caloriesCounterApp', ['editableTableWidgets', 'frontendServices'
             }
 
             $scope.save = function () {
-
+            	for(var i=0;i<$scope.vm.meals.length;i++){
+            		$scope.vm.meals[i].servings=parseInt($scope.vm.meals[i].servings);
+            		$scope.vm.meals[i].type=$scope.vm.type[i];
+            	}
+            	
                 var maybeDirty = prepareMealsDto(getNotNew($scope.vm.meals));
 
                 var original = prepareMealsDto(getNotNew($scope.vm.originalMeals));
@@ -271,7 +293,7 @@ angular.module('caloriesCounterApp', ['editableTableWidgets', 'frontendServices'
                     }
 
                     return originalMeal && ( originalMeal.date != meal.date ||
-                        originalMeal.time != meal.time || originalMeal.description != meal.description ||
+                        originalMeal.time != meal.time || originalMeal.type != meal.type || originalMeal.description != meal.description || originalMeal.servings != meal.servings ||
                         originalMeal.calories != meal.calories)
                 });
 

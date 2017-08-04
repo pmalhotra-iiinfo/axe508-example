@@ -69,27 +69,44 @@
         <fieldset>
             <legend>Search</legend>
 
-            <div class="pure-g pure-form-stacked search-form-content">
+             <div class="pure-g pure-form-stacked search-form-content">
 
-                <div class="pure-u-sm-1-2 pure-u-1 from-field">
+                <div class="pure-u-sm-1-4 pure-u-1 from-field">
                     <label>From Date </label>
                     <input tt-date-picker name="fromDate" ng-model="vm.fromDate">
                 </div>
 
-                <div class="pure-u-sm-1-2 pure-u-1 to-field">
+                <div class="pure-u-sm-1-4 pure-u-1 to-field">
                     <label>To Date</label>
                     <input tt-date-picker name="toDate" ng-model="vm.toDate">
                 </div>
 
-                <div class="pure-u-sm-1-2 pure-u-1 from-field from-to-time">
+                <div class="pure-u-sm-1-4 pure-u-1 from-field from-to-time">
                     <label>From Time</label>
                     <input tt-time-picker name="fromTime" ng-model="vm.fromTime">
                 </div>
 
-                <div class="pure-u-sm-1-2 pure-u-1 to-field from-to-time">
+                <div class="pure-u-sm-1-4 pure-u-1 to-field from-to-time">
                     <label>To Time</label>
                     <input tt-time-picker name="toTime" ng-model="vm.toTime">
                 </div>
+
+                
+
+            </div>
+            <div class="pure-g pure-form-stacked search-form-content">
+
+                <div class="pure-u-sm-1-4 pure-u-1 from-field">
+                    <label>Meal Type </label>
+                   <select tt-cell-field ng-model="mealselected"   ng-options="mt.description for mt in vm.type">
+              		</select>              </div>
+
+                <div class="pure-u-sm-1-4 pure-u-1 to-field">
+                    <label>Description</label>
+                    <input  name="toDate" ng-model="vm.toDate">
+                </div>
+
+               
 
                 <div class="pure-u-1 search">
                     <button type="submit" ng-click="search()"
@@ -100,6 +117,7 @@
             </div>
 
         </fieldset>
+
 
         <div class="meals-list">
 
@@ -112,16 +130,20 @@
 
             <table class="pure-table">
                 <thead>
-                <tr>
+                 <tr>
                     <th class="selection-column"></th>
                     <th>Date/Time</th>
+                    <th>Meal Type</th>
                     <th>Description</th>
-                    <th>Total Calories</th>
+                     <th>Calories per servings</th>
+                    <th>Total</th>
                 </tr>
+
                 </thead>
 
                 <tbody>
 
+                
                 <tr ng-repeat="meal in vm.meals | excludeDeleted | limitTo : 10" tt-editable-row rowValue="meal"
                     ng-class="{'pure-table-odd': $index % 2 == 1, 'pure-table-even': $index % 2 == 0}">
 
@@ -133,16 +155,25 @@
                         <input tt-date-time-picker tt-cell-field type="text"
                                ng-model="meal.datetime">
                     </td>
-
+					<td tt-editable-cell value="meal.type.description" is-new="meal.new">
+              		
+              		<select tt-cell-field ng-model="mealselected"   ng-options="mt.description for mt in vm.type">
+              		
+              		
+                    </td>
+                    
                     <td tt-editable-cell value="meal.description" is-new="meal.new">
                         <input type="text" tt-cell-field ng-model="meal.description">
                     </td>
-
+					<td tt-editable-cell value="meal.servings" is-new="meal.new">
+                        <input type="text" tt-cell-field ng-model="meal.servings">
+                    </td>
                     <td tt-editable-cell value="meal.calories" is-new="meal.new">
                         <input type="text" tt-cell-field tt-numeric-field ng-model="meal.calories">
                     </td>
 
                 </tr>
+
 
                 </tbody>
             </table>
