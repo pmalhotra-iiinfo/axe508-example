@@ -15,15 +15,17 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ *
  * Integration testing specific configuration - creates a in-memory datasource,
  * sets hibernate on create drop mode and inserts some test data on the database.
- * <p>
+ *
  * This allows to clone the project repository and start a running application with the command
- * <p>
+ *
  * mvn clean install tomcat7:run-war -Dspring.profiles.active=test
- * <p>
+ *
  * Access http://localhost:8080/ and login with test123 / Password2, in order to see some test data,
  * or create a new user.
+ *
  */
 @Configuration
 @Profile("test")
@@ -37,19 +39,11 @@ public class TestConfiguration {
 
     @Bean(name = "datasource")
     public DriverManagerDataSource dataSource() {
-//        DriverManagerDataSource dataSource = new DriverManagerDataSource();
-//        dataSource.setDriverClassName(org.hsqldb.jdbcDriver.class.getName());
-//        dataSource.setUrl("jdbc:hsqldb:mem:mydb");
-//        dataSource.setUsername("sa");
-//        dataSource.setPassword("jdbc:hsqldb:mem:mydb");
-//        return dataSource;
-
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName("org.postgresql.Driver");
-        dataSource.setUrl("jdbc:" + System.getenv("ODDS_DB_URL") + "?loglevel=0");
-//        dataSource.setUrl("jdbc:postgresql://localhost:5432/calories_tracker?loglevel=0");
-        dataSource.setUsername(System.getenv("ODDS_USER"));
-        dataSource.setPassword(System.getenv("ODDS_PASS"));
+        dataSource.setDriverClassName(org.hsqldb.jdbcDriver.class.getName());
+        dataSource.setUrl("jdbc:hsqldb:mem:mydb");
+        dataSource.setUsername("sa");
+        dataSource.setPassword("jdbc:hsqldb:mem:mydb");
         return dataSource;
     }
 
@@ -67,7 +61,6 @@ public class TestConfiguration {
         jpaProperties.put("hibernate.show_sql", "true");
         jpaProperties.put("hibernate.format_sql", "true");
         jpaProperties.put("hibernate.use_sql_comments", "true");
-        jpaProperties.put("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
         entityManagerFactoryBean.setJpaPropertyMap(jpaProperties);
 
         return entityManagerFactoryBean;
