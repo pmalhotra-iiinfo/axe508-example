@@ -4,6 +4,7 @@ package calories.tracker.app.dto;
 import calories.tracker.app.dto.serialization.CustomTimeDeserializer;
 import calories.tracker.app.dto.serialization.CustomTimeSerializer;
 import calories.tracker.app.model.Meal;
+import calories.tracker.app.model.MealType;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -31,21 +32,25 @@ public class MealDTO {
 
     private String description;
     private Long calories;
+    private Integer servings;
+    private MealType type;
 
     public MealDTO() {
     }
 
-    public MealDTO(Long id, Date date, Time time, String description, Long calories) {
+    public MealDTO(Long id, Date date, Time time, String description, Long calories, Integer servings, MealType type) {
         this.id = id;
         this.date = date;
         this.time = time;
         this.description = description;
         this.calories = calories;
+        this.servings = servings;
+        this.type = type;
     }
 
     public static MealDTO mapFromMealEntity(Meal meal) {
         return new MealDTO(meal.getId(), meal.getDate(), meal.getTime(),
-                meal.getDescription(), meal.getCalories());
+                meal.getDescription(), meal.getCalories(), meal.getServings(), meal.getType());
     }
 
     public static List<MealDTO> mapFromMealsEntities(List<Meal> meals) {
@@ -92,4 +97,19 @@ public class MealDTO {
         this.calories = calories;
     }
 
+    public Integer getServings() {
+        return servings;
+    }
+
+    public void setServings(Integer servings) {
+        this.servings = servings;
+    }
+
+    public MealType getType() {
+        return type;
+    }
+
+    public void setType(MealType type) {
+        this.type = type;
+    }
 }

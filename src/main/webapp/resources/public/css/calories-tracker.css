@@ -61,13 +61,13 @@ header a {
     display: inline-block;
 }
 
-.today-calories.cal-limit-ok {
+.today-calories1.cal-limit-ok {
     color: #eee;
     border: 2px solid darkgreen;
     background: green;
 }
 
-.today-calories.cal-limit-nok {
+.today-calories1.cal-limit-nok {
     color: #eee;
     border: 2px solid darkred;
     background: firebrick;

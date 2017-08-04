@@ -28,6 +28,7 @@ public class DevelopmentConfiguration {
 //    @Bean(initMethod = "init")
 //    public TestDataInitializer initTestData() {
 //        return new TestDataInitializer();
+//
 //    }
 
     @Bean(name = "datasource")
