@@ -104,8 +104,8 @@ public class MealService {
         notNull(time, "time is mandatory");
         notNull(description, "description is mandatory");
         notNull(calories, "calories is mandatory");
-        notNull(servings, "servings is mandatory");
-        notNull(type, "meal type is mandatory");
+//        notNull(servings, "servings is mandatory");
+//        notNull(type, "meal type is mandatory");
 
         Meal meal = null;
 

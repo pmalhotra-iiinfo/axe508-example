@@ -30,11 +30,12 @@ angular.module('caloriesCounterApp', ['editableTableWidgets', 'frontendServices'
             }
 
             function updateUserInfo() {
+                $scope.vm.todaysCalorie = 0;
                 UserService.getUserInfo()
                     .then(function (userInfo) {
                         $scope.vm.userName = userInfo.userName;
                         $scope.vm.maxCaloriesPerDay = userInfo.maxCaloriesPerDay;
-                        $scope.vm.todaysCalories = userInfo.todaysCalories ? userInfo.todaysCalories : 'None';
+                        $scope.vm.todaysCalories = userInfo.todaysCalories ? userInfo.todaysCalories : '0';
                         updateCaloriesCounterStatus();
                     },
                     function (errorMessage) {
@@ -85,7 +86,7 @@ angular.module('caloriesCounterApp', ['editableTableWidgets', 'frontendServices'
             }
 
             function updateCaloriesCounterStatus() {
-                var isCaloriesOK = $scope.vm.todaysCalories == 'None' || ($scope.vm.todaysCalories <= $scope.vm.maxCaloriesPerDay);
+                var isCaloriesOK = $scope.vm.todaysCalories == '0' || ($scope.vm.todaysCalories <= $scope.vm.maxCaloriesPerDay);
                 $scope.vm.caloriesStatusStyle = isCaloriesOK ? 'cal-limit-ok' : 'cal-limit-nok';
             }
 

@@ -13,7 +13,7 @@ import calories.tracker.app.dto.serialization.CustomTimeSerializer;
 public class CaloryInfoDTO {
 	   private Long id;
 
-	    @JsonFormat(pattern = "yyyy/MM/dd", timezone = "CET")
+	    @JsonFormat(pattern = "yyyy/MM/dd", timezone = "EST")
 	    private Date date;
 
 	    @JsonSerialize(using = CustomTimeSerializer.class)
