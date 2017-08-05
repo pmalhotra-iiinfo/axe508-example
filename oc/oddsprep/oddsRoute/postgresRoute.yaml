@@ -1,0 +1,29 @@
+apiVersion: v1
+kind: Route
+metadata:
+  name: postgresql
+  namespace: oddsprep
+  selfLink: /oapi/v1/namespaces/oddsprep/routes/postgresql
+  uid: 2f40ef89-76e6-11e7-ab22-12b5519f9b58
+  resourceVersion: '45282924'
+  creationTimestamp: '2017-08-01T18:21:06Z'
+  annotations:
+    openshift.io/host.generated: 'true'
+spec:
+  host: postgresql-oddsprep.b9ad.pro-us-east-1.openshiftapps.com
+  to:
+    kind: Service
+    name: postgresql
+    weight: 100
+  port:
+    targetPort: postgresql
+  wildcardPolicy: None
+status:
+  ingress:
+    - host: postgresql-oddsprep.b9ad.pro-us-east-1.openshiftapps.com
+      routerName: router
+      conditions:
+        - type: Admitted
+          status: 'True'
+          lastTransitionTime: '2017-08-01T18:21:06Z'
+      wildcardPolicy: None

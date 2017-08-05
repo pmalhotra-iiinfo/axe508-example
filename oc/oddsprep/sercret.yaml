@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: postgresql
+  namespace: oddsprep
+  selfLink: /api/v1/namespaces/oddsprep/secrets/postgresql
+  uid: 0f4d8c7c-76ca-11e7-9b00-123713f594ec
+  resourceVersion: '47655745'
+  creationTimestamp: '2017-08-01T14:59:47Z'
+  labels:
+    app: postgresql-persistent
+    template: postgresql-persistent-template
+data:
+  database-password: bTFyQGNMMw==
+  database-user: b2Rkcw==
+type: Opaque

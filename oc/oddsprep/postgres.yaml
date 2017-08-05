@@ -1,0 +1,128 @@
+apiVersion: v1
+kind: DeploymentConfig
+metadata:
+  name: postgresql
+  namespace: oddsprep
+  selfLink: /oapi/v1/namespaces/oddsprep/deploymentconfigs/postgresql
+  uid: 95fe1db7-76d4-11e7-9b00-123713f594ec
+  resourceVersion: '45218898'
+  generation: 5
+  creationTimestamp: '2017-08-01T16:15:07Z'
+  labels:
+    app: postgresql-persistent
+    template: postgresql-persistent-template
+spec:
+  strategy:
+    type: Recreate
+    recreateParams:
+      timeoutSeconds: 600
+    resources: {}
+    activeDeadlineSeconds: 21600
+  triggers:
+    - type: ImageChange
+      imageChangeParams:
+        automatic: true
+        containerNames:
+          - postgresql
+        from:
+          kind: ImageStreamTag
+          namespace: openshift
+          name: 'postgresql:9.5'
+        lastTriggeredImage: >-
+          registry.access.redhat.com/rhscl/postgresql-95-rhel7@sha256:b40f48962137beaf961d3a889f862c549cecea940e34a4b4f88ec6fc8d2a9d8b
+    - type: ConfigChange
+  replicas: 1
+  test: false
+  selector:
+    name: postgresql
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        name: postgresql
+    spec:
+      volumes:
+        - name: postgresql-data
+          persistentVolumeClaim:
+            claimName: postgresql
+      containers:
+        - name: postgresql
+          image: >-
+            registry.access.redhat.com/rhscl/postgresql-95-rhel7@sha256:b40f48962137beaf961d3a889f862c549cecea940e34a4b4f88ec6fc8d2a9d8b
+          ports:
+            - containerPort: 5432
+              protocol: TCP
+          env:
+            - name: POSTGRESQL_USER
+              valueFrom:
+                secretKeyRef:
+                  name: postgresql
+                  key: database-user
+            - name: POSTGRESQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgresql
+                  key: database-password
+            - name: POSTGRESQL_DATABASE
+              value: calories_tracker
+          resources:
+            limits:
+              memory: 512Mi
+          volumeMounts:
+            - name: postgresql-data
+              mountPath: /var/lib/pgsql/data
+          livenessProbe:
+            tcpSocket:
+              port: 5432
+            initialDelaySeconds: 30
+            timeoutSeconds: 1
+            periodSeconds: 10
+            successThreshold: 1
+            failureThreshold: 3
+          readinessProbe:
+            exec:
+              command:
+                - /bin/sh
+                - '-i'
+                - '-c'
+                - >-
+                  psql -h 127.0.0.1 -U $POSTGRESQL_USER -q -d
+                  $POSTGRESQL_DATABASE -c 'SELECT 1'
+            initialDelaySeconds: 5
+            timeoutSeconds: 1
+            periodSeconds: 10
+            successThreshold: 1
+            failureThreshold: 3
+          terminationMessagePath: /dev/termination-log
+          imagePullPolicy: IfNotPresent
+          securityContext:
+            capabilities: {}
+            privileged: false
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30
+      dnsPolicy: ClusterFirst
+      securityContext: {}
+status:
+  latestVersion: 3
+  observedGeneration: 5
+  replicas: 1
+  updatedReplicas: 1
+  availableReplicas: 1
+  unavailableReplicas: 0
+  details:
+    message: config change
+    causes:
+      - type: ConfigChange
+  conditions:
+    - type: Available
+      status: 'True'
+      lastUpdateTime: '2017-08-01T16:28:25Z'
+      lastTransitionTime: '2017-08-01T16:28:25Z'
+      message: Deployment config has minimum availability.
+    - type: Progressing
+      status: 'True'
+      lastUpdateTime: '2017-08-01T16:28:27Z'
+      lastTransitionTime: '2017-08-01T16:26:55Z'
+      reason: NewReplicationControllerAvailable
+      message: replication controller "postgresql-3" successfully rolled out
+  readyReplicas: 1

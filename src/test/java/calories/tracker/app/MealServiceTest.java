@@ -33,7 +33,7 @@ public class MealServiceTest {
     @Autowired
     private MealService mealService;
 
-    @PersistenceContext
+    @PersistenceContex
     private EntityManager em;
 
     @Test @Ignore

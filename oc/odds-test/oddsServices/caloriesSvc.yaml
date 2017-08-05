@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: calories-tracker
+  namespace: odds-test
+  selfLink: /api/v1/namespaces/odds-test/services/calories-tracker
+  uid: 91508c7a-732f-11e7-ab22-12b5519f9b58
+  labels:
+    app: calories-tracker
+  annotations:
+    openshift.io/generated-by: OpenShiftNewApp
+spec:
+  ports:
+    - name: 8080-tcp
+      protocol: TCP
+      port: 8080
+      targetPort: 8080
+  selector:
+    app: calories-tracker
+    deploymentconfig: calories-tracker
+  sessionAffinity: None
+status:
+  loadBalancer: {}

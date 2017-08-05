@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgresql
+  namespace: oddsprep
+  selfLink: /api/v1/namespaces/oddsprep/services/postgresql
+  uid: 95ff9119-76d4-11e7-9b00-123713f594ec
+  resourceVersion: '45211214'
+  creationTimestamp: '2017-08-01T16:15:07Z'
+  labels:
+    app: postgresql-persistent
+    template: postgresql-persistent-template
+spec:
+  ports:
+    - name: postgresql
+      protocol: TCP
+      port: 5432
+      targetPort: 5432
+  selector:
+    name: postgresql
+  clusterIP: 172.30.229.7
+  type: ClusterIP
+  sessionAffinity: None
+status:
+  loadBalancer: {}

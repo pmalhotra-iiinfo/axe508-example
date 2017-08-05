@@ -1,0 +1,29 @@
+apiVersion: v1
+kind: Route
+metadata:
+  name: calories-tracker
+  namespace: oddsprep
+  selfLink: /oapi/v1/namespaces/oddsprep/routes/calories-tracker
+  uid: ad83bb4a-732f-11e7-ab22-12b5519f9b58
+  resourceVersion: '41517449'
+  creationTimestamp: '2017-07-28T00:57:06Z'
+  annotations:
+    openshift.io/host.generated: 'true'
+spec:
+  host: calories-tracker-oddsprep.b9ad.pro-us-east-1.openshiftapps.com
+  to:
+    kind: Service
+    name: calories-tracker
+    weight: 100
+  port:
+    targetPort: 8080-tcp
+  wildcardPolicy: None
+status:
+  ingress:
+    - host: calories-tracker-oddsprep.b9ad.pro-us-east-1.openshiftapps.com
+      routerName: router
+      conditions:
+        - type: Admitted
+          status: 'True'
+          lastTransitionTime: '2017-07-28T00:57:06Z'
+      wildcardPolicy: None
