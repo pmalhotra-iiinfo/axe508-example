@@ -33,16 +33,16 @@ public class MealServiceTest {
     @Autowired
     private MealService mealService;
 
-    @PersistenceContex
+    @PersistenceContext
     private EntityManager em;
 
-    @Test @Ignore
+    @Test
     public void testFindMealsByDate() {
         SearchResult<Meal> result = mealService.findMeals(UserServiceTest.USERNAME, date(2015,1,1), date(2015,1,2), null ,null, 1);
         assertTrue("results not expected, total " + result.getResultsCount(), result.getResultsCount() == 4);
     }
 
-    @Test @Ignore
+    @Test
     public void testFindMealsByDateTime() {
         SearchResult<Meal> result = mealService.findMeals(UserServiceTest.USERNAME, date(2015,1,1), date(2015,1,2),
                 time("11:00") ,time("14:00"), 1);
