@@ -1,0 +1,15 @@
+{
+	"Login with valid credentials": {
+		"signIn": {
+			"username": "test123",
+			"password": "Password2"
+		},
+		"todaysCalories": "None"
+	},
+	"Login with invalid username and password": {
+		"signIn": {
+			"username": "badusername",
+			"password": "wrongPassword2"
+		}
+	}
+}

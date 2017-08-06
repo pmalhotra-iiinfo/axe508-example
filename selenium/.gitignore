@@ -1,0 +1,6 @@
+/bin/
+/log.out
+.settings
+.classpath
+.project
+target/
