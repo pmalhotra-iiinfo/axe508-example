@@ -69,4 +69,9 @@ public class LoginPage extends Page {
 		ActionByLocator.sendKeys(driver, usernameInput, username, TIME_OUT_SECONDS);
 		ActionByLocator.sendKeys(driver, passwordInput, password, TIME_OUT_SECONDS);
 	}
+
+	public String getWelcomeMessage() {
+		new NgWebDriver((JavascriptExecutor) driver).waitForAngularRequestsToFinish();
+		return ActionByLocator.getText(driver, By.className("welcome-message"), TIME_OUT_SECONDS).trim();
+	}
 }
