@@ -253,7 +253,7 @@ angular.module('caloriesCounterApp', ['editableTableWidgets', 'frontendServices'
                     .value();
             }
 
-            $scope.save = function () {
+           /* $scope.save = function () {
 
                 var maybeDirty = prepareMealsDto(getNotNew($scope.vm.meals));
 
@@ -271,6 +271,52 @@ angular.module('caloriesCounterApp', ['editableTableWidgets', 'frontendServices'
 
                     return originalMeal && ( originalMeal.date != meal.date ||
                         originalMeal.time != meal.time || originalMeal.description != meal.description ||
+                        originalMeal.calories != meal.calories)
+                });
+
+                var newItems = _.filter($scope.vm.meals, function (meal) {
+                    return meal.new;
+                });
+
+                var saveAll = prepareMealsDto(newItems);
+                saveAll = saveAll.concat(dirty);
+
+                $scope.vm.errorMessages = [];
+
+                // save all new items plus the ones that where modified
+                MealService.saveMeals(saveAll).then(function () {
+                        $scope.search($scope.vm.currentPage);
+                        showInfoMessage("Changes saved successfully");
+                        updateUserInfo();
+                    },
+                    function (errorMessage) {
+                        showErrorMessage(errorMessage);
+                    });
+
+            };*/
+            
+            $scope.save = function () {
+            	for(var i=0;i<$scope.vm.meals.length;i++){
+            		$scope.vm.meals[i].servings=parseInt($scope.vm.meals[i].servings);
+            		$scope.vm.meals[i].type=$scope.vm.type[i];
+            	}
+            	
+                var maybeDirty = prepareMealsDto(getNotNew($scope.vm.meals));
+
+                var original = prepareMealsDto(getNotNew($scope.vm.originalMeals));
+
+                var dirty = _.filter(maybeDirty).filter(function (meal) {
+
+                    var originalMeal = _.filter(original, function (orig) {
+                        return orig.id === meal.id;
+                    });
+
+                    if (originalMeal.length == 1) {
+                        originalMeal = originalMeal[0];
+                    }
+
+                    return originalMeal && ( originalMeal.date != meal.date ||
+                        originalMeal.time != meal.time || originalMeal.type != meal.type || originalMeal.description != meal.description || originalMeal.servings != meal.servings ||
                         originalMeal.calories != meal.calories)
                 });
 

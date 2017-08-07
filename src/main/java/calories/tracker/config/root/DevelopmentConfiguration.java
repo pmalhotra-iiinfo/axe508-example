@@ -1,6 +1,5 @@
 package calories.tracker.config.root;
 
-
 import calories.tracker.app.init.TestDataInitializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,8 +14,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Development specific configuration - creates a localhost postgresql datasource,
- * sets hibernate on create drop mode and inserts some test data on the database.
+ * Development specific configuration - creates a localhost postgresql
+ * datasource, sets hibernate on create drop mode and inserts some test data on
+ * the database.
  * <p>
  * Set -Dspring.profiles.active=development to activate this config.
  */
@@ -25,40 +25,40 @@ import java.util.Map;
 @EnableTransactionManagement
 public class DevelopmentConfiguration {
 
-    @Bean(initMethod = "init")
-    public TestDataInitializer initTestData() {
-        return new TestDataInitializer();
-    }
+	@Bean(initMethod = "init")
+	public TestDataInitializer initTestData() {
+		return new TestDataInitializer();
+	}
 
-    @Bean(name = "datasource")
-    public DriverManagerDataSource dataSource() {
-        DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName("org.postgresql.Driver");
-        dataSource.setUrl("jdbc:" + System.getenv("ODDS_DB_URL") + "?loglevel=0");
-//        dataSource.setUrl("jdbc:postgresql://localhost:5432/calories_tracker?loglevel=0");
-        dataSource.setUsername(System.getenv("ODDS_USER"));
-        dataSource.setPassword(System.getenv("ODDS_PASS"));
-        return dataSource;
-    }
+	@Bean(name = "datasource")
+	public DriverManagerDataSource dataSource() {
+		DriverManagerDataSource dataSource = new DriverManagerDataSource();
+		dataSource.setDriverClassName("org.postgresql.Driver");
+		dataSource.setUrl("jdbc:" + System.getenv("ODDS_DB_URL") + "?loglevel=0");
+		// dataSource.setUrl("jdbc:postgresql://localhost:5432/calories_tracker?loglevel=0");
+		dataSource.setUsername(System.getenv("ODDS_USER"));
+		dataSource.setPassword(System.getenv("ODDS_PASS"));
+		return dataSource;
+	}
 
-    @Bean(name = "entityManagerFactory")
-    public LocalContainerEntityManagerFactoryBean entityManagerFactory(DriverManagerDataSource dataSource) {
+	@Bean(name = "entityManagerFactory")
+	public LocalContainerEntityManagerFactoryBean entityManagerFactory(DriverManagerDataSource dataSource) {
 
-        LocalContainerEntityManagerFactoryBean entityManagerFactoryBean = new LocalContainerEntityManagerFactoryBean();
-        entityManagerFactoryBean.setDataSource(dataSource);
-        entityManagerFactoryBean.setPackagesToScan(new String[]{"calories.tracker.app.model"});
-        entityManagerFactoryBean.setLoadTimeWeaver(new InstrumentationLoadTimeWeaver());
-        entityManagerFactoryBean.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
+		LocalContainerEntityManagerFactoryBean entityManagerFactoryBean = new LocalContainerEntityManagerFactoryBean();
+		entityManagerFactoryBean.setDataSource(dataSource);
+		entityManagerFactoryBean.setPackagesToScan(new String[] { "calories.tracker.app.model" });
+		entityManagerFactoryBean.setLoadTimeWeaver(new InstrumentationLoadTimeWeaver());
+		entityManagerFactoryBean.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
 
-        Map<String, Object> jpaProperties = new HashMap<String, Object>();
-        jpaProperties.put("hibernate.hbm2ddl.auto", "create-drop");
-        jpaProperties.put("hibernate.show_sql", "true");
-        jpaProperties.put("hibernate.format_sql", "true");
-        jpaProperties.put("hibernate.use_sql_comments", "true");
-        jpaProperties.put("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
-        entityManagerFactoryBean.setJpaPropertyMap(jpaProperties);
+		Map<String, Object> jpaProperties = new HashMap<String, Object>();
+		jpaProperties.put("hibernate.hbm2ddl.auto", "create-drop");
+		jpaProperties.put("hibernate.show_sql", "true");
+		jpaProperties.put("hibernate.format_sql", "true");
+		jpaProperties.put("hibernate.use_sql_comments", "true");
+		jpaProperties.put("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
+		entityManagerFactoryBean.setJpaPropertyMap(jpaProperties);
 
-        return entityManagerFactoryBean;
-    }
+		return entityManagerFactoryBean;
+	}
 
 }
