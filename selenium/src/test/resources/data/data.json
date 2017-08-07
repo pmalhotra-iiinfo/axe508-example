@@ -11,5 +11,12 @@
 			"username": "badusername",
 			"password": "wrongPassword2"
 		}
+	},
+	"Login page welcome screen": {
+		"signIn": {
+				"username": "test123",
+				"password": "Password2"
+			},
+			"welcomeMessage": "Helping you manage what you eat by measuring your calorie intake in a daily basis"
 	}
 }

@@ -4,6 +4,11 @@ Feature: Login
 	so that I can have a customized calories-tracking experience
 
 @smoke
+Scenario: Login page welcome screen
+Given I am on the login page
+Then the application purpose is clearly stated
+
+@smoke
 Scenario: Login with valid credentials
 Given I am on the login page
 When I use valid username and password
@@ -14,3 +19,11 @@ Scenario: Login with invalid username and password
 Given I am on the login page
 When I use invalid username and password
 Then I receive an "Access denied" message
+
+@wip
+Scenario: First-time login for user
+Given I am on the user page
+When I login for the first time
+Then a "no records found" message is received
+
+

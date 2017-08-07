@@ -39,4 +39,11 @@ public class LoginPageSteps extends Steps {
 	public void i_receive_an_message(String errorMessage) {
 		Assert.assertEquals("Error message does not match", errorMessage, loginPage.getErrorMessage());
 	}
+	
+	@Then("^the application purpose is clearly stated$")
+	public void the_application_purpose_is_clearly_stated() {
+		init();
+		String welcomeMessage = executionContext.getCurrentScenarioObj().get("welcomeMessage").getAsString();
+		Assert.assertTrue("Welcome message is not as expected", loginPage.getWelcomeMessage().contains(welcomeMessage));
+	}
 }
