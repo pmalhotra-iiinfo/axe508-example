@@ -14,9 +14,22 @@
 	},
 	"Login page welcome screen": {
 		"signIn": {
-				"username": "test123",
-				"password": "Password2"
-			},
-			"welcomeMessage": "Helping you manage what you eat by measuring your calorie intake in a daily basis"
+			"username": "test123",
+			"password": "Password2"
+		},
+	    "welcomeMessage": "Helping you manage what you eat by measuring your calorie intake in a daily basis"
+	},
+	"Add meals": {
+		"signIn": {
+			"username": "test123",
+			"password": "Password2"
+		},
+		"meals": [
+			{
+				"description": "coffee",
+				"calories": "150"
+			}
+		],
+		"message": "Changes saved successfully"
 	}
 }

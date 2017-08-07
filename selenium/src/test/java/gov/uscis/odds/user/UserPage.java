@@ -1,5 +1,7 @@
 package gov.uscis.odds.user;
 
+import java.util.Iterator;
+
 import gov.uscis.odds.login.LoginPage;
 
 import org.junit.Assert;
@@ -7,6 +9,9 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.karsun.kic.tan.duke.ExecutionContext;
 import com.karsun.kic.tan.duke.Page;
 import com.karsun.kic.tan.duke.util.ActionByLocator;
@@ -44,5 +49,27 @@ public class UserPage extends Page {
 	public String getTodaysCalories() {
 		new NgWebDriver((JavascriptExecutor) driver).waitForAngularRequestsToFinish();
 		return ActionByLocator.getText(driver, By.cssSelector("[class*='cal-limit'] > span"), TIME_OUT_SECONDS).trim();
+	}
+
+	public void enterMeals(JsonArray meals) {
+		new NgWebDriver((JavascriptExecutor) driver).waitForAngularRequestsToFinish();
+		Iterator<JsonElement> iterator = meals.iterator();
+		while (iterator.hasNext()) {
+			JsonObject meal = iterator.next().getAsJsonObject();
+			ActionByLocator.click(driver, By.xpath("//button[contains(text(),'Add')]"), TIME_OUT_SECONDS);
+			
+			ActionByLocator.sendKeys(driver, By.xpath("//input[@ng-model='meal.datetime']"), "2017/08/07 12:00", TIME_OUT_SECONDS);
+			
+			String mealDescription = meal.get("description").getAsString();
+			ActionByLocator.sendKeys(driver, By.xpath("//input[@ng-model='meal.description']"), mealDescription, TIME_OUT_SECONDS);
+			
+			String totalCalories = meal.get("calories").getAsString();
+			ActionByLocator.sendKeys(driver, By.xpath("//input[@ng-model='meal.calories']"), totalCalories, TIME_OUT_SECONDS);
+		}
+		ActionByLocator.click(driver, By.xpath("//button[contains(text(),'Save')]"), TIME_OUT_SECONDS);
+	}
+
+	public boolean isMessageDisplayed(String message) {
+		return ActionByLocator.isDisplayed(executionContext.getDriver(), By.xpath("//div[contains(text(), '"+message+"')]"), TIME_OUT_SECONDS);
 	}
 }

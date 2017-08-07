@@ -18,12 +18,5 @@ Then my calories for today are displayed
 Scenario: Login with invalid username and password
 Given I am on the login page
 When I use invalid username and password
-Then I receive an "Access denied" message
-
-@wip
-Scenario: First-time login for user
-Given I am on the user page
-When I login for the first time
-Then a "no records found" message is received
-
+Then I receive an "Invalid username and/or password. Please verify and reenter." message
 
