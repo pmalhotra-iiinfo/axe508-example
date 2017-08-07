@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MealController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">calories-tracker Maven Webapp</a> &gt; <a href="index.source.html" class="el_package">calories.tracker.app.controllers</a> &gt; <span class="el_source">MealController.java</span></div><h1>MealController.java</h1><pre class="source lang-java linenums">package calories.tracker.app.controllers;
+
+
+import calories.tracker.app.dto.MealDTO;
+import calories.tracker.app.dto.MealsDTO;
+import calories.tracker.app.model.Meal;
+import calories.tracker.app.model.SearchResult;
+import calories.tracker.app.services.MealService;
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
+
+import java.security.Principal;
+import java.sql.Time;
+import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
+
+/**
+ *
+ *  REST service for meals - allows to update, create and search for meals for the currently logged in user.
+ *
+ */
+@Controller
+@RequestMapping(&quot;meal&quot;)
+<span class="fc" id="L30">public class MealController {</span>
+
+<span class="fc" id="L32">    Logger LOGGER = Logger.getLogger(MealController.class);</span>
+
+    private static final long DAY_IN_MS = 1000 * 60 * 60 * 24;
+
+
+    @Autowired
+    private MealService mealService;
+
+    /**
+     * search Meals for the current user by date and time ranges.
+     *
+     *
+     * @param principal  - the current logged in user
+     * @param fromDate - search from this date, including
+     * @param toDate - search until this date, including
+     * @param fromTime - search from this time, including
+     * @param toTime - search to this time, including
+     * @param pageNumber - the page number (each page has 10 entries)
+     * @return - @see MealsDTO with the current page, total pages and the list of meals
+     */
+    @ResponseBody
+    @ResponseStatus(HttpStatus.OK)
+    @RequestMapping(method = RequestMethod.GET)
+    public MealsDTO searchMealsByDate(
+            Principal principal,
+            @RequestParam(value = &quot;fromDate&quot;, required = false) @DateTimeFormat(pattern = &quot;yyyy/MM/dd&quot;) Date fromDate,
+            @RequestParam(value = &quot;toDate&quot;, required = false) @DateTimeFormat(pattern = &quot;yyyy/MM/dd&quot;) Date toDate,
+            @RequestParam(value = &quot;fromTime&quot;, required = false) @DateTimeFormat(pattern = &quot;yyyy/MM/dd HH:mm&quot;) Date fromTime,
+            @RequestParam(value = &quot;toTime&quot;, required = false) @DateTimeFormat(pattern = &quot;yyyy/MM/dd HH:mm&quot;) Date toTime,
+            @RequestParam(value = &quot;pageNumber&quot;) Integer pageNumber) {
+
+<span class="pc bpc" id="L63" title="3 of 4 branches missed.">        if (fromDate == null &amp;&amp; toDate == null) {</span>
+<span class="nc" id="L64">            fromDate = new Date(System.currentTimeMillis() - (3 * DAY_IN_MS));</span>
+<span class="nc" id="L65">            toDate = new Date();</span>
+        }
+
+<span class="fc" id="L68">        SearchResult&lt;Meal&gt; result = mealService.findMeals(</span>
+<span class="pc bpc" id="L69" title="1 of 2 branches missed.">                principal.getName(),</span>
+                fromDate,
+                toDate,
+<span class="pc bpc" id="L72" title="1 of 2 branches missed.">                fromTime != null ? new Time(fromTime.getTime()) : null,</span>
+<span class="pc" id="L73">                toTime != null ? new Time(toTime.getTime()) : null,</span>
+<span class="fc" id="L74">                pageNumber);</span>
+
+<span class="fc" id="L76">        Long resultsCount = result.getResultsCount();</span>
+<span class="fc" id="L77">        Long totalPages = resultsCount / 10;</span>
+
+<span class="pc bpc" id="L79" title="1 of 2 branches missed.">        if (resultsCount % 10 &gt; 0) {</span>
+<span class="fc" id="L80">            totalPages++;</span>
+        }
+
+<span class="fc" id="L83">        return new MealsDTO(pageNumber, totalPages, MealDTO.mapFromMealsEntities(result.getResult()));</span>
+    }
+
+    /**
+     *
+     * saves a list of meals - they be either new or existing
+     *
+     * @param principal - the current logged in user
+     * @param meals - the list of meals to save
+     * @return - an updated version of the saved meals
+     */
+    @ResponseBody
+    @ResponseStatus(HttpStatus.OK)
+    @RequestMapping(method = RequestMethod.POST)
+    public List&lt;MealDTO&gt; saveMeals(Principal principal, @RequestBody List&lt;MealDTO&gt; meals) {
+
+<span class="fc" id="L99">        List&lt;Meal&gt; savedMeals = mealService.saveMeals(principal.getName(), meals);</span>
+
+<span class="fc" id="L101">        return savedMeals.stream()</span>
+<span class="fc" id="L102">                .map(MealDTO::mapFromMealEntity)</span>
+<span class="fc" id="L103">                .collect(Collectors.toList());</span>
+    }
+
+    /**
+     *
+     * deletes a list of meals
+     *
+     * @param deletedMealIds - the ids of the meals to be deleted
+     */
+    @ResponseBody
+    @ResponseStatus(HttpStatus.OK)
+    @RequestMapping(method = RequestMethod.DELETE)
+    public void deleteMeals(@RequestBody List&lt;Long&gt; deletedMealIds) {
+<span class="fc" id="L116">        mealService.deleteMeals(deletedMealIds);</span>
+<span class="fc" id="L117">    }</span>
+
+    /**
+     *
+     * error handler for backend errors - a 400 status code will be sent back, and the body
+     * of the message contains the exception text.
+     *
+     * @param exc - the exception caught
+     */
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity&lt;String&gt; errorHandler(Exception exc) {
+<span class="nc" id="L129">        LOGGER.error(exc.getMessage(), exc);</span>
+<span class="nc" id="L130">        return new ResponseEntity&lt;&gt;(exc.getMessage(), HttpStatus.BAD_REQUEST);</span>
+    }
+
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>
