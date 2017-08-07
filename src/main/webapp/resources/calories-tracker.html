@@ -24,23 +24,20 @@
         </a>
         <span class="header-element page-title">Calories Tracker</span>
 
-        <!--         <div class="today-calories-container"> -->
-        <!--             <div class="today-calories {{vm.caloriesStatusStyle}}"> -->
-        <!--                 Today' calories: -->
-        <!--                 <div class="today-calories-placeholder" ng-hide="vm.todaysCalories"></div> -->
-        <!--                 <span ng-cloak>{{vm.todaysCalories}}</span> -->
-        <!--             </div> -->
-        <!--         </div> -->
+        <div class="today-calories-container">
+            <div class="today-calories {{vm.caloriesStatusStyle}}">
+                Today' calories:
+                <div class="today-calories-placeholder" ng-hide="vm.todaysCalories"></div>
+                <span ng-cloak>{{vm.todaysCalories}}</span>
+            </div>
+        </div>
 
     </div>
     <div class="pure-u-lg-1-2 pure-u-1 utilities">
         <div class="header-element">
-            <span class="today-calories1 {{vm.caloriesStatusStyle}}">Today's Calories
-            <div class="today-calories-placeholder" ng-hide="vm.todaysCalories"></div>
-                <span ng-cloak>{{vm.todaysCalories}}</span></span>
-            <span class="goal"> Today's Goal
+            Max. calories
             <input tabindex="10" class="max-cal" type="number" ng-model="vm.maxCaloriesPerDay"
-                   ng-model-options="{'updateOn':'blur'}" ng-blur="updateMaxCaloriesPerDay()"></span>
+                   ng-model-options="{'updateOn':'blur'}" ng-blur="updateMaxCaloriesPerDay()">
         </div>
         <div class="header-element username">
             <div class="username-placeholder" ng-hide="vm.userName"></div>
@@ -50,7 +47,6 @@
             <a class="logout" href="#" ng-click="logout()">Logout</a>
         </div>
     </div>
-
 </header>
 
 <main class="container not-ready" ng-class="{'app-ready': vm.appReady}" ng-cloak>
@@ -59,7 +55,7 @@
 
     <div class="info-messages"
          ng-style="{'opacity': vm.infoMessages.length > 0 ? 1 : 0, 'z-index': vm.infoMessages.length > 0 ? 10 : -10}">
-        <img class="info-icon" src="/resources/img/info-icon.png">
+    <img class="info-icon" src="/resources/img/info-icon.png">
         <div class="messages-group">
             <div ng-repeat="info in vm.infoMessages">{{info.description}}</div>
         </div>
@@ -69,44 +65,27 @@
         <fieldset>
             <legend>Search</legend>
 
-             <div class="pure-g pure-form-stacked search-form-content">
+            <div class="pure-g pure-form-stacked search-form-content">
 
-                <div class="pure-u-sm-1-4 pure-u-1 from-field">
+                <div class="pure-u-sm-1-2 pure-u-1 from-field">
                     <label>From Date </label>
                     <input tt-date-picker name="fromDate" ng-model="vm.fromDate">
                 </div>
 
-                <div class="pure-u-sm-1-4 pure-u-1 to-field">
+                <div class="pure-u-sm-1-2 pure-u-1 to-field">
                     <label>To Date</label>
                     <input tt-date-picker name="toDate" ng-model="vm.toDate">
                 </div>
 
-                <div class="pure-u-sm-1-4 pure-u-1 from-field from-to-time">
+                <div class="pure-u-sm-1-2 pure-u-1 from-field from-to-time">
                     <label>From Time</label>
                     <input tt-time-picker name="fromTime" ng-model="vm.fromTime">
                 </div>
 
-                <div class="pure-u-sm-1-4 pure-u-1 to-field from-to-time">
+                <div class="pure-u-sm-1-2 pure-u-1 to-field from-to-time">
                     <label>To Time</label>
                     <input tt-time-picker name="toTime" ng-model="vm.toTime">
                 </div>
-
-                
-
-            </div>
-            <div class="pure-g pure-form-stacked search-form-content">
-
-                <!--<div class="pure-u-sm-1-4 pure-u-1 from-field">
-                    <label>Meal Type </label>
-                   <select tt-cell-field ng-model="mealselected"   ng-options="mt.description for mt in vm.type">
-                    </select>              </div>
-
-                <div class="pure-u-sm-1-4 pure-u-1 to-field">
-                    <label>Description</label>
-                    <input  name="toDate" ng-model="vm.toDate">
-                </div>-->
-
-               
 
                 <div class="pure-u-1 search">
                     <button type="submit" ng-click="search()"
@@ -117,7 +96,6 @@
             </div>
 
         </fieldset>
-
 
         <div class="meals-list">
 
@@ -130,20 +108,16 @@
 
             <table class="pure-table">
                 <thead>
-                 <tr>
+                <tr>
                     <th class="selection-column"></th>
                     <th>Date/Time</th>
-                    <th>Meal Type</th>
                     <th>Description</th>
-                     <th>Calories per servings</th>
-                    <th>Total</th>
+                    <th>Total Calories</th>
                 </tr>
-
                 </thead>
 
                 <tbody>
 
-                
                 <tr ng-repeat="meal in vm.meals | excludeDeleted | limitTo : 10" tt-editable-row rowValue="meal"
                     ng-class="{'pure-table-odd': $index % 2 == 1, 'pure-table-even': $index % 2 == 0}">
 
@@ -155,25 +129,16 @@
                         <input tt-date-time-picker tt-cell-field type="text"
                                ng-model="meal.datetime">
                     </td>
-                    <td tt-editable-cell value="meal.type.description" is-new="meal.new">
-                    
-                    <select tt-cell-field ng-model="mealselected"   ng-options="mt.description for mt in vm.type">
-                    
-                    
-                    </td>
-                    
+
                     <td tt-editable-cell value="meal.description" is-new="meal.new">
                         <input type="text" tt-cell-field ng-model="meal.description">
                     </td>
-                    <td tt-editable-cell value="meal.servings" is-new="meal.new">
-                        <input type="text" tt-cell-field ng-model="meal.servings">
-                    </td>
+
                     <td tt-editable-cell value="meal.calories" is-new="meal.new">
                         <input type="text" tt-cell-field tt-numeric-field ng-model="meal.calories">
                     </td>
 
                 </tr>
-
 
                 </tbody>
             </table>
