@@ -1,10 +1,13 @@
 package gov.uscis.odds.user;
 
 
+import gov.uscis.odds.util.Util;
+
 import org.junit.Assert;
 import org.springframework.stereotype.Component;
 
 import com.karsun.kic.tan.duke.Steps;
+
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
@@ -35,6 +38,11 @@ public class UserPageSteps extends Steps {
 	@When("^I add a meal entry$")
 	public void i_add_a_meal_entry() {
 		init();
+		
+		if (userPage.isMessageDisplayed("No results found.")) {
+			Util.waitFor(10);
+		}
+		
 		userPage.enterMeals(executionContext.getCurrentScenarioObj().get("meals").getAsJsonArray());
 	}
 	
