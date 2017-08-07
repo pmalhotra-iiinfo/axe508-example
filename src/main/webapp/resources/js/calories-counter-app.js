@@ -94,7 +94,7 @@ angular.module('caloriesCounterApp', ['editableTableWidgets', 'frontendServices'
                 $scope.vm.infoMessages.push({description: infoMessage});
                 $timeout(function () {
                     $scope.vm.infoMessages = [];
-                }, 1000);
+                }, 2000);
             }
 
             $scope.updateMaxCaloriesPerDay = function () {

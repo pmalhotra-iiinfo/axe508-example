@@ -46,7 +46,7 @@ angular.module('common', ['ngMessages'])
                 }
                 else {
                     $scope.vm.errorMessages = [];
-                    $scope.vm.errorMessages.push({description: 'Access denied'});
+                    $scope.vm.errorMessages.push({description: 'Invalid username and/or password. Please verify and reenter.'});
                 }
             });
         }
