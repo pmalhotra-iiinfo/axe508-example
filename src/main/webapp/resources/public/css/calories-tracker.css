@@ -307,6 +307,7 @@ a.logout:hover {
 
 .form-messages.errors.access-screen {
     background-color: white;
+    border: 1px solid #e9322d;
 }
 
 .messages-group {
