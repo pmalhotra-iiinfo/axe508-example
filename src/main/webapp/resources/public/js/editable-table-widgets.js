@@ -22,7 +22,7 @@ angular.module('editableTableWidgets', [])
                             ngModel.$setViewValue(element.val());
                         },
                         // mask: '9999/19/39',
-                        // format:'Y/m/d',
+                        format:'Y/m/d',
                         allowBlank: true,
                         closeOnDateSelect: true
 
@@ -49,7 +49,7 @@ angular.module('editableTableWidgets', [])
                             ngModel.$setViewValue(element.val());
                         },
                         // mask: '29:59',
-                        // format:'H:i',
+                        format:'H:i',
                         allowBlank: true
                     })
                         .keyup(function (e) {
