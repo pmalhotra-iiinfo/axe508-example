@@ -17,6 +17,7 @@ angular.module('editableTableWidgets', [])
                     $(element[0]).datetimepicker({
                         timepicker:false,
                         scrollMonth: false,
+                        constrainInput: false,
                         onClose: function () {
                             ngModel.$setViewValue(element.val());
                         },
@@ -43,6 +44,7 @@ angular.module('editableTableWidgets', [])
                     $(element[0]).datetimepicker({
                         datepicker:false,
                         scrollTime : false,
+                        constrainInput: false,
                         onClose: function () {
                             ngModel.$setViewValue(element.val());
                         },
