@@ -1,13 +1,18 @@
 package gov.uscis.odds.user;
 
 import java.util.Iterator;
+import java.util.List;
 
 import gov.uscis.odds.login.LoginPage;
 
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Action;
+import org.openqa.selenium.interactions.Actions;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -71,5 +76,25 @@ public class UserPage extends Page {
 
 	public boolean isMessageDisplayed(String message) {
 		return ActionByLocator.isDisplayed(executionContext.getDriver(), By.xpath("//div[contains(text(), '"+message+"')]"), TIME_OUT_SECONDS);
+	}
+
+	public void searchFor(JsonObject searchObject) {
+		new NgWebDriver((JavascriptExecutor) driver).waitForAngularRequestsToFinish();
+		
+		String startDate = searchObject.get("startDate").getAsString();
+		String endDate = searchObject.get("endDate").getAsString();
+		String startTime = searchObject.get("startTime").getAsString();
+		String endTime = searchObject.get("endTime").getAsString();
+		
+		ActionByLocator.sendKeys(driver, By.cssSelector("[name='fromDate']"), startDate, TIME_OUT_SECONDS);
+		ActionByLocator.sendKeys(driver, By.cssSelector("[name='toDate']"), endDate, TIME_OUT_SECONDS);
+		ActionByLocator.sendKeys(driver, By.cssSelector("[name='fromTime']"), startTime, TIME_OUT_SECONDS);
+		ActionByLocator.sendKeys(driver, By.cssSelector("[name='toTime']"), endTime, TIME_OUT_SECONDS);
+	}
+
+	public int getSearchResultCount() {
+		new NgWebDriver((JavascriptExecutor) driver).waitForAngularRequestsToFinish();
+		List<WebElement> elements = ActionByLocator.getElements(driver, By.cssSelector("[ng-repeat*='meal in vm.meals']"), TIME_OUT_SECONDS);
+		return elements.size();
 	}
 }
