@@ -1,5 +1,7 @@
 package gov.uscis.odds.user;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Iterator;
 import java.util.List;
 
@@ -8,12 +10,8 @@ import gov.uscis.odds.login.LoginPage;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Action;
-import org.openqa.selenium.interactions.Actions;
-
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -80,16 +78,21 @@ public class UserPage extends Page {
 
 	public void searchFor(JsonObject searchObject) {
 		new NgWebDriver((JavascriptExecutor) driver).waitForAngularRequestsToFinish();
+		LocalDate today = LocalDate.now();
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
 		
-		String startDate = searchObject.get("startDate").getAsString();
-		String endDate = searchObject.get("endDate").getAsString();
-		String startTime = searchObject.get("startTime").getAsString();
-		String endTime = searchObject.get("endTime").getAsString();
+		String startDate = searchObject.get("startDate").getAsString().isEmpty() ? today.format(dtf) : searchObject.get("startDate").getAsString();
+		String endDate = searchObject.get("endDate").getAsString().isEmpty() ? today.format(dtf) : searchObject.get("endDate").getAsString();
 		
 		ActionByLocator.sendKeys(driver, By.cssSelector("[name='fromDate']"), startDate, TIME_OUT_SECONDS);
+		ActionByLocator.click(driver, By.cssSelector("[ng-model='vm.maxCaloriesPerDay']"), TIME_OUT_SECONDS);
+		new NgWebDriver((JavascriptExecutor) driver).waitForAngularRequestsToFinish();
+		
 		ActionByLocator.sendKeys(driver, By.cssSelector("[name='toDate']"), endDate, TIME_OUT_SECONDS);
-		ActionByLocator.sendKeys(driver, By.cssSelector("[name='fromTime']"), startTime, TIME_OUT_SECONDS);
-		ActionByLocator.sendKeys(driver, By.cssSelector("[name='toTime']"), endTime, TIME_OUT_SECONDS);
+		ActionByLocator.click(driver, By.cssSelector("[ng-model='vm.maxCaloriesPerDay']"), TIME_OUT_SECONDS);
+		new NgWebDriver((JavascriptExecutor) driver).waitForAngularRequestsToFinish();
+		
+		ActionByLocator.click(driver, By.cssSelector("[class*='search-button']"), TIME_OUT_SECONDS);
 	}
 
 	public int getSearchResultCount() {

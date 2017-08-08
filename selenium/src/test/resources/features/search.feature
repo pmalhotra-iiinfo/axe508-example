@@ -16,8 +16,6 @@ Given I am on the user page
 When I specify a date period to search
 Then all existing records are returned
 
-
-
 @testmenow
 Scenario: Date-only search
 Given I am on the user page

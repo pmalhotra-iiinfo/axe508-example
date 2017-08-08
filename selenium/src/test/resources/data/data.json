@@ -38,11 +38,11 @@
 			"password": "Password2"
 		},
 		"search": {
-			"startDate": "2015/01/08",
-			"endDate": "2015/01/08",
+			"startDate": "",
+			"endDate": "",
 			"startTime": "",
 			"endTime": "",
-			"count": 2
+			"count": 1
 		}
 	},
 	"Today search":{
