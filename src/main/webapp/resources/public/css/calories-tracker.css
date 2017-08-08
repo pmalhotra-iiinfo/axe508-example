@@ -63,14 +63,14 @@ header a {
 
 .today-calories.cal-limit-ok {
     color: #eee;
-    border: 2px solid darkgreen;
-    background: green;
+    border: 2px solid #28E022;
+    background: #28E022;
 }
 
 .today-calories.cal-limit-nok {
     color: #eee;
-    border: 2px solid darkred;
-    background: firebrick;
+    border: 2px solid #F6A3A3;
+    background: #F6A3A3;
 }
 
 .max-cal {
