@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MealService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">calories-tracker Maven Webapp</a> &gt; <a href="index.source.html" class="el_package">calories.tracker.app.services</a> &gt; <span class="el_source">MealService.java</span></div><h1>MealService.java</h1><pre class="source lang-java linenums">package calories.tracker.app.services;
+
+
+import calories.tracker.app.dao.MealRepository;
+import calories.tracker.app.dao.UserRepository;
+import calories.tracker.app.dto.MealDTO;
+import calories.tracker.app.model.Meal;
+import calories.tracker.app.model.SearchResult;
+import calories.tracker.app.model.User;
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.sql.Time;
+import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import static calories.tracker.app.services.ValidationUtils.assertNotBlank;
+import static calories.tracker.app.services.ValidationUtils.assertNotEquals;
+import static org.springframework.util.Assert.notNull;
+
+/**
+ *
+ * Business service for Meal-related operations.
+ *
+ */
+@Service
+<span class="fc" id="L30">public class MealService {</span>
+
+<span class="fc" id="L32">    private static final Logger LOGGER = Logger.getLogger(MealService.class);</span>
+
+    @Autowired
+    MealRepository mealRepository;
+
+    @Autowired
+    UserRepository userRepository;
+
+    /**
+     *
+     * searches meals by date/time
+     *
+     * @param username - the currently logged in user
+     * @param fromDate - search from this date, including
+     * @param toDate - search until this date, including
+     * @param fromTime - search from this time, including
+     * @param toTime - search to this time, including
+     * @param pageNumber - the page number (each page has 10 entries)
+     * @return - the found results
+     */
+    @Transactional(readOnly = true)
+    public SearchResult&lt;Meal&gt; findMeals(String username, Date fromDate, Date toDate, Time fromTime, Time toTime, int pageNumber) {
+
+<span class="fc bfc" id="L55" title="All 4 branches covered.">        if (fromDate == null || toDate == null) {</span>
+<span class="fc" id="L56">            throw new IllegalArgumentException(&quot;Both the from and to date are needed.&quot;);</span>
+        }
+
+<span class="fc bfc" id="L59" title="All 2 branches covered.">        if (fromDate.after(toDate)) {</span>
+<span class="fc" id="L60">            throw new IllegalArgumentException(&quot;From date cannot be after to date.&quot;);</span>
+        }
+
+<span class="pc bpc" id="L63" title="7 of 8 branches missed.">        if (fromDate.equals(toDate) &amp;&amp; fromTime != null &amp;&amp; toTime != null &amp;&amp; fromTime.after(toTime)) {</span>
+<span class="nc" id="L64">            throw new IllegalArgumentException(&quot;On searches on the same day, from time cannot be after to time.&quot;);</span>
+        }
+
+<span class="fc" id="L67">        Long resultsCount = mealRepository.countMealsByDateTime(username, fromDate, toDate, fromTime, toTime);</span>
+
+<span class="fc" id="L69">        List&lt;Meal&gt; meals = mealRepository.findMealsByDateTime(username, fromDate, toDate, fromTime, toTime, pageNumber);</span>
+
+<span class="fc" id="L71">        return new SearchResult&lt;&gt;(resultsCount, meals);</span>
+    }
+
+    /**
+     *
+     * deletes a list of meals, given their Ids
+     *
+     * @param deletedMealIds - the list of meals to delete
+     */
+    @Transactional
+    public void deleteMeals(List&lt;Long&gt; deletedMealIds) {
+<span class="fc" id="L82">        notNull(deletedMealIds, &quot;deletedMealsId is mandatory&quot;);</span>
+<span class="fc" id="L83">        deletedMealIds.stream().forEach((deletedMealId) -&gt; mealRepository.delete(deletedMealId));</span>
+<span class="fc" id="L84">    }</span>
+
+    /**
+     *
+     * saves a meal (new or not) into the database.
+     *
+     * @param username - - the currently logged in user
+     * @param id - the database ud of the meal
+     * @param date - the date the meal took place
+     * @param time - the time the meal took place
+     * @param description - the description of the meal
+     * @param calories - the calories of the meal
+     * @return - the new version of the meal
+     */
+
+    @Transactional
+    public Meal saveMeal(String username, Long id, Date date, Time time, String description, Long calories) {
+
+<span class="fc" id="L102">        assertNotBlank(username, &quot;username cannot be blank&quot;);</span>
+<span class="fc" id="L103">        notNull(date, &quot;date is mandatory&quot;);</span>
+<span class="fc" id="L104">        notNull(time, &quot;time is mandatory&quot;);</span>
+<span class="fc" id="L105">        notNull(description, &quot;description is mandatory&quot;);</span>
+<span class="fc" id="L106">        notNull(calories, &quot;calories is mandatory&quot;);</span>
+
+<span class="fc" id="L108">        Date theDate = new Date(date.getYear(), date.getMonth(), date.getDate()+1);</span>
+
+<span class="fc" id="L110">        List&lt;Meal&gt; meals = mealRepository.findMealsByDateTime(username, theDate, theDate, null, null, 1);</span>
+<span class="fc bfc" id="L111" title="All 2 branches covered.">        for (Meal meal : meals) {</span>
+<span class="fc" id="L112">            assertNotEquals(meal.getDescription(), description, &quot;Meal duplicate&quot;);</span>
+<span class="fc" id="L113">        }</span>
+
+<span class="fc" id="L115">        Meal meal = null;</span>
+
+<span class="pc bpc" id="L117" title="1 of 2 branches missed.">        if (id != null) {</span>
+<span class="fc" id="L118">            meal = mealRepository.findMealById(id);</span>
+
+<span class="fc" id="L120">            meal.setDate(theDate);</span>
+<span class="fc" id="L121">            meal.setTime(time);</span>
+<span class="fc" id="L122">            meal.setDescription(description);</span>
+<span class="fc" id="L123">            meal.setCalories(calories);</span>
+        } else {
+<span class="nc" id="L125">            User user = userRepository.findUserByUsername(username);</span>
+
+<span class="nc bnc" id="L127" title="All 2 branches missed.">            if (user != null) {</span>
+<span class="nc" id="L128">                meal = mealRepository.save(new Meal(user, theDate, time, description, calories));</span>
+<span class="nc" id="L129">                LOGGER.warn(&quot;A meal was attempted to be saved for a non-existing user: &quot; + username);</span>
+            }
+        }
+
+<span class="fc" id="L133">        return meal;</span>
+    }
+
+    /**
+     *
+     * saves a list of meals (new or not) into the database
+     *
+     * @param username - the currently logged in user
+     * @param meals - the list of meals to be saved
+     * @return - the new versions of the saved meals
+     */
+    @Transactional
+    public List&lt;Meal&gt; saveMeals(String username, List&lt;MealDTO&gt; meals) {
+<span class="fc" id="L146">        return meals.stream()</span>
+<span class="fc" id="L147">                .map((meal) -&gt; saveMeal(</span>
+                        username,
+<span class="fc" id="L149">                        meal.getId(),</span>
+<span class="fc" id="L150">                        meal.getDate(),</span>
+<span class="fc" id="L151">                        meal.getTime(),</span>
+<span class="fc" id="L152">                        meal.getDescription(),</span>
+<span class="fc" id="L153">                        meal.getCalories()))</span>
+<span class="fc" id="L154">                .collect(Collectors.toList());</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UserRepository.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">calories-tracker Maven Webapp</a> &gt; <a href="index.source.html" class="el_package">calories.tracker.app.dao</a> &gt; <span class="el_source">UserRepository.java</span></div><h1>UserRepository.java</h1><pre class="source lang-java linenums">package calories.tracker.app.dao;
+
+
+import calories.tracker.app.model.User;
+import org.springframework.stereotype.Repository;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import java.util.List;
+
+/**
+ *
+ * Repository class for the User entity
+ *
+ */
+@Repository
+<span class="fc" id="L17">public class UserRepository {</span>
+
+    @PersistenceContext
+    private EntityManager em;
+
+    /**
+     * finds a user given its username
+     *
+     * @param username - the username of the searched user
+     * @return  a matching user, or null if no user found.
+     */
+    public User findUserByUsername(String username) {
+
+<span class="fc" id="L30">        List&lt;User&gt; users = em.createNamedQuery(User.FIND_BY_USERNAME, User.class)</span>
+<span class="fc" id="L31">                .setParameter(&quot;username&quot;, username)</span>
+<span class="fc" id="L32">                .getResultList();</span>
+
+<span class="pc bpc" id="L34" title="1 of 2 branches missed.">        return users.size() == 1 ? users.get(0) : null;</span>
+    }
+
+    /**
+     *
+     * find the total calories that a given user has consumed so far in ongoing day
+     *
+     * @param username
+     * @return the total number of calories for the user for today
+     */
+    public Long findTodaysCaloriesForUser(String username) {
+<span class="nc" id="L45">        return (Long) em.createNamedQuery(User.COUNT_TODAYS_CALORIES).setParameter(&quot;username&quot;, username).getSingleResult();</span>
+    }
+
+    /**
+     *
+     * save changes made to a user, or insert it if its new
+     *
+     * @param user
+     */
+    public void save(User user) {
+<span class="fc" id="L55">        em.merge(user);</span>
+<span class="fc" id="L56">    }</span>
+
+    /**
+     * checks if a username is still available in the database
+     *
+     * @param username - the username to be checked for availability
+     * @return true if the username is still available
+     */
+    public boolean isUsernameAvailable(String username) {
+
+<span class="fc" id="L66">        List&lt;User&gt; users = em.createNamedQuery(User.FIND_BY_USERNAME, User.class)</span>
+<span class="fc" id="L67">                .setParameter(&quot;username&quot;, username)</span>
+<span class="fc" id="L68">                .getResultList();</span>
+
+<span class="fc" id="L70">        return users.isEmpty();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>
