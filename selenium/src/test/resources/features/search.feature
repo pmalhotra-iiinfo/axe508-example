@@ -10,6 +10,14 @@ And there is no data from last three days
 When I do not specify a date-time period to search
 Then I receive a message "No records found"
 
+@test
+Scenario: Today search
+Given I am on the user page
+When I specify a date period to search
+Then all existing records are returned
+
+
+
 @testmenow
 Scenario: Date-only search
 Given I am on the user page
