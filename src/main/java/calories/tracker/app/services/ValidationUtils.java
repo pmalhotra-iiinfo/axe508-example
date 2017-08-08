@@ -34,4 +34,12 @@ public final class ValidationUtils {
             throw new IllegalArgumentException(message);
         }
     }
+
+    public static void assertNotEquals(String string1, String string2, String message) {
+        if (StringUtils.isNoneEmpty(string1)
+                && StringUtils.isNoneEmpty(string2)
+                && string1.equalsIgnoreCase(string2)) {
+            throw new IllegalArgumentException(message);
+        }
+    }
 }

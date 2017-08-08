@@ -1,6 +1,9 @@
 package gov.uscis.odds.user;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Iterator;
+import java.util.List;
 
 import gov.uscis.odds.login.LoginPage;
 
@@ -8,7 +11,7 @@ import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
-
+import org.openqa.selenium.WebElement;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -71,5 +74,30 @@ public class UserPage extends Page {
 
 	public boolean isMessageDisplayed(String message) {
 		return ActionByLocator.isDisplayed(executionContext.getDriver(), By.xpath("//div[contains(text(), '"+message+"')]"), TIME_OUT_SECONDS);
+	}
+
+	public void searchFor(JsonObject searchObject) {
+		new NgWebDriver((JavascriptExecutor) driver).waitForAngularRequestsToFinish();
+		LocalDate today = LocalDate.now();
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+		
+		String startDate = searchObject.get("startDate").getAsString().isEmpty() ? today.format(dtf) : searchObject.get("startDate").getAsString();
+		String endDate = searchObject.get("endDate").getAsString().isEmpty() ? today.format(dtf) : searchObject.get("endDate").getAsString();
+		
+		ActionByLocator.sendKeys(driver, By.cssSelector("[name='fromDate']"), startDate, TIME_OUT_SECONDS);
+		ActionByLocator.click(driver, By.cssSelector("[ng-model='vm.maxCaloriesPerDay']"), TIME_OUT_SECONDS);
+		new NgWebDriver((JavascriptExecutor) driver).waitForAngularRequestsToFinish();
+		
+		ActionByLocator.sendKeys(driver, By.cssSelector("[name='toDate']"), endDate, TIME_OUT_SECONDS);
+		ActionByLocator.click(driver, By.cssSelector("[ng-model='vm.maxCaloriesPerDay']"), TIME_OUT_SECONDS);
+		new NgWebDriver((JavascriptExecutor) driver).waitForAngularRequestsToFinish();
+		
+		ActionByLocator.click(driver, By.cssSelector("[class*='search-button']"), TIME_OUT_SECONDS);
+	}
+
+	public int getSearchResultCount() {
+		new NgWebDriver((JavascriptExecutor) driver).waitForAngularRequestsToFinish();
+		List<WebElement> elements = ActionByLocator.getElements(driver, By.cssSelector("[ng-repeat*='meal in vm.meals']"), TIME_OUT_SECONDS);
+		return elements.size();
 	}
 }

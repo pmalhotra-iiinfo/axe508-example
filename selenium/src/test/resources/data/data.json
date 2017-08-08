@@ -4,7 +4,7 @@
 			"username": "test123",
 			"password": "Password2"
 		},
-		"todaysCalories": "None"
+		"todaysCalories": "500"
 	},
 	"Login with invalid username and password": {
 		"signIn": {
@@ -31,5 +31,31 @@
 			}
 		],
 		"message": "Changes saved successfully"
+	},
+	"Date-only search": {
+		"signIn": {
+			"username": "test123",
+			"password": "Password2"
+		},
+		"search": {
+			"startDate": "",
+			"endDate": "",
+			"startTime": "",
+			"endTime": "",
+			"count": 1
+		}
+	},
+	"Today search":{
+				"signIn": {
+			"username": "test123",
+			"password": "Password2"
+		},
+		"search": {
+			"startDate": "",
+			"endDate": "",
+			"startTime": "",
+			"endTime": "",
+			"count": 1
+		}
 	}
 }

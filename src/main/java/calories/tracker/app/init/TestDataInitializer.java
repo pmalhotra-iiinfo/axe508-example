@@ -28,6 +28,8 @@ public class TestDataInitializer {
 
 
     public void init() throws Exception {
+    	
+    	Date todayDate=new Date();
 
         SessionFactory sessionFactory = entityManagerFactory.unwrap(SessionFactory.class);
 
@@ -54,7 +56,7 @@ public class TestDataInitializer {
         session.persist(new Meal(user, new Date(115, 0, 7), new Time(19, 0, 0), "7 -   Grape Chutney", 1000L));
         session.persist(new Meal(user, new Date(115, 0, 8), new Time(12, 0, 0), "8 -  Broccoli Rabe", 2000L));
         session.persist(new Meal(user, new Date(115, 0, 8), new Time(19, 0, 0), "8 -  Moules Frites", 1000L));
-
+        session.persist(new Meal(user, new Date(todayDate.getYear(), todayDate.getMonth(), todayDate.getDate()), new Time(12, 0, 0), "Pizza", 500L));
         transaction.commit();
     }
 }
