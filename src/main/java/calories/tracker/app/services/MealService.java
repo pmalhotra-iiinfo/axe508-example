@@ -109,7 +109,7 @@ public class MealService {
         if (id != null) {
             meal = mealRepository.findMealById(id);
 
-            meal.setDate(date);
+            meal.setDate(new Date(date.getYear(), date.getMonth(), date.getDate()));
             meal.setTime(time);
             meal.setDescription(description);
             meal.setCalories(calories);
@@ -117,7 +117,7 @@ public class MealService {
             User user = userRepository.findUserByUsername(username);
 
             if (user != null) {
-                meal = mealRepository.save(new Meal(user, date, time, description, calories));
+                meal = mealRepository.save(new Meal(user, new Date(date.getYear(), date.getMonth(), date.getDate()), time, description, calories));
                 LOGGER.warn("A meal was attempted to be saved for a non-existing user: " + username);
             }
         }
