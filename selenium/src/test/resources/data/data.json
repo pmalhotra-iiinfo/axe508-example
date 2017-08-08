@@ -44,5 +44,18 @@
 			"endTime": "",
 			"count": 2
 		}
+	},
+	"Today search":{
+				"signIn": {
+			"username": "test123",
+			"password": "Password2"
+		},
+		"search": {
+			"startDate": "",
+			"endDate": "",
+			"startTime": "",
+			"endTime": "",
+			"count": 1
+		}
 	}
 }
