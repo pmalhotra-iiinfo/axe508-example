@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Time;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -97,32 +98,50 @@ public class MealService {
 
     @Transactional
     public Meal saveMeal(String username, Long id, Date date, Time time, String description, Long calories) {
+    	boolean shouldSave=true;
 
         assertNotBlank(username, "username cannot be blank");
         notNull(date, "date is mandatory");
         notNull(time, "time is mandatory");
         notNull(description, "description is mandatory");
         notNull(calories, "calories is mandatory");
+        
+        List<Meal> todayMeals=new ArrayList<Meal>();
+        Date todayDate=new Date();
+        Date today=new Date(todayDate.getYear(), todayDate.getMonth(), todayDate.getDate());
+        todayMeals=mealRepository.findMealsByDateTime(username, today, today, null, null, 1);
+        for(Meal m:todayMeals) {
+        	if(m.getDescription().equals(description)) {
+        		shouldSave=false;
+        		break;
+        	}
+        }
+       
+        if(shouldSave) {
+            Meal meal = null;
 
-        Meal meal = null;
+            if (id != null) {
+                meal = mealRepository.findMealById(id);
 
-        if (id != null) {
-            meal = mealRepository.findMealById(id);
+                meal.setDate(new Date(date.getYear(), date.getMonth(), date.getDate()));
+                meal.setTime(time);
+                meal.setDescription(description);
+                meal.setCalories(calories);
+            } else {
+                User user = userRepository.findUserByUsername(username);
 
-            meal.setDate(new Date(date.getYear(), date.getMonth(), date.getDate()));
-            meal.setTime(time);
-            meal.setDescription(description);
-            meal.setCalories(calories);
-        } else {
-            User user = userRepository.findUserByUsername(username);
-
-            if (user != null) {
-                meal = mealRepository.save(new Meal(user, new Date(date.getYear(), date.getMonth(), date.getDate()), time, description, calories));
-                LOGGER.warn("A meal was attempted to be saved for a non-existing user: " + username);
+                if (user != null) {
+                    meal = mealRepository.save(new Meal(user, new Date(date.getYear(), date.getMonth(), date.getDate()), time, description, calories));
+                    LOGGER.warn("A meal was attempted to be saved for a non-existing user: " + username);
+                }
             }
+            return meal;
+        }
+        else {
+        	return null;
         }
 
-        return meal;
+        
     }
 
     /**
