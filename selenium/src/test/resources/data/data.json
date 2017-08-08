@@ -4,7 +4,7 @@
 			"username": "test123",
 			"password": "Password2"
 		},
-		"todaysCalories": "None"
+		"todaysCalories": "500"
 	},
 	"Login with invalid username and password": {
 		"signIn": {
