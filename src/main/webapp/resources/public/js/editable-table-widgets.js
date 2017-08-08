@@ -66,6 +66,7 @@ angular.module('editableTableWidgets', [])
                     $(element[0]).datetimepicker({
                         scrollMonth: false,
                         scrollTime : false,
+                        constrainInput: false,
                         allowBlank: true
                     });
                 });
