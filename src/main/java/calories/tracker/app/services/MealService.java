@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static calories.tracker.app.services.ValidationUtils.assertNotBlank;
+import static calories.tracker.app.services.ValidationUtils.assertNotEquals;
 import static org.springframework.util.Assert.notNull;
 
 /**
@@ -104,12 +105,19 @@ public class MealService {
         notNull(description, "description is mandatory");
         notNull(calories, "calories is mandatory");
 
+        Date theDate = new Date(date.getYear(), date.getMonth(), date.getDate()+1);
+
+        List<Meal> meals = mealRepository.findMealsByDateTime(username, theDate, theDate, null, null, 1);
+        for (Meal meal : meals) {
+            assertNotEquals(meal.getDescription(), description, "Meal duplicate");
+        }
+
         Meal meal = null;
 
         if (id != null) {
             meal = mealRepository.findMealById(id);
 
-            meal.setDate(new Date(date.getYear(), date.getMonth(), date.getDate()));
+            meal.setDate(theDate);
             meal.setTime(time);
             meal.setDescription(description);
             meal.setCalories(calories);
@@ -117,7 +125,7 @@ public class MealService {
             User user = userRepository.findUserByUsername(username);
 
             if (user != null) {
-                meal = mealRepository.save(new Meal(user, new Date(date.getYear(), date.getMonth(), date.getDate()), time, description, calories));
+                meal = mealRepository.save(new Meal(user, theDate, time, description, calories));
                 LOGGER.warn("A meal was attempted to be saved for a non-existing user: " + username);
             }
         }
