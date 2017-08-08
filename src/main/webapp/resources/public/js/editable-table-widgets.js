@@ -21,8 +21,8 @@ angular.module('editableTableWidgets', [])
                         onClose: function () {
                             ngModel.$setViewValue(element.val());
                         },
-                        mask: '9999/19/39',
-                        format:'Y/m/d',
+                        // mask: '9999/19/39',
+                        // format:'Y/m/d',
                         allowBlank: true,
                         closeOnDateSelect: true
 
@@ -48,8 +48,8 @@ angular.module('editableTableWidgets', [])
                         onClose: function () {
                             ngModel.$setViewValue(element.val());
                         },
-                        mask: '29:59',
-                        format:'H:i',
+                        // mask: '29:59',
+                        // format:'H:i',
                         allowBlank: true
                     })
                         .keyup(function (e) {
