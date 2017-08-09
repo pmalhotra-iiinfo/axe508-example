@@ -1,6 +1,9 @@
 package gov.uscis.odds.user;
 
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 import gov.uscis.odds.util.Util;
 
 import org.junit.Assert;
@@ -139,5 +142,17 @@ public class UserPageSteps extends Steps {
 	public void i_specify_a_time_period_to_search() {
 	    // Write code here that turns the phrase above into concrete actions
 	    throw new PendingException();
+	}
+	
+	@Then("^consecutive meal entries show current date-time$")
+	public void consecutive_meal_entries_show_current_date_time() {
+		init();
+		userPage.clickAddButton();
+		
+		LocalDate today = LocalDate.now();
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/M/d");
+		
+		String dateTime = userPage.getDateTimeForEntry();
+		Assert.assertTrue("Date in the first row is not today", dateTime.contains(today.format(dtf)));
 	}
 }

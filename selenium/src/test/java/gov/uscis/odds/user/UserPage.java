@@ -30,6 +30,7 @@ public class UserPage extends Page {
 	private By logoutLink = By.cssSelector("[class='logout']");
 	private By fromDateInput = By.cssSelector("[name='fromDate']");
 	private By toDateInput = By.cssSelector("[name='toDate']");
+	private By addButton = By.xpath("//button[contains(text(),'Add')]");
 	
 	public UserPage(WebDriver driver) {
 		super(driver);
@@ -64,7 +65,7 @@ public class UserPage extends Page {
 		Iterator<JsonElement> iterator = meals.iterator();
 		while (iterator.hasNext()) {
 			JsonObject meal = iterator.next().getAsJsonObject();
-			ActionByLocator.click(driver, By.xpath("//button[contains(text(),'Add')]"), TIME_OUT_SECONDS);
+			ActionByLocator.click(driver, addButton, TIME_OUT_SECONDS);
 			
 			ActionByLocator.sendKeys(driver, By.xpath("//input[@ng-model='meal.datetime']"), "2017/08/07 12:00", TIME_OUT_SECONDS);
 			
@@ -122,5 +123,16 @@ public class UserPage extends Page {
 			elements = driver.findElements(ByAngular.repeater("meal in vm.meals | excludeDeleted | limitTo : 10"));
 		}
 		return elements.size();
+	}
+
+	public void clickAddButton() {
+		new NgWebDriver((JavascriptExecutor) driver).waitForAngularRequestsToFinish();
+		ActionByLocator.click(driver, addButton, TIME_OUT_SECONDS);
+	}
+	
+	public String getDateTimeForEntry() {
+		new NgWebDriver((JavascriptExecutor) driver).waitForAngularRequestsToFinish();
+		WebElement element = driver.findElement(By.xpath("//tr[@ng-repeat='meal in vm.meals | excludeDeleted | limitTo : 10'][1]/td[2]//input[1]"));
+		return element.getAttribute("value");
 	}
 }
