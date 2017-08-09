@@ -17,10 +17,11 @@ angular.module('editableTableWidgets', [])
                     $(element[0]).datetimepicker({
                         timepicker:false,
                         scrollMonth: false,
+                        constrainInput: false,
                         onClose: function () {
                             ngModel.$setViewValue(element.val());
                         },
-                        mask: '9999/19/39',
+                        // mask: '9999/19/39',
                         format:'Y/m/d',
                         allowBlank: true,
                         closeOnDateSelect: true
@@ -43,10 +44,11 @@ angular.module('editableTableWidgets', [])
                     $(element[0]).datetimepicker({
                         datepicker:false,
                         scrollTime : false,
+                        constrainInput: false,
                         onClose: function () {
                             ngModel.$setViewValue(element.val());
                         },
-                        mask: '29:59',
+                        // mask: '29:59',
                         format:'H:i',
                         allowBlank: true
                     })
@@ -66,6 +68,7 @@ angular.module('editableTableWidgets', [])
                     $(element[0]).datetimepicker({
                         scrollMonth: false,
                         scrollTime : false,
+                        constrainInput: false,
                         allowBlank: true
                     });
                 });
