@@ -3,7 +3,7 @@ Feature: Add, delete meals
 	I want to add and delete meals
 	so that I can track my eating habits
 
-@testmenow
+@smoke
 Scenario: Add meals, date-time for consecutive entries is today
 Given I am on the user page
 When I add a meal entry
