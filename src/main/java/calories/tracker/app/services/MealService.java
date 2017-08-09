@@ -5,6 +5,7 @@ import calories.tracker.app.dao.MealRepository;
 import calories.tracker.app.dao.UserRepository;
 import calories.tracker.app.dto.MealDTO;
 import calories.tracker.app.model.Meal;
+import calories.tracker.app.model.MealType;
 import calories.tracker.app.model.SearchResult;
 import calories.tracker.app.model.User;
 import org.apache.log4j.Logger;
@@ -97,13 +98,15 @@ public class MealService {
      */
 
     @Transactional
-    public Meal saveMeal(String username, Long id, Date date, Time time, String description, Long calories) {
+    public Meal saveMeal(String username, Long id, Date date, Time time, String description, Long calories, Integer servings, MealType type) {
 
         assertNotBlank(username, "username cannot be blank");
         notNull(date, "date is mandatory");
         notNull(time, "time is mandatory");
         notNull(description, "description is mandatory");
         notNull(calories, "calories is mandatory");
+        notNull(servings, "servings is mandatory");
+        notNull(type, "meal type is mandatory");
 
         Date theDate = new Date(date.getYear(), date.getMonth(), date.getDate()+1);
 
@@ -123,11 +126,13 @@ public class MealService {
             meal.setTime(time);
             meal.setDescription(description);
             meal.setCalories(calories);
+            meal.setServings(servings);
+            meal.setType(type);
         } else {
             User user = userRepository.findUserByUsername(username);
 
             if (user != null) {
-                meal = mealRepository.save(new Meal(user, theDate, time, description, calories));
+                meal = mealRepository.save(new Meal(user, date, time, description, calories, servings, type));;
                 LOGGER.warn("A meal was attempted to be saved for a non-existing user: " + username);
             }
         }
@@ -152,7 +157,9 @@ public class MealService {
                         meal.getDate(),
                         meal.getTime(),
                         meal.getDescription(),
-                        meal.getCalories()))
+                        meal.getCalories(),
+                        meal.getServings(),
+                        meal.getType()))
                 .collect(Collectors.toList());
     }
 }
