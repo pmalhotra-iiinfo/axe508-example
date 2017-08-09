@@ -212,6 +212,12 @@ a.logout:hover {
     margin-top: 0.5em;
     font-size: 80%;
 }
+.forgot-password-link {
+    float: left;
+    display: inline-block;
+    margin-top: 0.5em;
+    font-size: 80%;
+}
 
 .error-messages {
     color: #e9322d;
