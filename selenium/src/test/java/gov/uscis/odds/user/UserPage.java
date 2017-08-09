@@ -63,19 +63,26 @@ public class UserPage extends Page {
 	public void enterMeals(JsonArray meals) {
 		new NgWebDriver((JavascriptExecutor) driver).waitForAngularRequestsToFinish();
 		Iterator<JsonElement> iterator = meals.iterator();
+		
 		while (iterator.hasNext()) {
 			JsonObject meal = iterator.next().getAsJsonObject();
 			ActionByLocator.click(driver, addButton, TIME_OUT_SECONDS);
+			new NgWebDriver((JavascriptExecutor) driver).waitForAngularRequestsToFinish();
 			
 			ActionByLocator.sendKeys(driver, By.xpath("//input[@ng-model='meal.datetime']"), "2017/08/07 12:00", TIME_OUT_SECONDS);
+			new NgWebDriver((JavascriptExecutor) driver).waitForAngularRequestsToFinish();
 			
 			String mealDescription = meal.get("description").getAsString();
 			ActionByLocator.sendKeys(driver, By.xpath("//input[@ng-model='meal.description']"), mealDescription, TIME_OUT_SECONDS);
+			new NgWebDriver((JavascriptExecutor) driver).waitForAngularRequestsToFinish();
 			
 			String totalCalories = meal.get("calories").getAsString();
 			ActionByLocator.sendKeys(driver, By.xpath("//input[@ng-model='meal.calories']"), totalCalories, TIME_OUT_SECONDS);
+			new NgWebDriver((JavascriptExecutor) driver).waitForAngularRequestsToFinish();
 		}
+		
 		ActionByLocator.click(driver, By.xpath("//button[contains(text(),'Save')]"), TIME_OUT_SECONDS);
+		new NgWebDriver((JavascriptExecutor) driver).waitForAngularRequestsToFinish();
 	}
 
 	public boolean isMessageDisplayed(String message) {
