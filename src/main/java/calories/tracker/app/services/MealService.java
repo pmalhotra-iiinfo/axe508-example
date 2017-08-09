@@ -109,7 +109,9 @@ public class MealService {
 
         List<Meal> meals = mealRepository.findMealsByDateTime(username, theDate, theDate, null, null, 1);
         for (Meal meal : meals) {
-            assertNotEquals(meal.getDescription(), description, "Meal duplicate");
+            if (!meal.getId().equals(id)) {
+                assertNotEquals(meal.getDescription(), description, "Meal duplicate");
+            }
         }
 
         Meal meal = null;
