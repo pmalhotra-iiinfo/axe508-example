@@ -20,13 +20,16 @@ import com.google.gson.JsonObject;
 import com.karsun.kic.tan.duke.ExecutionContext;
 import com.karsun.kic.tan.duke.Page;
 import com.karsun.kic.tan.duke.util.ActionByLocator;
+import com.paulhammant.ngwebdriver.ByAngular;
 import com.paulhammant.ngwebdriver.NgWebDriver;
 
 public class UserPage extends Page {
 	private static final int TIME_OUT_SECONDS = 5;
 	private ExecutionContext executionContext;
 
-	By logoutLink = By.cssSelector("[class='logout']");
+	private By logoutLink = By.cssSelector("[class='logout']");
+	private By fromDateInput = By.cssSelector("[name='fromDate']");
+	private By toDateInput = By.cssSelector("[name='toDate']");
 	
 	public UserPage(WebDriver driver) {
 		super(driver);
@@ -86,25 +89,38 @@ public class UserPage extends Page {
 		String startDate = searchObject.get("startDate").getAsString().isEmpty() ? today.format(dtf) : searchObject.get("startDate").getAsString();
 		String endDate = searchObject.get("endDate").getAsString().isEmpty() ? today.format(dtf) : searchObject.get("endDate").getAsString();
 		
-		ActionByLocator.clear(driver, By.cssSelector("[name='fromDate']"), TIME_OUT_SECONDS);
-		ActionByLocator.sendKeys(driver, By.cssSelector("[name='fromDate']"), startDate, TIME_OUT_SECONDS);
-		ActionByLocator.click(driver, By.cssSelector("[ng-model='vm.maxCaloriesPerDay']"), TIME_OUT_SECONDS);
+		populateStartDate(startDate);
 		
 		new NgWebDriver((JavascriptExecutor) driver).waitForAngularRequestsToFinish();
 		
-		ActionByLocator.clear(driver, By.cssSelector("[name='toDate']"), TIME_OUT_SECONDS);
-		ActionByLocator.sendKeys(driver, By.cssSelector("[name='toDate']"), endDate, TIME_OUT_SECONDS);
-		ActionByLocator.click(driver, By.cssSelector("[ng-model='vm.maxCaloriesPerDay']"), TIME_OUT_SECONDS);
+		populateEndDate(endDate);
 		
 		new NgWebDriver((JavascriptExecutor) driver).waitForAngularRequestsToFinish();
 		
 		ActionByLocator.click(driver, By.cssSelector("[class*='search-button']"), TIME_OUT_SECONDS);
 	}
 
-	public int getSearchResultCount() {
-		Util.waitFor(5);
-		new NgWebDriver((JavascriptExecutor) driver).waitForAngularRequestsToFinish();
-		List<WebElement> elements = ActionByLocator.getElements(driver, By.cssSelector("[ng-repeat*='meal in vm.meals']"), TIME_OUT_SECONDS);
+	private void populateStartDate(String dateString) {
+		ActionByLocator.clear(driver, fromDateInput, TIME_OUT_SECONDS);
+		ActionByLocator.sendKeys(driver, fromDateInput, dateString, TIME_OUT_SECONDS);
+		ActionByLocator.click(driver, fromDateInput, TIME_OUT_SECONDS);
+	}
+	
+	private void populateEndDate(String dateString) {
+		ActionByLocator.clear(driver, toDateInput, TIME_OUT_SECONDS);
+		ActionByLocator.sendKeys(driver, toDateInput, dateString, TIME_OUT_SECONDS);
+		ActionByLocator.click(driver, toDateInput, TIME_OUT_SECONDS);
+	}
+
+	public int getSearchResultCount(int expectedCount) {
+		NgWebDriver ng = new NgWebDriver((JavascriptExecutor) driver);
+		ng.waitForAngularRequestsToFinish();
+		
+		List<WebElement> elements = driver.findElements(ByAngular.repeater("meal in vm.meals | excludeDeleted | limitTo : 10"));
+		if (elements.size() != expectedCount) {
+			Util.waitFor(5);
+			elements = driver.findElements(ByAngular.repeater("meal in vm.meals | excludeDeleted | limitTo : 10"));
+		}
 		return elements.size();
 	}
 }
