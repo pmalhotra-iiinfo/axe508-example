@@ -123,10 +123,10 @@ public class UserPageSteps extends Steps {
 
 	@Then("^all existing records are returned$")
 	public void all_existing_records_are_returned() {
-	    int actualSearchCount = userPage.getSearchResultCount();
-	    JsonObject searchObj = executionContext.getCurrentScenarioObj().get("search").getAsJsonObject();   
+	    JsonObject searchObj = executionContext.getCurrentScenarioObj().get("search").getAsJsonObject(); 
 	    
-	    Assert.assertEquals("Search count", searchObj.get("count").getAsInt(), actualSearchCount);
+	    int expectedCount = searchObj.get("count").getAsInt();
+	    Assert.assertEquals("Search count is incorrect", expectedCount, userPage.getSearchResultCount(expectedCount));
 	}
 
 	@When("^I specify a date-time period to search$")

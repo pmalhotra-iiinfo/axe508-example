@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TestConfiguration.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">calories-tracker Maven Webapp</a> &gt; <a href="index.source.html" class="el_package">calories.tracker.config.root</a> &gt; <span class="el_source">TestConfiguration.java</span></div><h1>TestConfiguration.java</h1><pre class="source lang-java linenums">package calories.tracker.config.root;
+
+
+import calories.tracker.app.init.TestDataInitializer;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
+import org.springframework.instrument.classloading.InstrumentationLoadTimeWeaver;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
+import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
+
+import java.util.HashMap;
+import java.util.Map;
+
+/**
+ *
+ * Integration testing specific configuration - creates a in-memory datasource,
+ * sets hibernate on create drop mode and inserts some test data on the database.
+ *
+ * This allows to clone the project repository and start a running application with the command
+ *
+ * mvn clean install tomcat7:run-war -Dspring.profiles.active=test
+ *
+ * Access http://localhost:8080/ and login with test123 / Password2, in order to see some test data,
+ * or create a new user.
+ *
+ */
+@Configuration
+@Profile(&quot;test&quot;)
+@EnableTransactionManagement
+<span class="fc" id="L33">public class TestConfiguration {</span>
+
+    @Bean(initMethod = &quot;init&quot;)
+    public TestDataInitializer initTestData() {
+<span class="fc" id="L37">        return new TestDataInitializer();</span>
+    }
+
+    @Bean(name = &quot;datasource&quot;)
+    public DriverManagerDataSource dataSource() {
+<span class="fc" id="L42">        DriverManagerDataSource dataSource = new DriverManagerDataSource();</span>
+<span class="fc" id="L43">        dataSource.setDriverClassName(org.hsqldb.jdbcDriver.class.getName());</span>
+<span class="fc" id="L44">        dataSource.setUrl(&quot;jdbc:hsqldb:mem:mydb&quot;);</span>
+<span class="fc" id="L45">        dataSource.setUsername(&quot;sa&quot;);</span>
+<span class="fc" id="L46">        dataSource.setPassword(&quot;jdbc:hsqldb:mem:mydb&quot;);</span>
+<span class="fc" id="L47">        return dataSource;</span>
+    }
+
+    @Bean(name = &quot;entityManagerFactory&quot;)
+    public LocalContainerEntityManagerFactoryBean entityManagerFactory(DriverManagerDataSource dataSource) {
+
+<span class="fc" id="L53">        LocalContainerEntityManagerFactoryBean entityManagerFactoryBean = new LocalContainerEntityManagerFactoryBean();</span>
+<span class="fc" id="L54">        entityManagerFactoryBean.setDataSource(dataSource);</span>
+<span class="fc" id="L55">        entityManagerFactoryBean.setPackagesToScan(new String[]{&quot;calories.tracker.app.model&quot;});</span>
+<span class="fc" id="L56">        entityManagerFactoryBean.setLoadTimeWeaver(new InstrumentationLoadTimeWeaver());</span>
+<span class="fc" id="L57">        entityManagerFactoryBean.setJpaVendorAdapter(new HibernateJpaVendorAdapter());</span>
+
+<span class="fc" id="L59">        Map&lt;String, Object&gt; jpaProperties = new HashMap&lt;String, Object&gt;();</span>
+<span class="fc" id="L60">        jpaProperties.put(&quot;hibernate.hbm2ddl.auto&quot;, &quot;create&quot;);</span>
+<span class="fc" id="L61">        jpaProperties.put(&quot;hibernate.show_sql&quot;, &quot;true&quot;);</span>
+<span class="fc" id="L62">        jpaProperties.put(&quot;hibernate.format_sql&quot;, &quot;true&quot;);</span>
+<span class="fc" id="L63">        jpaProperties.put(&quot;hibernate.use_sql_comments&quot;, &quot;true&quot;);</span>
+<span class="fc" id="L64">        entityManagerFactoryBean.setJpaPropertyMap(jpaProperties);</span>
+
+<span class="fc" id="L66">        return entityManagerFactoryBean;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>

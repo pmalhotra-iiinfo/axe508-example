@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MealRepository.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">calories-tracker Maven Webapp</a> &gt; <a href="index.source.html" class="el_package">calories.tracker.app.dao</a> &gt; <span class="el_source">MealRepository.java</span></div><h1>MealRepository.java</h1><pre class="source lang-java linenums">package calories.tracker.app.dao;
+
+
+import calories.tracker.app.model.Meal;
+import calories.tracker.app.model.User;
+import org.apache.log4j.Logger;
+import org.springframework.stereotype.Repository;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.*;
+import java.sql.Time;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+/**
+ *
+ * Repository class for the Meal entity
+ *
+ */
+@Repository
+<span class="fc" id="L24">public class MealRepository {</span>
+
+<span class="fc" id="L26">    private static final Logger LOGGER = Logger.getLogger(MealRepository.class);</span>
+
+    @PersistenceContext
+    EntityManager em;
+
+    /**
+     *
+     * counts the matching meals, given the bellow criteria
+     *
+     * @param username - the currently logged in username
+     * @param fromDate - search from this date, including
+     * @param toDate - search until this date, including
+     * @param fromTime - search from this time, including
+     * @param toTime - search to this time, including
+     * @return -  a list of matching meals, or an empty collection if no match found
+     */
+    public Long countMealsByDateTime(String username, Date fromDate, Date toDate, Time fromTime, Time toTime) {
+
+<span class="fc" id="L44">        CriteriaBuilder cb = em.getCriteriaBuilder();</span>
+
+        // query for counting the total results
+<span class="fc" id="L47">        CriteriaQuery&lt;Long&gt; cq = cb.createQuery(Long.class);</span>
+<span class="fc" id="L48">        Root&lt;Meal&gt; countRoot = cq.from(Meal.class);</span>
+<span class="fc" id="L49">        cq.select((cb.count(countRoot)));</span>
+<span class="fc" id="L50">        cq.where(getCommonWhereCondition(cb, username, countRoot, fromDate, toDate, fromTime, toTime));</span>
+<span class="fc" id="L51">        Long resultsCount = em.createQuery(cq).getSingleResult();</span>
+
+<span class="fc" id="L53">        LOGGER.info(&quot;Found &quot; + resultsCount + &quot; results.&quot;);</span>
+
+<span class="fc" id="L55">        return resultsCount;</span>
+    }
+
+    /**
+     *
+     * finds a list of meals, given the bellow criteria
+     *
+     * @param username - the currently logged in username
+     * @param fromDate - search from this date, including
+     * @param toDate - search until this date, including
+     * @param fromTime - search from this time, including
+     * @param toTime - search to this time, including
+     * @return -  a list of matching meals, or an empty collection if no match found
+     */
+    public List&lt;Meal&gt; findMealsByDateTime(String username, Date fromDate, Date toDate,
+                                          Time fromTime, Time toTime, int pageNumber) {
+
+<span class="fc" id="L72">        CriteriaBuilder cb = em.getCriteriaBuilder();</span>
+
+        // the actual search query that returns one page of results
+<span class="fc" id="L75">        CriteriaQuery&lt;Meal&gt; searchQuery = cb.createQuery(Meal.class);</span>
+<span class="fc" id="L76">        Root&lt;Meal&gt; searchRoot = searchQuery.from(Meal.class);</span>
+<span class="fc" id="L77">        searchQuery.select(searchRoot);</span>
+<span class="fc" id="L78">        searchQuery.where(getCommonWhereCondition(cb, username, searchRoot, fromDate, toDate, fromTime, toTime));</span>
+
+<span class="fc" id="L80">        List&lt;Order&gt; orderList = new ArrayList();</span>
+<span class="fc" id="L81">        orderList.add(cb.desc(searchRoot.get(&quot;date&quot;)));</span>
+<span class="fc" id="L82">        orderList.add(cb.asc(searchRoot.get(&quot;time&quot;)));</span>
+<span class="fc" id="L83">        searchQuery.orderBy(orderList);</span>
+
+<span class="fc" id="L85">        TypedQuery&lt;Meal&gt; filterQuery = em.createQuery(searchQuery)</span>
+<span class="fc" id="L86">                .setFirstResult((pageNumber - 1) * 10)</span>
+<span class="fc" id="L87">                .setMaxResults(10);</span>
+
+<span class="fc" id="L89">        return filterQuery.getResultList();</span>
+    }
+
+    /**
+     * Delete a meal, given its identifier
+     *
+     * @param deletedMealId - the id of the meal to be deleted
+     */
+    public void delete(Long deletedMealId) {
+<span class="fc" id="L98">        Meal delete = em.find(Meal.class, deletedMealId);</span>
+<span class="fc" id="L99">        em.remove(delete);</span>
+<span class="fc" id="L100">    }</span>
+
+    /**
+     *
+     * finds a meal given its id
+     *
+     */
+    public Meal findMealById(Long id) {
+<span class="fc" id="L108">        return em.find(Meal.class, id);</span>
+    }
+
+    /**
+     *
+     * save changes made to a meal, or create the meal if its a new meal.
+     *
+     */
+    public Meal save(Meal meal) {
+<span class="nc" id="L117">        return em.merge(meal);</span>
+    }
+
+
+    private Predicate[] getCommonWhereCondition(CriteriaBuilder cb, String username, Root&lt;Meal&gt; searchRoot, Date fromDate, Date toDate,
+                                                Time fromTime, Time toTime) {
+
+<span class="fc" id="L124">        List&lt;Predicate&gt; predicates = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L125">        Join&lt;Meal, User&gt; user = searchRoot.join(&quot;user&quot;);</span>
+
+<span class="fc" id="L127">        predicates.add(cb.equal(user.&lt;String&gt;get(&quot;username&quot;), username));</span>
+<span class="fc" id="L128">        predicates.add(cb.greaterThanOrEqualTo(searchRoot.&lt;Date&gt;get(&quot;date&quot;), fromDate));</span>
+
+<span class="pc bpc" id="L130" title="1 of 2 branches missed.">        if (toDate != null) {</span>
+<span class="fc" id="L131">            predicates.add(cb.lessThanOrEqualTo(searchRoot.&lt;Date&gt;get(&quot;date&quot;), toDate));</span>
+        }
+
+<span class="fc bfc" id="L134" title="All 2 branches covered.">        if (fromTime != null) {</span>
+<span class="fc" id="L135">            predicates.add(cb.greaterThanOrEqualTo(searchRoot.&lt;Date&gt;get(&quot;time&quot;), fromTime));</span>
+        }
+
+<span class="fc bfc" id="L138" title="All 2 branches covered.">        if (toTime != null) {</span>
+<span class="fc" id="L139">            predicates.add(cb.lessThanOrEqualTo(searchRoot.&lt;Date&gt;get(&quot;time&quot;), toTime));</span>
+        }
+
+<span class="fc" id="L142">        return predicates.toArray(new Predicate[]{});</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>
