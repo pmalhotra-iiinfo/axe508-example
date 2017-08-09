@@ -69,22 +69,22 @@
 
                 <div class="pure-u-sm-1-2 pure-u-1 from-field">
                     <label>From Date </label>
-                    <input tt-date-picker name="fromDate" ng-model="vm.fromDate" id="from-date">
+                    <input tt-date-picker name="fromDate" placeholder="YYYY/MM/DD" ng-model="vm.fromDate" id="from-date">
                 </div>
 
                 <div class="pure-u-sm-1-2 pure-u-1 to-field">
                     <label>To Date</label>
-                    <input tt-date-picker name="toDate" ng-model="vm.toDate" id="to-date">
+                    <input tt-date-picker name="toDate" placeholder="YYYY/MM/DD" ng-model="vm.toDate" id="to-date">
                 </div>
 
                 <div class="pure-u-sm-1-2 pure-u-1 from-field from-to-time">
                     <label>From Time</label>
-                    <input tt-time-picker name="fromTime" ng-model="vm.fromTime" id="from-time">
+                    <input tt-time-picker name="fromTime" placeholder="mm:ss" ng-model="vm.fromTime" id="from-time">
                 </div>
 
                 <div class="pure-u-sm-1-2 pure-u-1 to-field from-to-time">
                     <label>To Time</label>
-                    <input tt-time-picker name="toTime" ng-model="vm.toTime" id="to-time">
+                    <input tt-time-picker name="toTime" placeholder="mm:ss" ng-model="vm.toTime" id="to-time">
                 </div>
 
                 <div class="pure-u-1 search">
@@ -127,7 +127,7 @@
 
                     <td tt-editable-cell value="meal.datetime" is-new="meal.new">
                         <input tt-date-time-picker tt-cell-field type="text"
-                               ng-model="meal.datetime">
+                               placeholder="YYYY/MM/DD mm:ss" ng-model="meal.datetime">
                     </td>
 
                     <td tt-editable-cell value="meal.description" is-new="meal.new">
