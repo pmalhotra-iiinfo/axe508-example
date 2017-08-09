@@ -113,7 +113,8 @@
                     <th>Date/Time</th>
                     <th>Meal Type</th>
                     <th>Description</th>
-                     <th>Calories per servings</th>
+                     <th>Servings</th>
+                     <th>Calories per serving</th>
                     <th>Total</th>
                 </tr>
 
@@ -135,8 +136,7 @@
                     </td>
 					<td tt-editable-cell value="meal.type.description" is-new="meal.new">
               		
-              		<select tt-cell-field ng-model="mealselected"   
-              		 ng-options="mt as mt.description for mt in vm.type">
+              		<select class="mealType" tt-cell-field ng-model="mealselected" ng-options="mt as mt.description for mt in vm.type">
               		
               		
                     </td>
@@ -145,10 +145,13 @@
                         <input type="text" tt-cell-field ng-model="meal.description">
                     </td>
 					<td tt-editable-cell value="meal.servings" is-new="meal.new">
-                        <input type="text" tt-cell-field ng-model="meal.servings">
+                        <input class="mealServings" type="text" tt-cell-field ng-model="meal.servings">
                     </td>
                     <td tt-editable-cell value="meal.calories" is-new="meal.new">
                         <input type="text" tt-cell-field tt-numeric-field ng-model="meal.calories">
+                    </td>
+                     <td tt-editable-cell value="meal.total" is-new="meal.new">
+                        <input class="mealTotal" type="text" tt-cell-field tt-numeric-field ng-model="meal.total">
                     </td>
 
                 </tr>

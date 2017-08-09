@@ -1,4 +1,4 @@
-angular.module('caloriesCounterApp', ['editableTableWidgets', 'frontendServices', 'spring-security-csrf-token-interceptor'])
+angular.module('caloriesCounterApp', ['editableTableWidgets','frontendServices', 'spring-security-csrf-token-interceptor'])
     .filter('excludeDeleted', function () {
         return function (input) {
             return _.filter(input, function (item) {
@@ -6,9 +6,9 @@ angular.module('caloriesCounterApp', ['editableTableWidgets', 'frontendServices'
             });
         }
     })
-    .controller('CaloriesTrackerCtrl', ['$scope' , 'MealService', 'UserService', '$timeout',
-        function ($scope, MealService, UserService, $timeout) {
-
+    .controller('CaloriesTrackerCtrl', ['$scope' ,'$http',  'MealService', 'UserService', '$timeout',
+        function ($scope,$http,  MealService, UserService, $timeout) {
+    	$scope.meal=[];
             $scope.vm = {
                 maxCaloriesPerDay: 2000,
                 currentPage: 1,
@@ -20,6 +20,9 @@ angular.module('caloriesCounterApp', ['editableTableWidgets', 'frontendServices'
                 infoMessages: []
             };
 
+           
+            
+            
             updateUserInfo();
             loadMealData(null, null, null, null, 1);
 
@@ -48,6 +51,20 @@ angular.module('caloriesCounterApp', ['editableTableWidgets', 'frontendServices'
                 }
             }
 
+            $scope.getTypeOfMeal=function(){
+          	  $http.get('/meal/type')
+                .then(function (response) {
+                    if (response.status == 200) {
+                  	  $scope.vm.type=response.data;
+                    }
+                    else {
+                       console.log('Error retrieving list of meal type');
+                    }
+                });
+          }
+          $scope.getTypeOfMeal();
+            
+            
             function loadMealData(fromDate, fromTime, toDate, toTime, pageNumber) {
                 MealService.searchMeals(fromDate, fromTime, toDate, toTime, pageNumber)
                     .then(function (data) {
@@ -66,7 +83,17 @@ angular.module('caloriesCounterApp', ['editableTableWidgets', 'frontendServices'
                         _.each($scope.vm.meals, function (meal) {
                             meal.selected = false;
                         });
-
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        for(var i=0;i<$scope.vm.meals.length;i++){
+                    		
+                    		$scope.vm.meals[i].total=$scope.vm.meals[i].servings*$scope.vm.meals[i].calories;
+                    	}
                         markAppAsInitialized();
 
                         if ($scope.vm.meals && $scope.vm.meals.length == 0) {
@@ -183,7 +210,9 @@ angular.module('caloriesCounterApp', ['editableTableWidgets', 'frontendServices'
                 $scope.vm.meals.unshift({
                     id: null,
                     datetime: null,
+                    type:[],
                     description: null,
+                    servings:null,
                     calories: null,
                     selected: false,
                     new: true
@@ -242,18 +271,31 @@ angular.module('caloriesCounterApp', ['editableTableWidgets', 'frontendServices'
                     })
                     .map(function (meal) {
                         return {
-                            id: meal.id,
-                            date: meal.date,
-                            time: meal.time,
-                            description: meal.description,
-                            calories: meal.calories,
-                            version: meal.version
+                        	 id: meal.id,
+                             date: meal.date,                            
+                             time: meal.time,
+                             type:meal.type,
+                             description: meal.description,
+                             servings:meal.servings,
+                             calories: meal.calories,
+                             version: meal.version
                         }
                     })
                     .value();
             }
 
             $scope.save = function () {
+            	for(var i=0;i<$scope.vm.meals.length;i++){
+            		$scope.vm.meals[i].servings=parseInt($scope.vm.meals[i].servings);
+            		if($scope.vm.meals[i].type.id!=undefined){
+                		$scope.vm.meals[i].type=$scope.vm.meals[i].type;
+                		}
+            		else{
+            		$scope.vm.meals[i].type=$scope.vm.type[$scope.vm.meals[i].type.description];
+            		}
+            		
+            		$scope.vm.meals[i].total=$scope.vm.meals[i].servings*$scope.vm.meals[i].calories;
+            	}
 
                 var maybeDirty = prepareMealsDto(getNotNew($scope.vm.meals));
 
@@ -270,8 +312,8 @@ angular.module('caloriesCounterApp', ['editableTableWidgets', 'frontendServices'
                     }
 
                     return originalMeal && ( originalMeal.date != meal.date ||
-                        originalMeal.time != meal.time || originalMeal.description != meal.description ||
-                        originalMeal.calories != meal.calories)
+                            originalMeal.time != meal.time || originalMeal.type != meal.type || originalMeal.description != meal.description || originalMeal.servings != meal.servings ||
+                            originalMeal.calories != meal.calories)
                 });
 
                 var newItems = _.filter($scope.vm.meals, function (meal) {
