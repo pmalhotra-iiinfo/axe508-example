@@ -106,18 +106,22 @@
                 </button>
             </div>
 
-            <table class="pure-table">
+           <table class="pure-table">
                 <thead>
-                <tr>
+                 <tr>
                     <th class="selection-column"></th>
                     <th>Date/Time</th>
+                    <th>Meal Type</th>
                     <th>Description</th>
-                    <th>Total Calories</th>
+                     <th>Calories per servings</th>
+                    <th>Total</th>
                 </tr>
+
                 </thead>
 
                 <tbody>
 
+                
                 <tr ng-repeat="meal in vm.meals | excludeDeleted | limitTo : 10" tt-editable-row rowValue="meal"
                     ng-class="{'pure-table-odd': $index % 2 == 1, 'pure-table-even': $index % 2 == 0}">
 
@@ -127,18 +131,28 @@
 
                     <td tt-editable-cell value="meal.datetime" is-new="meal.new">
                         <input tt-date-time-picker tt-cell-field type="text"
-                               placeholder="YYYY/MM/DD mm:ss" ng-model="meal.datetime">
+                               ng-model="meal.datetime">
                     </td>
-
+					<td tt-editable-cell value="meal.type.description" is-new="meal.new">
+              		
+              		<select tt-cell-field ng-model="mealselected"   
+              		 ng-options="mt as mt.description for mt in vm.type">
+              		
+              		
+                    </td>
+                    
                     <td tt-editable-cell value="meal.description" is-new="meal.new">
                         <input type="text" tt-cell-field ng-model="meal.description">
                     </td>
-
+					<td tt-editable-cell value="meal.servings" is-new="meal.new">
+                        <input type="text" tt-cell-field ng-model="meal.servings">
+                    </td>
                     <td tt-editable-cell value="meal.calories" is-new="meal.new">
                         <input type="text" tt-cell-field tt-numeric-field ng-model="meal.calories">
                     </td>
 
                 </tr>
+
 
                 </tbody>
             </table>
