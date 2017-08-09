@@ -180,9 +180,10 @@ angular.module('caloriesCounterApp', ['editableTableWidgets', 'frontendServices'
             };
 
             $scope.add = function () {
+                rightNow = new Date();
                 $scope.vm.meals.unshift({
                     id: null,
-                    datetime: null,
+                    datetime: rightNow.getFullYear() + '/' + rightNow.getMonth() + '/' + rightNow.getDate() + ' ' + rightNow.getHours() + ':' + rightNow.getMinutes(),
                     description: null,
                     calories: null,
                     selected: false,
