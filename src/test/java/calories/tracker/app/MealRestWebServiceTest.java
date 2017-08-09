@@ -61,7 +61,7 @@ public class MealRestWebServiceTest {
     public void testSaveMeals() throws Exception {
         mockMvc.perform(post("/meal")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content("[{\"id\":\"1\", \"date\": \"2015/01/01\",\"time\": \"11:00\", \"calories\":\"100\", \"description\": \"test\" }]")
+                .content("[{\"id\":\"1\", \"date\": \"2015/01/01\",\"time\": \"11:00\", \"calories\":\"100\", \"description\": \"test\", \"servings\":\"1\",\"type\": {\"id\":2,\"version\":0,\"uuid\":\"b7c6594f-6f2d-466e-839b-d8b13b6ba454\",\"uuidStr\":\"b7c6594f-6f2d-466e-839b-d8b13b6ba454\",\"description\":\"Breakfast\"}}]")
                 .accept(MediaType.APPLICATION_JSON)
                 .principal(new PrincipalImpl(UserServiceTest.USERNAME)))
                 .andDo(print())
