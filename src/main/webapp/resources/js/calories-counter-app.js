@@ -281,7 +281,7 @@ angular.module('caloriesCounterApp', ['editableTableWidgets','frontendServices',
                              version: meal.version
                         }
                     })
-                    .value();
+                    .value(); 
             }
 
             $scope.save = function () {
