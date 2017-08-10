@@ -265,7 +265,7 @@ a.logout:hover {
 }
 
 .pure-skin-theme .pure-form.search-form input {
-    max-width: 153px;
+    /*max-width: 153px;*/
     max-height: 29px;
     font-size: 90%;
 }
