@@ -3,7 +3,7 @@
 angular.module('frontendServices', [])
     .service('MealService', ['$http', '$q', function($http, $q) {
         return {
-            searchMeals: function(fromDate, fromTime, toDate, toTime, pageNumber) {
+            searchMeals: function(fromDate, fromTime, toDate, toTime, description, pageNumber) {
                 var deferred = $q.defer();
 
                 function prepareTime(time) {
@@ -16,6 +16,7 @@ angular.module('frontendServices', [])
                         toDate: toDate,
                         fromTime: prepareTime(fromTime),
                         toTime: prepareTime(toTime),
+                        description: description,
                         pageNumber: pageNumber
                     }
                 })

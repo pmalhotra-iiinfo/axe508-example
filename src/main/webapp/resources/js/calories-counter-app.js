@@ -21,7 +21,7 @@ angular.module('caloriesCounterApp', ['editableTableWidgets', 'frontendServices'
             };
 
             updateUserInfo();
-            loadMealData(null, null, null, null, 1);
+            loadMealData(null, null, null, null, null, 1);
 
 
             function showErrorMessage(errorMessage) {
@@ -48,8 +48,8 @@ angular.module('caloriesCounterApp', ['editableTableWidgets', 'frontendServices'
                 }
             }
 
-            function loadMealData(fromDate, fromTime, toDate, toTime, pageNumber) {
-                MealService.searchMeals(fromDate, fromTime, toDate, toTime, pageNumber)
+            function loadMealData(fromDate, fromTime, toDate, toTime, description, pageNumber) {
+                MealService.searchMeals(fromDate, fromTime, toDate, toTime, description, pageNumber)
                     .then(function (data) {
 
                         $scope.vm.errorMessages = [];
@@ -129,7 +129,7 @@ angular.module('caloriesCounterApp', ['editableTableWidgets', 'frontendServices'
                 var fromDate = new Date($scope.vm.fromDate);
                 var toDate = new Date($scope.vm.toDate);
 
-                console.log('search from ' + $scope.vm.fromDate + ' ' + $scope.vm.fromTime + ' to ' + $scope.vm.toDate + ' ' + $scope.vm.toTime);
+                console.log('search from ' + $scope.vm.fromDate + ' ' + ' to ' + $scope.vm.toDate + ' ' + ' description: ' + $scope.vm.description);
 
                 var errorsFound = false;
 
@@ -151,7 +151,7 @@ angular.module('caloriesCounterApp', ['editableTableWidgets', 'frontendServices'
                 }
 
                 if (!errorsFound) {
-                    loadMealData($scope.vm.fromDate, $scope.vm.fromTime, $scope.vm.toDate, $scope.vm.toTime, page == undefined ? 1 : page);
+                    loadMealData($scope.vm.fromDate, $scope.vm.fromTime, $scope.vm.toDate, $scope.vm.toTime, $scope.vm.description, page == undefined ? 1 : page);
                 }
 
             };
