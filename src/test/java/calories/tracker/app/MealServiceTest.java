@@ -38,35 +38,35 @@ public class MealServiceTest {
 
     @Test
     public void testFindMealsByDate() {
-        SearchResult<Meal> result = mealService.findMeals(UserServiceTest.USERNAME, date(2015, 1, 1), date(2015, 1, 2), null, null, 1);
+        SearchResult<Meal> result = mealService.findMeals(UserServiceTest.USERNAME, date(2015, 1, 1), date(2015, 1, 2), null, null, null,1);
         assertTrue("results not expected, total " + result.getResultsCount(), result.getResultsCount() == 4);
     }
 
     @Test
     public void testFindMealsByDateTime() {
         SearchResult<Meal> result = mealService.findMeals(UserServiceTest.USERNAME, date(2015, 1, 1), date(2015, 1, 2),
-                time("11:00"), time("14:00"), 1);
+                time("11:00"), time("14:00"), null,1);
         assertTrue("results not expected, total " + result.getResultsCount(), result.getResultsCount() == 2);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void fromDateAfterToDate() {
-        mealService.findMeals(UserServiceTest.USERNAME, date(2015, 1, 2), date(2015, 1, 1), null, null, 1);
+        mealService.findMeals(UserServiceTest.USERNAME, date(2015, 1, 2), date(2015, 1, 1), null, null,null, 1);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void fromTimeAfterToTime() {
-        mealService.findMeals(UserServiceTest.USERNAME, date(2015, 1, 2), date(2015, 1, 1), time("12:00"), time("11:00"), 1);
+        mealService.findMeals(UserServiceTest.USERNAME, date(2015, 1, 2), date(2015, 1, 1), time("12:00"), time("11:00"),null, 1);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void fromDateNull() {
-        mealService.findMeals(UserServiceTest.USERNAME, null, date(2015, 1, 1), time("12:00"), time("11:00"), 1);
+        mealService.findMeals(UserServiceTest.USERNAME, null, date(2015, 1, 1), time("12:00"), time("11:00"),null, 1);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void toDateNull() {
-        mealService.findMeals(UserServiceTest.USERNAME, date(2015, 1, 1), null, time("12:00"), time("11:00"), 1);
+        mealService.findMeals(UserServiceTest.USERNAME, date(2015, 1, 1), null, time("12:00"), time("11:00"),null, 1);
     }
 
     @Test
@@ -104,6 +104,13 @@ public class MealServiceTest {
     @Test(expected = IllegalArgumentException.class)
     public void saveMealWithDuplicateDescription() {
         Meal m = mealService.saveMeal(UserServiceTest.USERNAME, null, new Date(), null, "Pizza", 200L);
+    }
+    @Test
+    public void testFindMealsByDescription() {
+    	SearchResult<Meal> result = mealService.findMeals(UserServiceTest.USERNAME, date(2015, 1, 1), date(2015, 1, 8),
+                time("11:00"), time("14:00"), "Chicken",1);
+    	System.out.println("Victoryyyyyyyyyyyy"+ result.getResultsCount());
+        //assertTrue("results not expected, total " + result.getResultsCount(), result.getResultsCount() == 3);
     }
 
 }
