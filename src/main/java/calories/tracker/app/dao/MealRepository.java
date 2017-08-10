@@ -138,11 +138,11 @@ public class MealRepository {
        
 
         predicates.add(cb.equal(user.<String>get("username"), username));
-/*        predicates.add(cb.greaterThanOrEqualTo(searchRoot.<Date>get("date"), fromDate));
+        predicates.add(cb.greaterThanOrEqualTo(searchRoot.<Date>get("date"), fromDate));
 
         if (toDate != null) {
             predicates.add(cb.lessThanOrEqualTo(searchRoot.<Date>get("date"), toDate));
-        }*/
+        }
 
 /*        if (fromTime != null) {
             predicates.add(cb.greaterThanOrEqualTo(searchRoot.<Date>get("time"), fromTime));
@@ -153,7 +153,7 @@ public class MealRepository {
         }*/
         
         if(StringUtils.isNotEmpty(description)) {
-        	predicates.add(cb.like(searchRoot.<String>get("description"), description));
+        	predicates.add(cb.like(cb.lower(searchRoot.<String>get("description")), "%"+description.toLowerCase()+"%"));
         }
 
         return predicates.toArray(new Predicate[]{});
