@@ -3,13 +3,6 @@ Feature: Search
 	I want to search my meal entries
 	so that I can better understand my eating habits
 
-@wip
-Scenario: Default search - no date or time specified, should return last three days
-Given I am on the user page
-And there is no data from last three days
-When I do not specify a date-time period to search
-Then I receive a message "No records found"
-
 @smoke
 Scenario: Today search
 Given I am on the user page
@@ -23,33 +16,35 @@ When I specify a date period to search
 Then all existing records are returned
 
 @wip
-Scenario: Date-time search
+Scenario: Search by meal description, no date specified
 Given I am on the user page
-When I specify a date-time period to search
-Then all existing records are returned
+When I search for a specific meal description
+And I do not specify a date period to search
+Then the last three days of records are displayed
 
 @wip
-Scenario: Time search
+Scenario: Search by meal description, date specified
 Given I am on the user page
-When I specify a time period to search
+When I search for a specific meal description
+And I specify a date period to search
 Then all existing records are returned
 
 @wip @negative
 Scenario: Default search - start date larger than end date
 Given I am on the user page
-When I specify a date-time period to search
+When I specify a date period to search
 Then I receive a message "From date cannot be larger than to date"
 
 @wip @negative
 Scenario: Default search - start date but no end date
 Given I am on the user page
-When I specify a date-time period to search
+When I specify a date period to search
 Then I receive a message "Both from and to dates are needed"
 
 @wip @negative
 Scenario: Default search - end date but no start date
 Given I am on the user page
-When I specify a date-time period to search
+When I specify a date period to search
 Then I receive a message "Both from and to dates are needed"
 
 
