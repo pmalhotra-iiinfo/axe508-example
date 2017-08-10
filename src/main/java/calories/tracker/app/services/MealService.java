@@ -50,7 +50,7 @@ public class MealService {
      * @return - the found results
      */
     @Transactional(readOnly = true)
-    public SearchResult<Meal> findMeals(String username, Date fromDate, Date toDate, Time fromTime, Time toTime, int pageNumber) {
+    public SearchResult<Meal> findMeals(String username, Date fromDate, Date toDate, Time fromTime, Time toTime, String description, int pageNumber) {
 
         if (fromDate == null || toDate == null) {
             throw new IllegalArgumentException("Both the from and to date are needed.");
@@ -63,10 +63,14 @@ public class MealService {
         if (fromDate.equals(toDate) && fromTime != null && toTime != null && fromTime.after(toTime)) {
             throw new IllegalArgumentException("On searches on the same day, from time cannot be after to time.");
         }
+        
+/*        if(description==null||description.isEmpty()) {
+        	throw new IllegalArgumentException("Description is needed");
+        }*/
 
-        Long resultsCount = mealRepository.countMealsByDateTime(username, fromDate, toDate, fromTime, toTime);
+        Long resultsCount = mealRepository.countMealsByDateTime(username, fromDate, toDate, fromTime, toTime,description);
 
-        List<Meal> meals = mealRepository.findMealsByDateTime(username, fromDate, toDate, fromTime, toTime, pageNumber);
+        List<Meal> meals = mealRepository.findMealsByDateTime(username, fromDate, toDate, fromTime, toTime,description, pageNumber);
 
         return new SearchResult<>(resultsCount, meals);
     }
@@ -107,7 +111,7 @@ public class MealService {
 
         Date theDate = new Date(date.getYear(), date.getMonth(), date.getDate()+1);
 
-        List<Meal> meals = mealRepository.findMealsByDateTime(username, theDate, theDate, null, null, 1);
+        List<Meal> meals = mealRepository.findMealsByDateTime(username, theDate, theDate, null, null,null, 1);
         for (Meal meal : meals) {
             if (!meal.getId().equals(id)) {
                 assertNotEquals(meal.getDescription(), description, "Meal duplicate");

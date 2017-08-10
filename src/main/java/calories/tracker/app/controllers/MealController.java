@@ -58,6 +58,7 @@ public class MealController {
             @RequestParam(value = "toDate", required = false) @DateTimeFormat(pattern = "yyyy/MM/dd") Date toDate,
             @RequestParam(value = "fromTime", required = false) @DateTimeFormat(pattern = "yyyy/MM/dd HH:mm") Date fromTime,
             @RequestParam(value = "toTime", required = false) @DateTimeFormat(pattern = "yyyy/MM/dd HH:mm") Date toTime,
+            @RequestParam(value = "description", required = false) String description,
             @RequestParam(value = "pageNumber") Integer pageNumber) {
 
         if (fromDate == null && toDate == null) {
@@ -71,6 +72,7 @@ public class MealController {
                 toDate,
                 fromTime != null ? new Time(fromTime.getTime()) : null,
                 toTime != null ? new Time(toTime.getTime()) : null,
+                description,		
                 pageNumber);
 
         Long resultsCount = result.getResultsCount();
