@@ -59,10 +59,15 @@ public class MealController {
             @RequestParam(value = "fromTime", required = false) @DateTimeFormat(pattern = "yyyy/MM/dd HH:mm") Date fromTime,
             @RequestParam(value = "toTime", required = false) @DateTimeFormat(pattern = "yyyy/MM/dd HH:mm") Date toTime,
             @RequestParam(value = "description", required = false) String description,
-            @RequestParam(value = "pageNumber") Integer pageNumber) {
+            @RequestParam(value = "pageNumber") Integer pageNumber,
+            @RequestParam(value = "fullSearch") Integer fullSearch) {
 
-        if (fromDate == null && toDate == null) {
+//        if (fromDate == null && toDate == null) {
+        if(fullSearch == 0) {
             fromDate = new Date(System.currentTimeMillis() - (3 * DAY_IN_MS));
+            toDate = new Date();
+        } else  {
+            fromDate = new Date(0);
             toDate = new Date();
         }
 
