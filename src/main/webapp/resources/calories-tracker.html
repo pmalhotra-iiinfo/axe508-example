@@ -77,17 +77,13 @@
                     <input tt-date-picker name="toDate" placeholder="YYYY/MM/DD" ng-model="vm.toDate" id="to-date">
                 </div>
 
-                <div class="pure-u-sm-1-2 pure-u-1 from-field from-to-time">
-                    <label>From Time</label>
-                    <input tt-time-picker name="fromTime" placeholder="mm:ss" ng-model="vm.fromTime" id="from-time">
+                <div class="pure-u-lg-1 pure-u-1">
+                    <label>Description</label>
+                    <input name="search-description" size="50" ng-model="vm.description" id="search-description">
                 </div>
 
-                <div class="pure-u-sm-1-2 pure-u-1 to-field from-to-time">
-                    <label>To Time</label>
-                    <input tt-time-picker name="toTime" placeholder="mm:ss" ng-model="vm.toTime" id="to-time">
-                </div>
 
-                <div class="pure-u-1 search">
+                <div class="pure-u-lg-1-2 pure-u-1 search" style="vertical-align: bottom">
                     <button type="submit" ng-click="search()"
                             class="pure-button pure-button-primary search-button">Search
                     </button>
