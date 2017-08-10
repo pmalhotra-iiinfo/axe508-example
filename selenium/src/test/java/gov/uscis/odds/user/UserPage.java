@@ -31,6 +31,7 @@ public class UserPage extends Page {
 	private By fromDateInput = By.cssSelector("[name='fromDate']");
 	private By toDateInput = By.cssSelector("[name='toDate']");
 	private By addButton = By.xpath("//button[contains(text(),'Add')]");
+	private By searchDescription = By.id("search-description");
 	
 	public UserPage(WebDriver driver) {
 		super(driver);
@@ -97,27 +98,40 @@ public class UserPage extends Page {
 		String startDate = searchObject.get("startDate").getAsString().isEmpty() ? today.format(dtf) : searchObject.get("startDate").getAsString();
 		String endDate = searchObject.get("endDate").getAsString().isEmpty() ? today.format(dtf) : searchObject.get("endDate").getAsString();
 		
+		String description = "";
+		if (searchObject.has("description")) {
+			description = searchObject.get("description").getAsString();
+		}
+		
+		new NgWebDriver((JavascriptExecutor) driver).waitForAngularRequestsToFinish();
 		populateStartDate(startDate);
 		
 		new NgWebDriver((JavascriptExecutor) driver).waitForAngularRequestsToFinish();
-		
 		populateEndDate(endDate);
 		
 		new NgWebDriver((JavascriptExecutor) driver).waitForAngularRequestsToFinish();
+		populateDescription(description);
 		
+		new NgWebDriver((JavascriptExecutor) driver).waitForAngularRequestsToFinish();
 		ActionByLocator.click(driver, By.cssSelector("[class*='search-button']"), TIME_OUT_SECONDS);
 	}
 
-	private void populateStartDate(String dateString) {
+	public void populateStartDate(String dateString) {
 		ActionByLocator.clear(driver, fromDateInput, TIME_OUT_SECONDS);
 		ActionByLocator.sendKeys(driver, fromDateInput, dateString, TIME_OUT_SECONDS);
 		ActionByLocator.click(driver, fromDateInput, TIME_OUT_SECONDS);
 	}
 	
-	private void populateEndDate(String dateString) {
+	public void populateEndDate(String dateString) {
 		ActionByLocator.clear(driver, toDateInput, TIME_OUT_SECONDS);
 		ActionByLocator.sendKeys(driver, toDateInput, dateString, TIME_OUT_SECONDS);
 		ActionByLocator.click(driver, toDateInput, TIME_OUT_SECONDS);
+	}
+	
+	public void populateDescription(String description) {
+		ActionByLocator.clear(driver, searchDescription, TIME_OUT_SECONDS);
+		ActionByLocator.sendKeys(driver, searchDescription, description, TIME_OUT_SECONDS);
+		ActionByLocator.click(driver, searchDescription, TIME_OUT_SECONDS);
 	}
 
 	public int getSearchResultCount(int expectedCount) {

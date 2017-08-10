@@ -70,5 +70,31 @@
 			}
 		],
 		"message": "Changes saved successfully"
+	},
+	"Search by meal description, no date specified": {
+		"signIn": {
+			"username": "test123",
+			"password": "Password2"
+		},
+		"search": {
+				"startDate": "",
+				"endDate": "",
+				"calories": "150",
+				"description": "superchiafood",
+				"count": 2
+		}
+	},
+	"Search by meal description, date specified": {
+		"signIn": {
+			"username": "test123",
+			"password": "Password2"
+		},
+		"search": {
+			"startDate": "2015/01/08",
+			"endDate": "2015/01/08",
+			"calories": "150",
+			"description": "superchiafood",
+			"count": 2
+		}
 	}
 }

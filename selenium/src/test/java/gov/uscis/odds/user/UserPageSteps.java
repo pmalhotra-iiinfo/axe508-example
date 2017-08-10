@@ -155,4 +155,29 @@ public class UserPageSteps extends Steps {
 		String dateTime = userPage.getDateTimeForEntry();
 		Assert.assertTrue("Date in the first row is not today", dateTime.contains(today.format(dtf)));
 	}
+	
+	@When("^I search for a specific meal description with no dates$")
+	public void i_search_for_a_specific_meal_description_with_no_dates() {
+		init();
+		JsonObject searchObj = executionContext.getCurrentScenarioObj().get("search").getAsJsonObject(); 
+		userPage.searchFor(searchObj);
+	}
+	
+	@When("^I search for a specific meal description with dates$")
+	public void i_search_for_a_specific_meal_description_with_dates() {
+		// Use the same method as "with" dates but making sure
+		// data is updated
+		i_search_for_a_specific_meal_description_with_no_dates();
+	}
+	
+	@When("^I do not specify a date period to search$")
+	public void i_do_not_specify_a_date_period_to_search() throws Throwable {
+	    // Write code here that turns the phrase above into concrete actions
+	    throw new PendingException();
+	}
+
+	@Then("^the last three days of records are displayed$")
+	public void the_last_three_days_of_records_are_displayed() throws Throwable {
+		all_existing_records_are_returned();
+	}
 }
