@@ -15,13 +15,13 @@ Given I am on the user page
 When I specify a date period to search
 Then all existing records are returned
 
-@testmenow
+@smoke
 Scenario: Search by meal description, no date specified
 Given I am on the user page
 When I search for a specific meal description with no dates
 Then the last three days of records are displayed
 
-@testmenow
+@smoke
 Scenario: Search by meal description, date specified
 Given I am on the user page
 When I search for a specific meal description with dates
