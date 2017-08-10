@@ -21,9 +21,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- *
- *  REST service for meals - allows to update, create and search for meals for the currently logged in user.
- *
+ * REST service for meals - allows to update, create and search for meals for the currently logged in user.
  */
 @Controller
 @RequestMapping("meal")
@@ -40,12 +38,11 @@ public class MealController {
     /**
      * search Meals for the current user by date and time ranges.
      *
-     *
      * @param principal  - the current logged in user
-     * @param fromDate - search from this date, including
-     * @param toDate - search until this date, including
-     * @param fromTime - search from this time, including
-     * @param toTime - search to this time, including
+     * @param fromDate   - search from this date, including
+     * @param toDate     - search until this date, including
+     * @param fromTime   - search from this time, including
+     * @param toTime     - search to this time, including
      * @param pageNumber - the page number (each page has 10 entries)
      * @return - @see MealsDTO with the current page, total pages and the list of meals
      */
@@ -63,12 +60,16 @@ public class MealController {
             @RequestParam(value = "fullSearch") Integer fullSearch) {
 
 //        if (fromDate == null && toDate == null) {
-        if(fullSearch == 0) {
-            fromDate = new Date(System.currentTimeMillis() - (3 * DAY_IN_MS));
-            toDate = new Date();
-        } else  {
-            fromDate = new Date(0);
-            toDate = new Date();
+        if (fullSearch == 0) {
+            if (fromDate == null && toDate == null) {
+                fromDate = new Date(System.currentTimeMillis() - (3 * DAY_IN_MS));
+                toDate = new Date();
+            }
+        } else {
+            if (fromDate == null && toDate == null) {
+                fromDate = new Date(0);
+                toDate = new Date();
+            }
         }
 
         SearchResult<Meal> result = mealService.findMeals(
@@ -77,7 +78,7 @@ public class MealController {
                 toDate,
                 fromTime != null ? new Time(fromTime.getTime()) : null,
                 toTime != null ? new Time(toTime.getTime()) : null,
-                description,		
+                description,
                 pageNumber);
 
         Long resultsCount = result.getResultsCount();
@@ -91,11 +92,10 @@ public class MealController {
     }
 
     /**
-     *
      * saves a list of meals - they be either new or existing
      *
      * @param principal - the current logged in user
-     * @param meals - the list of meals to save
+     * @param meals     - the list of meals to save
      * @return - an updated version of the saved meals
      */
     @ResponseBody
@@ -111,7 +111,6 @@ public class MealController {
     }
 
     /**
-     *
      * deletes a list of meals
      *
      * @param deletedMealIds - the ids of the meals to be deleted
@@ -124,7 +123,6 @@ public class MealController {
     }
 
     /**
-     *
      * error handler for backend errors - a 400 status code will be sent back, and the body
      * of the message contains the exception text.
      *

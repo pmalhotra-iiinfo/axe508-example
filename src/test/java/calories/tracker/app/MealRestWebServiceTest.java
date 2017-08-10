@@ -49,6 +49,7 @@ public class MealRestWebServiceTest {
                 .param("fromDate", "2015/01/01")
                 .param("toDate", "2015/01/02")
                 .param("pageNumber", "1")
+                .param("fullSearch", "0")
                 .accept(MediaType.APPLICATION_JSON)
                 .principal(new PrincipalImpl("test123")))
                 .andDo(print())
