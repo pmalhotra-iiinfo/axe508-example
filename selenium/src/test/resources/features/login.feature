@@ -9,6 +9,11 @@ Given I am on the login page
 Then the application purpose is clearly stated
 
 @smoke
+Scenario: Login page contains the welcome image
+Given I am on the login page
+Then the welcome image is displayed
+
+@smoke
 Scenario: Login with valid credentials
 Given I am on the login page
 When I use valid username and password

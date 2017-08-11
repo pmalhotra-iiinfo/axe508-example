@@ -1,4 +1,13 @@
 
+
+.welcome-img {
+    background: url('/resources/img/background.svg') no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
 header.page-header {
     background: #2d3e50;
     color: #eee;
