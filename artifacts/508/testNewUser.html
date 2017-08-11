@@ -1,0 +1,103 @@
+<div style='color:#0000FF'><b>Violation #1/4</b></div>
+Help: <html> element must have a valid lang attribute<br/>
+Description:  Ensures every HTML document has a lang attribute and its value is valid<br/>
+Overall impact:  serious<br/>
+<br/>
+<div style='color:red'><b>&nbsp;&nbsp;&nbsp;&nbsp;Error #1/1</b></div>
+&nbsp;&nbsp;&nbsp;&nbsp;HTML:  &lt;html&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;Impact:  serious<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Message:  The <html> element does not have a lang attribute<br/>
+<br/>
+<hr/>
+<div style='color:#0000FF'><b>Violation #2/4</b></div>
+Help: Images must have alternate text<br/>
+Description:  Ensures <img> elements have alternate text or a role of none or presentation<br/>
+Overall impact:  critical<br/>
+<br/>
+<div style='color:red'><b>&nbsp;&nbsp;&nbsp;&nbsp;Error #1/1</b></div>
+&nbsp;&nbsp;&nbsp;&nbsp;HTML:  &lt;img class="logo" src="/resources/img/logo.png"&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;Impact:  critical<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Message:  Element does not have an alt attribute<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;Impact:  critical<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Message:  aria-label attribute does not exist or is empty<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;Impact:  critical<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Message:  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty or not visible<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;Impact:  critical<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Message:  Element has no title attribute or the title attribute is empty<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;Impact:  moderate<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Message:  Element's default semantics were not overridden with role="presentation"<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;Impact:  moderate<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Message:  Element's default semantics were not overridden with role="none"<br/>
+<br/>
+<hr/>
+<div style='color:#0000FF'><b>Violation #3/4</b></div>
+Help: Form elements must have labels<br/>
+Description:  Ensures every form element has a label<br/>
+Overall impact:  critical<br/>
+<br/>
+<div style='color:red'><b>&nbsp;&nbsp;&nbsp;&nbsp;Error #1/4</b></div>
+&nbsp;&nbsp;&nbsp;&nbsp;HTML:  &lt;input type="text" ng-focus="focus('username')" ng-blur="blur('username')" ng-model="vm.username" name="username" class="pure-input-1 ng-pristine ng-untouched ng-invalid ng-invalid-required ng-valid-minlength" placeholder="Username" required="" ng-minlength="6"&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;Impact:  critical<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Message:  aria-label attribute does not exist or is empty<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;Impact:  critical<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Message:  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty or not visible<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;Impact:  critical<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Message:  Form element does not have an implicit (wrapped) <label><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;Impact:  critical<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Message:  Element has no title attribute or the title attribute is empty<br/>
+<br/>
+<div style='color:red'><b>&nbsp;&nbsp;&nbsp;&nbsp;Error #2/4</b></div>
+&nbsp;&nbsp;&nbsp;&nbsp;HTML:  &lt;input type="email" ng-focus="focus('email')" ng-blur="blur('email')" ng-model="vm.email" name="email" class="pure-input-1 ng-pristine ng-untouched ng-valid-email ng-invalid ng-invalid-required" placeholder="Email" required=""&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;Impact:  critical<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Message:  aria-label attribute does not exist or is empty<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;Impact:  critical<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Message:  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty or not visible<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;Impact:  critical<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Message:  Form element does not have an implicit (wrapped) <label><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;Impact:  critical<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Message:  Element has no title attribute or the title attribute is empty<br/>
+<br/>
+<div style='color:red'><b>&nbsp;&nbsp;&nbsp;&nbsp;Error #3/4</b></div>
+&nbsp;&nbsp;&nbsp;&nbsp;HTML:  &lt;input type="password" ng-focus="focus('password')" ng-blur="blur('password')" ng-model="vm.password" name="password" class="pure-input-1 ng-pristine ng-untouched ng-invalid ng-invalid-required ng-valid-pattern ng-valid-minlength" placeholder="Password" required="" ng-minlength="6" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}"&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;Impact:  critical<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Message:  aria-label attribute does not exist or is empty<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;Impact:  critical<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Message:  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty or not visible<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;Impact:  critical<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Message:  Form element does not have an implicit (wrapped) <label><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;Impact:  critical<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Message:  Element has no title attribute or the title attribute is empty<br/>
+<br/>
+<div style='color:red'><b>&nbsp;&nbsp;&nbsp;&nbsp;Error #4/4</b></div>
+&nbsp;&nbsp;&nbsp;&nbsp;HTML:  &lt;input type="password" ng-focus="focus('confirmPassword')" ng-blur="blur('confirmPassword')" ng-model="vm.confirmPassword" name="confirmPassword" class="pure-input-1 ng-pristine ng-untouched ng-invalid ng-invalid-required ng-valid-pattern ng-valid-minlength ng-valid-check-passwords-match" placeholder="Confirm Password" required="" ng-minlength="6" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}" check-passwords-match=""&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;Impact:  critical<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Message:  aria-label attribute does not exist or is empty<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;Impact:  critical<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Message:  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty or not visible<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;Impact:  critical<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Message:  Form element does not have an implicit (wrapped) <label><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;Impact:  critical<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Message:  Element has no title attribute or the title attribute is empty<br/>
+<br/>
+<hr/>
+<div style='color:#0000FF'><b>Violation #4/4</b></div>
+Help: Links must have discernible text<br/>
+Description:  Ensures links have discernible text<br/>
+Overall impact:  critical<br/>
+<br/>
+<div style='color:red'><b>&nbsp;&nbsp;&nbsp;&nbsp;Error #1/1</b></div>
+&nbsp;&nbsp;&nbsp;&nbsp;HTML:  &lt;a class="pure-menu-heading" href="#"&gt;
+            &lt;img class="logo" src="/resources/img/logo.png"&gt;
+        &lt;/a&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;Impact:  critical<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Message:  Element does not have text that is visible to screen readers<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;Impact:  critical<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Message:  aria-label attribute does not exist or is empty<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;Impact:  critical<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Message:  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty or not visible<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;Impact:  moderate<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Message:  Element's default semantics were not overridden with role="presentation"<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;Impact:  moderate<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Message:  Element's default semantics were not overridden with role="none"<br/>
+<br/>
+<hr/>

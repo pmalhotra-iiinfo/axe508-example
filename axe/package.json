@@ -5,10 +5,10 @@
   "scripts": {
     "postinstall": "./node_modules/.bin/jasmine init",
     "testall": "./node_modules/.bin/jasmine spec/*.js && echo ok || echo not ok",
-	"test1": "./node_modules/.bin/jasmine spec/testLogin.js && echo ok || echo not ok",
-	"test2": "./node_modules/.bin/jasmine spec/testForgotPassword.js && echo ok || echo not ok",
-	"test3": "./node_modules/.bin/jasmine spec/testNewUser.js && echo ok || echo not ok",
-	"test4": "./node_modules/.bin/jasmine spec/testMain.js && echo ok || echo not ok"
+    "test1": "./node_modules/.bin/jasmine spec/testLogin.js && echo ok || echo not ok",
+    "test2": "./node_modules/.bin/jasmine spec/testForgotPassword.js && echo ok || echo not ok",
+    "test3": "./node_modules/.bin/jasmine spec/testNewUser.js && echo ok || echo not ok",
+    "test4": "./node_modules/.bin/jasmine spec/testMain.js && echo ok || echo not ok"
   },
   "author": {
     "name": "Miracle",

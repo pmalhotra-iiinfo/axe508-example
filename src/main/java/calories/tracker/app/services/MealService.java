@@ -68,7 +68,7 @@ public class MealService {
         	throw new IllegalArgumentException("Description is needed");
         }*/
 
-        Long resultsCount = mealRepository.countMealsByDateTime(username, fromDate, toDate, fromTime, toTime,description);
+        Long resultsCount = mealRepository.countMealsByDateTime(username, fromDate, toDate, fromTime, toTime, description);
 
         List<Meal> meals = mealRepository.findMealsByDateTime(username, fromDate, toDate, fromTime, toTime,description, pageNumber);
 
@@ -109,7 +109,7 @@ public class MealService {
         notNull(description, "description is mandatory");
         notNull(calories, "calories is mandatory");
 
-        Date theDate = new Date(date.getYear(), date.getMonth(), date.getDate());
+        Date theDate = new Date(date.getYear(), date.getMonth(), date.getDate() + 1);
 
         List<Meal> meals = mealRepository.findMealsByDateTime(username, theDate, theDate, null, null,null, 1);
         for (Meal meal : meals) {

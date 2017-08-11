@@ -1,0 +1,71 @@
+<div style='color:#0000FF'><b>Violation #1/4</b></div>
+Help: Elements must have sufficient color contrast<br/>
+Description:  Ensures the contrast between foreground and background colors meets WCAG 2 AA contrast ratio thresholds<br/>
+Overall impact:  critical<br/>
+<br/>
+<div style='color:red'><b>&nbsp;&nbsp;&nbsp;&nbsp;Error #1/1</b></div>
+&nbsp;&nbsp;&nbsp;&nbsp;HTML:  &lt;div ng-message="minlength" class="ng-scope"&gt;must have minimum 6 characters&lt;/div&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;Impact:  critical<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Message:  Element has insufficient color contrast of 4.23 (foreground color: #e9322d, background color: #ffffff, font size: 9.0pt, font weight: normal)<br/>
+<br/>
+<hr/>
+<div style='color:#0000FF'><b>Violation #2/4</b></div>
+Help: <html> element must have a valid lang attribute<br/>
+Description:  Ensures every HTML document has a lang attribute and its value is valid<br/>
+Overall impact:  serious<br/>
+<br/>
+<div style='color:red'><b>&nbsp;&nbsp;&nbsp;&nbsp;Error #1/1</b></div>
+&nbsp;&nbsp;&nbsp;&nbsp;HTML:  &lt;html&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;Impact:  serious<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Message:  The <html> element does not have a lang attribute<br/>
+<br/>
+<hr/>
+<div style='color:#0000FF'><b>Violation #3/4</b></div>
+Help: Images must have alternate text<br/>
+Description:  Ensures <img> elements have alternate text or a role of none or presentation<br/>
+Overall impact:  critical<br/>
+<br/>
+<div style='color:red'><b>&nbsp;&nbsp;&nbsp;&nbsp;Error #1/1</b></div>
+&nbsp;&nbsp;&nbsp;&nbsp;HTML:  &lt;img class="logo" src="/resources/img/logo.png"&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;Impact:  critical<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Message:  Element does not have an alt attribute<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;Impact:  critical<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Message:  aria-label attribute does not exist or is empty<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;Impact:  critical<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Message:  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty or not visible<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;Impact:  critical<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Message:  Element has no title attribute or the title attribute is empty<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;Impact:  moderate<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Message:  Element's default semantics were not overridden with role="presentation"<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;Impact:  moderate<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Message:  Element's default semantics were not overridden with role="none"<br/>
+<br/>
+<hr/>
+<div style='color:#0000FF'><b>Violation #4/4</b></div>
+Help: Form elements must have labels<br/>
+Description:  Ensures every form element has a label<br/>
+Overall impact:  critical<br/>
+<br/>
+<div style='color:red'><b>&nbsp;&nbsp;&nbsp;&nbsp;Error #1/2</b></div>
+&nbsp;&nbsp;&nbsp;&nbsp;HTML:  &lt;input type="text" ng-focus="focus('username')" ng-blur="blur('username')" ng-model="vm.username" name="username" class="pure-input-1 ng-invalid ng-dirty ng-valid-parse ng-valid-required ng-invalid-minlength ng-touched" placeholder="Username" required="" ng-minlength="6"&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;Impact:  critical<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Message:  aria-label attribute does not exist or is empty<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;Impact:  critical<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Message:  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty or not visible<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;Impact:  critical<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Message:  Form element does not have an implicit (wrapped) <label><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;Impact:  critical<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Message:  Element has no title attribute or the title attribute is empty<br/>
+<br/>
+<div style='color:red'><b>&nbsp;&nbsp;&nbsp;&nbsp;Error #2/2</b></div>
+&nbsp;&nbsp;&nbsp;&nbsp;HTML:  &lt;input type="password" ng-focus="focus('password')" ng-blur="blur('password')" ng-model="vm.password" name="password" class="pure-input-1 ng-dirty ng-valid-parse ng-valid-required ng-valid-minlength ng-valid ng-valid-pattern ng-touched" placeholder="Password" required="" ng-minlength="6" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}"&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;Impact:  critical<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Message:  aria-label attribute does not exist or is empty<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;Impact:  critical<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Message:  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty or not visible<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;Impact:  critical<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Message:  Form element does not have an implicit (wrapped) <label><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;Impact:  critical<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Message:  Element has no title attribute or the title attribute is empty<br/>
+<br/>
+<hr/>
