@@ -36,7 +36,8 @@
     <div class="pure-u-lg-1-2 pure-u-1 utilities">
         <div class="header-element">
             Max. calories
-            <input tabindex="10" class="max-cal" type="number" ng-model="vm.maxCaloriesPerDay"
+            <input class="max-cal" type="number" ng-model="vm.maxCaloriesPerDay"
+                   aria-label="Max Calories"
                    ng-model-options="{'updateOn':'blur'}" ng-blur="updateMaxCaloriesPerDay()">
         </div>
         <div class="header-element username">
@@ -69,17 +70,17 @@
 
                 <div class="pure-u-sm-1-2 pure-u-1 from-field">
                     <label>From Date </label>
-                    <input tt-date-picker name="fromDate" placeholder="YYYY/MM/DD" ng-model="vm.fromDate" id="from-date">
+                    <input tt-date-picker name="fromDate" aria-label="Front Date Search" placeholder="YYYY/MM/DD" ng-model="vm.fromDate" id="from-date">
                 </div>
 
                 <div class="pure-u-sm-1-2 pure-u-1 to-field">
                     <label>To Date</label>
-                    <input tt-date-picker name="toDate" placeholder="YYYY/MM/DD" ng-model="vm.toDate" id="to-date">
+                    <input tt-date-picker name="toDate" aria-label="To Date Search" placeholder="YYYY/MM/DD" ng-model="vm.toDate" id="to-date">
                 </div>
 
                 <div class="pure-u-lg-1 pure-u-1">
                     <label>Description</label>
-                    <input name="search-description" size="52" ng-model="vm.description" id="search-description">
+                    <input name="search-description" aria-label="Description Search" size="52" ng-model="vm.description" id="search-description">
                 </div>
 
 
@@ -118,20 +119,21 @@
                     ng-class="{'pure-table-odd': $index % 2 == 1, 'pure-table-even': $index % 2 == 0}">
 
                     <td class="selection-column">
-                        <input type="checkbox" ng-model="meal.selected" ng-click="selectionChanged()">
+                        <input type="checkbox" aria-label="Select box" ng-model="meal.selected" ng-click="selectionChanged()">
                     </td>
 
                     <td tt-editable-cell value="meal.datetime" is-new="meal.new">
                         <input tt-date-time-picker tt-cell-field type="text"
+                               aria-label="Meal date time"
                                placeholder="YYYY/MM/DD mm:ss" ng-model="meal.datetime">
                     </td>
 
                     <td tt-editable-cell value="meal.description" is-new="meal.new">
-                        <input type="text" tt-cell-field ng-model="meal.description">
+                        <input type="text" aria-label="Meal Description" tt-cell-field ng-model="meal.description">
                     </td>
 
                     <td tt-editable-cell value="meal.calories" is-new="meal.new">
-                        <input type="text" tt-cell-field tt-numeric-field ng-model="meal.calories">
+                        <input type="text" aria-label="Meal Calories" tt-cell-field tt-numeric-field ng-model="meal.calories">
                     </td>
 
                 </tr>
