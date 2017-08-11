@@ -143,17 +143,17 @@
 
             <ul class="pure-paginator paginator">
                 <li>
-                    <a ng-enabled="vm.totalPages > 0" class="pure-button prev" ng-click="previous()"
+                    <a ng-enabled="vm.totalPages > 0" class="pure-button prev pagination" ng-click="previous()"
                        ng-disabled="vm.currentPage == 1">&#171;</a>
                 </li>
 
                 <li ng-repeat="page in pages()">
-                    <a ng-enabled="vm.totalPages > 0" class="pure-button" ng-click="goToPage($index + 1)"
+                    <a ng-enabled="vm.totalPages > 0" class="pure-button pagination" ng-click="goToPage($index + 1)"
                        ng-class="{'pure-button-active': page == vm.currentPage}">{{page}}</a></li>
 
                 <li>
                     <a ng-enabled="vm.totalPages > 0" ng-disabled="vm.currentPage == vm.totalPages"
-                       class="pure-button next" ng-click="next()">&#187;</a>
+                       class="pure-button next pagination" ng-click="next()">&#187;</a>
                 </li>
             </ul>
 
