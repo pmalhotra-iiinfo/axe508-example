@@ -1,4 +1,6 @@
-
+.pagination {
+    color: #000000;
+}
 
 .welcome-img {
     background: url('/resources/img/background.svg') no-repeat center center fixed;

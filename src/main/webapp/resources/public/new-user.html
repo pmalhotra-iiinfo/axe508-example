@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html>
-<head lang="en">
+<html lang="en">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Create User Calorie Tracker</title>
@@ -14,7 +14,7 @@
 <header class="page-header pure-g">
     <div class="pure-u-lg-1-2 pure-u-1">
         <a class="pure-menu-heading" href="#">
-            <img class="logo" src="/resources/img/logo.png">
+            <img class="logo" src="/resources/img/logo.png" alt="calories tracker logo">
         </a>
         <span class="header-element page-title">Calorie Tracker</span>
     </div>
@@ -31,7 +31,7 @@
                     <legend>New User?</legend>
                     <div class="form-field">
                         <input type="text" ng-focus="focus('username')" ng-blur="blur('username')" ng-model="vm.username"
-                               name="username" class="pure-input-1" placeholder="Username" required ng-minlength="6">
+                               name="username" aria-label="Username" class="pure-input-1" placeholder="Username" required ng-minlength="6">
 
                         <div class="error-messages" ng-show="isMessagesVisible('username')" ng-messages="form.username.$error"
                              ng-cloak>
@@ -41,7 +41,7 @@
                     </div>
                     <div class="form-field">
                         <input type="email" ng-focus="focus('email')" ng-blur="blur('email')" ng-model="vm.email"
-                               name="email" class="pure-input-1" placeholder="Email" required>
+                               name="email" aria-label="Email" class="pure-input-1" placeholder="Email" required>
 
                         <div class="error-messages" ng-show="isMessagesVisible('email')" ng-messages="form.email.$error"
                              ng-cloak>
@@ -51,7 +51,8 @@
                     </div>
                     <div class="form-field">
                         <input type="password" ng-focus="focus('password')" ng-blur="blur('password')"
-                               ng-model="vm.password" name="password" class="pure-input-1" placeholder="Password"
+                               ng-model="vm.password" name="password" class="pure-input-1"
+                               placeholder="Password" aria-label="Password"
                                required ng-minlength="6" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}">
 
                         <div class="error-messages" ng-show="isMessagesVisible('password')" ng-messages="form.password.$error"
@@ -64,6 +65,7 @@
                     <div class="last-form-field">
                         <input type="password" ng-focus="focus('confirmPassword')" ng-blur="blur('confirmPassword')"
                                ng-model="vm.confirmPassword" name="confirmPassword" class="pure-input-1"
+                               aria-label="Confirm password"
                                placeholder="Confirm Password" required ng-minlength="6"
                                pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}" check-passwords-match>
 
