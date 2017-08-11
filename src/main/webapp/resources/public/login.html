@@ -29,7 +29,7 @@
                     <legend>Log In</legend>
                     <div class="form-field">
                         <input type="text" ng-focus="focus('username')" ng-blur="blur('username')"
-                               ng-model="vm.username"
+                               ng-model="vm.username" aria-label="Username"
                                name="username" class="pure-input-1" placeholder="Username" required ng-minlength="6">
                         <div class="error-messages" ng-show="isMessagesVisible('username')"
                              ng-messages="form.username.$error" ng-cloak>
@@ -39,7 +39,7 @@
                     </div>
                     <div class="last-form-field">
                         <input type="password" ng-focus="focus('password')" ng-blur="blur('password')"
-                               ng-model="vm.password"
+                               ng-model="vm.password" aria-label="Password"
                                name="password" class="pure-input-1" placeholder="Password" required ng-minlength="6"
                                pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}">
                         <div class="error-messages" ng-show="isMessagesVisible('password')"
