@@ -56,7 +56,7 @@
 
     <div class="info-messages"
          ng-style="{'opacity': vm.infoMessages.length > 0 ? 1 : 0, 'z-index': vm.infoMessages.length > 0 ? 10 : -10}">
-    <img class="info-icon" src="/resources/img/info-icon.png">
+    <img class="info-icon" alt="Info" src="/resources/img/info-icon.png">
         <div class="messages-group">
             <div ng-repeat="info in vm.infoMessages">{{info.description}}</div>
         </div>
