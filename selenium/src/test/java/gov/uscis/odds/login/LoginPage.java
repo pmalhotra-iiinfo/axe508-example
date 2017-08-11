@@ -82,4 +82,10 @@ public class LoginPage extends Page {
 	private void waitForAngular() {
 		new NgWebDriver((JavascriptExecutor) driver).waitForAngularRequestsToFinish();
 	}
+
+	public boolean isImageDisplayed() {
+		new NgWebDriver((JavascriptExecutor) driver).waitForAngularRequestsToFinish();
+		String attr = ActionByLocator.getElement(driver, By.xpath("//body"), TIME_OUT_SECONDS).getAttribute("class");
+		return attr.contains("welcome-img");
+	}
 }
