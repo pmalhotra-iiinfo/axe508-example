@@ -96,11 +96,11 @@
         <div class="meals-list">
 
             <div class="table-buttons">
-                <button type="submit" class="pure-button" ng-click="add()">Add</button>
-                <button type="submit" class="pure-button" ng-click="delete()" ng-disabled="vm.isSelectionEmpty"
+                <button type="submit" id="add-button" class="pure-button" ng-click="add()">Add</button>
+                <button type="submit" id="delete-button" class="pure-button" ng-click="delete()" ng-disabled="vm.isSelectionEmpty"
                         disabled>Delete
                 </button>
-                <button type="submit" class="pure-button" ng-click="copy()" ng-disabled="vm.isSelectionEmpty"
+                <button type="submit" id="copy-button" class="pure-button" ng-click="copy()" ng-disabled="vm.isSelectionEmpty"
                         disabled>Copy
                 </button>
             </div>
