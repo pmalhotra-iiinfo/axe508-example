@@ -2,6 +2,7 @@ package gov.uscis.odds.user;
 
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 import gov.uscis.odds.util.Util;
@@ -171,13 +172,35 @@ public class UserPageSteps extends Steps {
 	}
 	
 	@When("^I do not specify a date period to search$")
-	public void i_do_not_specify_a_date_period_to_search() throws Throwable {
+	public void i_do_not_specify_a_date_period_to_search() {
 	    // Write code here that turns the phrase above into concrete actions
 	    throw new PendingException();
 	}
 
 	@Then("^the last three days of records are displayed$")
-	public void the_last_three_days_of_records_are_displayed() throws Throwable {
+	public void the_last_three_days_of_records_are_displayed() {
 		all_existing_records_are_returned();
+	}
+	
+	@When("^I copy a meal entry$")
+	public void i_copy_a_meal_entry() {
+		init();
+		userPage.copyMeal();
+	}
+
+	@Then("^the new meal entry shows current date-time$")
+	public void the_new_meal_entry_shows_current_date_time() {
+		init();
+		
+		LocalDateTime dateTime = LocalDateTime.now();
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/M/dd kk:mm");
+		
+		LocalDateTime newDateTime = LocalDateTime.parse(userPage.getDateTimeForEntry(), dtf);
+		Assert.assertTrue("Timestamp is not within one minute", (newDateTime.getMinute() - dateTime.getMinute()) < 1);
+	}
+	
+	@Then("^the description and calories are copied$")
+	public void the_description_and_calories_are_copied() {
+		throw new PendingException();
 	}
 }

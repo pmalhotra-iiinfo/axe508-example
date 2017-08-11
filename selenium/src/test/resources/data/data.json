@@ -4,7 +4,7 @@
 			"username": "test123",
 			"password": "Password2"
 		},
-		"todaysCalories": "500"
+		"todaysCalories": "650"
 	},
 	"Login with invalid username and password": {
 		"signIn": {
@@ -55,7 +55,7 @@
 			"endDate": "",
 			"startTime": "",
 			"endTime": "",
-			"count": 1
+			"count": 2
 		}
 	},
 	"Add meals, date-time for consecutive entries is today": {
@@ -95,6 +95,12 @@
 			"calories": "150",
 			"description": "Moules",
 			"count": 1
+		}
+	},
+	"Copy meals from previous entry": {
+		"signIn": {
+			"username": "test123",
+			"password": "Password2"
 		}
 	}
 }

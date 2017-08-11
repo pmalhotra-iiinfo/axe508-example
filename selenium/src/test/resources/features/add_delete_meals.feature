@@ -3,11 +3,18 @@ Feature: Add, delete meals
 	I want to add and delete meals
 	so that I can track my eating habits
 
-@wip
+@smoke
 Scenario: Add meals, date-time for consecutive entries is today
 Given I am on the user page
 When I add a meal entry
 Then consecutive meal entries show current date-time
+
+@smoke
+Scenario: Copy meals from previous entry
+Given I am on the user page
+When I copy a meal entry
+Then the new meal entry shows current date-time
+#And the description and calories are copied
 
 @wip
 Scenario: Add meal

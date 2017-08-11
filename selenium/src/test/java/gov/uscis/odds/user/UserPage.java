@@ -156,4 +156,11 @@ public class UserPage extends Page {
 		WebElement element = driver.findElement(By.xpath("//tr[@ng-repeat='meal in vm.meals | excludeDeleted | limitTo : 10'][1]/td[2]//input[1]"));
 		return element.getAttribute("value");
 	}
+
+	public void copyMeal() {
+		new NgWebDriver((JavascriptExecutor) driver).waitForAngularRequestsToFinish();
+		List<WebElement> elements = driver.findElements(ByAngular.withRootSelector("[ng-controller]").model("meal.selected"));
+		elements.get(0).click();
+		ActionByLocator.click(driver, By.id("copy-button"), TIME_OUT_SECONDS);
+	}
 }
