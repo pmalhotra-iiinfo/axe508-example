@@ -22,7 +22,7 @@ public class MealDTO {
 
     private Long id;
 
-    @JsonFormat(pattern = "yyyy/MM/dd", timezone = "America/NewYork")
+    @JsonFormat(pattern = "yyyy/MM/dd")
     private Date date;
 
     @JsonSerialize(using = CustomTimeSerializer.class)
