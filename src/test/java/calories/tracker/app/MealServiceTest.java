@@ -1,11 +1,18 @@
 package calories.tracker.app;
 
-import calories.tracker.app.dto.MealDTO;
-import calories.tracker.app.model.Meal;
-import calories.tracker.app.model.SearchResult;
-import calories.tracker.app.services.MealService;
-import calories.tracker.config.root.RootContextConfig;
-import calories.tracker.config.root.TestConfiguration;
+import static calories.tracker.app.TestUtils.date;
+import static calories.tracker.app.TestUtils.time;
+import static calories.tracker.app.dto.MealDTO.mapFromMealEntity;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,17 +20,12 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-
-import static calories.tracker.app.TestUtils.date;
-import static calories.tracker.app.TestUtils.time;
-import static calories.tracker.app.dto.MealDTO.mapFromMealEntity;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import calories.tracker.app.dto.MealDTO;
+import calories.tracker.app.model.Meal;
+import calories.tracker.app.model.SearchResult;
+import calories.tracker.app.services.MealService;
+import calories.tracker.config.root.RootContextConfig;
+import calories.tracker.config.root.TestConfiguration;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ActiveProfiles("test")
@@ -125,6 +127,7 @@ public class MealServiceTest {
     public void testFindMealsByDescriptionExactCase() {
     	SearchResult<Meal> result = mealService.findMeals(UserServiceTest.USERNAME, date(2017, 8, 11), date(2017, 8, 11),
                 time("11:00"), time("14:00"), "Pizza",1);
+
         assertTrue("results not expected, total " + result.getResultsCount(), result.getResultsCount() == 1);
     }
     
