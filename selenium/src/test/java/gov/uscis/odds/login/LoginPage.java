@@ -1,6 +1,7 @@
 package gov.uscis.odds.login;
 
 import gov.uscis.odds.util.LoadProperties;
+import gov.uscis.odds.util.Util;
 
 import org.junit.Assert;
 import org.openqa.selenium.By;
@@ -15,9 +16,9 @@ import com.paulhammant.ngwebdriver.NgWebDriver;
 public class LoginPage extends Page {
 	private static final int TIME_OUT_SECONDS = 5;
 	
-	By usernameInput = By.cssSelector("[name='username']");
-	By passwordInput = By.cssSelector("[name='password']");
-	By loginButton = By.cssSelector("[class*='pure-button-primary']");
+	private By usernameInput = By.cssSelector("[name='username']");
+	private By passwordInput = By.cssSelector("[name='password']");
+	private By loginButton = By.id("login");
 
 	public LoginPage(WebDriver driver) {
 		super(driver);
@@ -30,7 +31,7 @@ public class LoginPage extends Page {
 
 	@Override
 	protected void load() {
-		new NgWebDriver((JavascriptExecutor) driver).waitForAngularRequestsToFinish();
+		waitForAngular();
 		
 		if (ActionByLocator.isDisplayed(driver, By.cssSelector("[class='logout']"), TIME_OUT_SECONDS)) {
 			ActionByLocator.click(driver, By.cssSelector("[class='logout']"), TIME_OUT_SECONDS);
@@ -48,16 +49,15 @@ public class LoginPage extends Page {
 	}
 
 	public String getErrorMessage() {
-		new NgWebDriver((JavascriptExecutor) driver).waitForAngularRequestsToFinish();
+		waitForAngular();
 		return ActionByLocator.getText(driver, By.cssSelector("[ng-repeat*='errorMessages']"), TIME_OUT_SECONDS).trim();
 	}
 
 	private void loginWithRetry(String username, String password) {
 		sendLoginKeys(username, password);
 		
-		if (ActionByLocator.getText(driver, usernameInput, TIME_OUT_SECONDS).isEmpty()) {
-			ActionByLocator.clear(driver, usernameInput, TIME_OUT_SECONDS);
-			ActionByLocator.clear(driver, passwordInput, TIME_OUT_SECONDS);
+		if (ActionByLocator.getElement(driver, usernameInput, TIME_OUT_SECONDS).getAttribute("value").isEmpty()) {
+			Util.waitFor(5);
 			sendLoginKeys(username, password);
 		}
 		
@@ -65,13 +65,21 @@ public class LoginPage extends Page {
 	}
 
 	private void sendLoginKeys(String username, String password) {
-		new NgWebDriver((JavascriptExecutor) driver).waitForAngularRequestsToFinish();
+		waitForAngular();
+		ActionByLocator.clear(driver, usernameInput, TIME_OUT_SECONDS);
 		ActionByLocator.sendKeys(driver, usernameInput, username, TIME_OUT_SECONDS);
+		
+		waitForAngular();
+		ActionByLocator.clear(driver, passwordInput, TIME_OUT_SECONDS);
 		ActionByLocator.sendKeys(driver, passwordInput, password, TIME_OUT_SECONDS);
 	}
 
 	public String getWelcomeMessage() {
-		new NgWebDriver((JavascriptExecutor) driver).waitForAngularRequestsToFinish();
+		waitForAngular();
 		return ActionByLocator.getText(driver, By.className("welcome-message"), TIME_OUT_SECONDS).trim();
+	}
+	
+	private void waitForAngular() {
+		new NgWebDriver((JavascriptExecutor) driver).waitForAngularRequestsToFinish();
 	}
 }
