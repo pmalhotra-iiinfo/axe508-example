@@ -109,7 +109,7 @@ public class MealService {
         notNull(description, "description is mandatory");
         notNull(calories, "calories is mandatory");
 
-        Date theDate = new Date(date.getYear(), date.getMonth(), date.getDate()+1);
+        Date theDate = new Date(date.getYear(), date.getMonth(), date.getDate());
 
         List<Meal> meals = mealRepository.findMealsByDateTime(username, theDate, theDate, null, null,null, 1);
         for (Meal meal : meals) {
