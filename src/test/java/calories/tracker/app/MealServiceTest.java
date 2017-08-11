@@ -123,8 +123,8 @@ public class MealServiceTest {
     
     @Test
     public void testFindMealsByDescriptionExactCase() {
-    	SearchResult<Meal> result = mealService.findMeals(UserServiceTest.USERNAME, date(2015, 1, 1), date(2015, 1, 1),
-                time("11:00"), time("14:00"), "1 - Mitraillette",1);
+    	SearchResult<Meal> result = mealService.findMeals(UserServiceTest.USERNAME, date(2017, 8, 11), date(2017, 8, 11),
+                time("11:00"), time("14:00"), "Pizza",1);
         assertTrue("results not expected, total " + result.getResultsCount(), result.getResultsCount() == 1);
     }
     
