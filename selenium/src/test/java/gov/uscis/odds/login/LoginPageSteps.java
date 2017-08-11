@@ -46,4 +46,10 @@ public class LoginPageSteps extends Steps {
 		String welcomeMessage = executionContext.getCurrentScenarioObj().get("welcomeMessage").getAsString();
 		Assert.assertTrue("Welcome message is not as expected", loginPage.getWelcomeMessage().contains(welcomeMessage));
 	}
+	
+	@Then("^the welcome image is displayed$")
+	public void the_welcome_image_is_displayed() {
+		init();
+	    Assert.assertTrue("Image is not displayed", loginPage.isImageDisplayed());
+	}
 }
