@@ -18,7 +18,7 @@ public class LoginPage extends Page {
 	
 	private By usernameInput = By.cssSelector("[name='username']");
 	private By passwordInput = By.cssSelector("[name='password']");
-	private By loginButton = By.cssSelector("[class*='pure-button-primary']");
+	private By loginButton = By.id("login");
 
 	public LoginPage(WebDriver driver) {
 		super(driver);
