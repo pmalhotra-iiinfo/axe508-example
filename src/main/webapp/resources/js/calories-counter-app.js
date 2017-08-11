@@ -190,7 +190,32 @@ angular.module('caloriesCounterApp', ['editableTableWidgets', 'frontendServices'
                     new: true
                 });
             };
+            
+            $scope.copy = function () {
+                rightNow = new Date();
+                var selectedMeals = _.chain($scope.vm.meals)
+                .filter(function (meal) {
+                    return meal.selected;
+                })
+                .map(function (meal) {
+                    return meal;
+                })
+                .value();
+                
+                for(var meal in selectedMeals){
+                	 $scope.vm.meals.unshift({
+                         id: null,
+                         datetime: rightNow.getFullYear() + '/' + (rightNow.getMonth() + 1) + '/' + rightNow.getDate() + ' ' + rightNow.getHours() + ':' + rightNow.getMinutes(),
+                         description: selectedMeals[meal].description,
+                         calories: selectedMeals[meal].calories,
+                         selected: false,
+                         new: true
+                     });
+                 };
 
+                }
+                
+               
             $scope.delete = function () {
                 var deletedMealIds = _.chain($scope.vm.meals)
                     .filter(function (meal) {
