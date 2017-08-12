@@ -6,6 +6,7 @@ import static calories.tracker.app.dto.MealDTO.mapFromMealEntity;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -125,9 +126,9 @@ public class MealServiceTest {
     
     @Test
     public void testFindMealsByDescriptionExactCase() {
-    	SearchResult<Meal> result = mealService.findMeals(UserServiceTest.USERNAME, date(2017, 8, 11), date(2017, 8, 11),
+    	Date today = java.sql.Date.valueOf(LocalDate.now());
+    	SearchResult<Meal> result = mealService.findMeals(UserServiceTest.USERNAME, today, today,
                 time("11:00"), time("14:00"), "Pizza",1);
-
         assertTrue("results not expected, total " + result.getResultsCount(), result.getResultsCount() == 1);
     }
     
