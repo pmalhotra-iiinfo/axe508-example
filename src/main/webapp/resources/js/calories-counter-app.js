@@ -205,7 +205,7 @@ angular.module('caloriesCounterApp', ['editableTableWidgets', 'frontendServices'
                 for(var meal in selectedMeals){
                 	 $scope.vm.meals.unshift({
                          id: null,
-                         datetime: rightNow.getFullYear() + '/' + (rightNow.getMonth() + 1) + '/' + rightNow.getDate() + ' ' + rightNow.getHours() + ':' + rightNow.getMinutes(),
+                         datetime: rightNow.getFullYear() + '/' + (rightNow.getMonth() + 1) + '/' + rightNow.getDate() + ' ' + rightNow.getHours() + ':' + (rightNow.getMinutes() <10?'0':'')+rightNow.getMinutes(),
                          description: selectedMeals[meal].description,
                          calories: selectedMeals[meal].calories,
                          selected: false,
