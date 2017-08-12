@@ -157,7 +157,7 @@ public class UserPageSteps extends Steps {
 		LocalDate today = LocalDate.now();
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/M/d");
 		
-		String dateTime = userPage.getDateTimeForEntry();
+		String dateTime = userPage.getDateTimeForEntry(0); // first row on table
 		Assert.assertTrue("Date in the first row is not today", dateTime.contains(today.format(dtf)));
 	}
 	
@@ -199,7 +199,7 @@ public class UserPageSteps extends Steps {
 		LocalDateTime dateTime = LocalDateTime.now();
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/M/dd kk:mm");
 		
-		LocalDateTime newDateTime = LocalDateTime.parse(userPage.getDateTimeForEntry(), dtf);
+		LocalDateTime newDateTime = LocalDateTime.parse(userPage.getDateTimeForEntry(0), dtf);
 		Assert.assertTrue("Timestamp is not within one minute", (newDateTime.getMinute() - dateTime.getMinute()) < 1);
 	}
 	

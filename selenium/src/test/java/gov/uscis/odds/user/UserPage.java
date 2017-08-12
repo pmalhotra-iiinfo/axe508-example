@@ -70,8 +70,10 @@ public class UserPage extends Page {
 			ActionByLocator.click(driver, addButton, TIME_OUT_SECONDS);
 			new NgWebDriver((JavascriptExecutor) driver).waitForAngularRequestsToFinish();
 			
-			ActionByLocator.sendKeys(driver, By.xpath("//input[@ng-model='meal.datetime']"), "2017/08/07 12:00", TIME_OUT_SECONDS);
-			new NgWebDriver((JavascriptExecutor) driver).waitForAngularRequestsToFinish();
+			if (meal.has("datetime")) {
+				ActionByLocator.sendKeys(driver, By.xpath("//input[@ng-model='meal.datetime']"), meal.get("datetime").getAsString(), TIME_OUT_SECONDS);
+				new NgWebDriver((JavascriptExecutor) driver).waitForAngularRequestsToFinish();
+			}	
 			
 			String mealDescription = meal.get("description").getAsString();
 			ActionByLocator.sendKeys(driver, By.xpath("//input[@ng-model='meal.description']"), mealDescription, TIME_OUT_SECONDS);
@@ -153,10 +155,15 @@ public class UserPage extends Page {
 		ActionByLocator.click(driver, addButton, TIME_OUT_SECONDS);
 	}
 	
-	public String getDateTimeForEntry() {
+	public String getDateTimeForEntry(int rowIndex) {
 		new NgWebDriver((JavascriptExecutor) driver).waitForAngularRequestsToFinish();
-		WebElement element = driver.findElement(By.xpath("//tr[@ng-repeat='meal in vm.meals | excludeDeleted | limitTo : 10'][1]/td[2]//input[1]"));
-		return element.getAttribute("value");
+		List<WebElement> elements = driver.findElements(ByAngular.withRootSelector("[ng-controller]").model("meal.datetime"));
+		
+		if (rowIndex >= elements.size()) {
+			throw new RuntimeException("Row index larger than number of rows on table");
+		}
+		
+		return elements.get(rowIndex).getAttribute("value");
 	}
 
 	public void copyMeal() {
