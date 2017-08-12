@@ -39,6 +39,7 @@ public class UserPageSteps extends Steps {
 	@Given("^I am on the user page$")
 	public void i_am_on_the_user_page() {
 		init();
+		userPage.reset();
 	}
 	
 	@When("^I add a meal entry$")
@@ -148,6 +149,9 @@ public class UserPageSteps extends Steps {
 	@Then("^consecutive meal entries show current date-time$")
 	public void consecutive_meal_entries_show_current_date_time() {
 		init();
+		if (userPage.isMessageDisplayed("No results found.")) {
+			Util.waitFor(10);
+		}
 		userPage.clickAddButton();
 		
 		LocalDate today = LocalDate.now();

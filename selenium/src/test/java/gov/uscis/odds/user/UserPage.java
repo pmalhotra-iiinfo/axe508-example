@@ -81,6 +81,8 @@ public class UserPage extends Page {
 			ActionByLocator.sendKeys(driver, By.xpath("//input[@ng-model='meal.calories']"), totalCalories, TIME_OUT_SECONDS);
 			new NgWebDriver((JavascriptExecutor) driver).waitForAngularRequestsToFinish();
 		}
+		// Clear focus from any calendars that might be open
+		driver.findElement(ByAngular.withRootSelector("[ng-controller]").model("vm.maxCaloriesPerDay")).click();
 		
 		ActionByLocator.click(driver, By.xpath("//button[contains(text(),'Save')]"), TIME_OUT_SECONDS);
 		new NgWebDriver((JavascriptExecutor) driver).waitForAngularRequestsToFinish();
@@ -162,5 +164,15 @@ public class UserPage extends Page {
 		List<WebElement> elements = driver.findElements(ByAngular.withRootSelector("[ng-controller]").model("meal.selected"));
 		elements.get(0).click();
 		ActionByLocator.click(driver, By.id("copy-button"), TIME_OUT_SECONDS);
+	}
+
+	public void refresh() {
+		driver.navigate().refresh();
+		new NgWebDriver((JavascriptExecutor) driver).waitForAngularRequestsToFinish();
+	}
+
+	public void reset() {
+		ActionByLocator.click(driver, By.xpath("//button[text()='Reset']"), TIME_OUT_SECONDS);
+		new NgWebDriver((JavascriptExecutor) driver).waitForAngularRequestsToFinish();
 	}
 }

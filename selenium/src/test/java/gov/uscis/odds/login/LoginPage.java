@@ -85,7 +85,7 @@ public class LoginPage extends Page {
 
 	public boolean isImageDisplayed() {
 		new NgWebDriver((JavascriptExecutor) driver).waitForAngularRequestsToFinish();
-		String attr = ActionByLocator.getElement(driver, By.xpath("//body"), TIME_OUT_SECONDS).getAttribute("class");
-		return attr.contains("welcome-img");
+		String attr = ActionByLocator.getElement(driver, By.xpath("//body"), TIME_OUT_SECONDS).getCssValue("background");
+		return attr.contains("background.svg");
 	}
 }
