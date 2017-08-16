@@ -12,7 +12,6 @@ import org.springframework.stereotype.Component;
 
 import com.google.gson.JsonObject;
 import com.karsun.kic.tan.duke.Steps;
-
 import cucumber.api.PendingException;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
@@ -131,7 +130,7 @@ public class UserPageSteps extends Steps {
 	    JsonObject searchObj = executionContext.getCurrentScenarioObj().get("search").getAsJsonObject(); 
 	    
 	    int expectedCount = searchObj.get("count").getAsInt();
-	    Assert.assertEquals("Search count is incorrect", expectedCount, userPage.getSearchResultCount(expectedCount));
+	    Assert.assertEquals("Record count is incorrect", expectedCount, userPage.getSearchResultCount(expectedCount));
 	}
 
 	@When("^I specify a date-time period to search$")
@@ -205,6 +204,25 @@ public class UserPageSteps extends Steps {
 	
 	@Then("^the description and calories are copied$")
 	public void the_description_and_calories_are_copied() {
-		throw new PendingException();
+		Assert.assertTrue(false);
+	}
+	
+	@When("^I select a meal entry on table$")
+	public void i_select_a_meal_entry_on_table() {
+		init();
+		userPage.clickAddButton();
+		userPage.selectFirstRow();
+	}
+
+	@Then("^the \"([^\"]*)\" button is enabled$")
+	public void the_button_is_enabled(String arg1) {
+	    init();
+	    Assert.assertTrue("Save button is not enabled", userPage.isSaveButtonEnabled());
+	}
+	
+	@Then("^the calories goal for the day is clearly displayed$")
+	public void the_calories_goal_for_the_day_is_clearly_displayed() {
+	   init();
+	   Assert.assertTrue("'Goal Calories' was not found", userPage.isGoalDisplayed());
 	}
 }

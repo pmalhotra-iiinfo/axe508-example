@@ -65,10 +65,13 @@ public class UserPage extends Page {
 		new NgWebDriver((JavascriptExecutor) driver).waitForAngularRequestsToFinish();
 		Iterator<JsonElement> iterator = meals.iterator();
 		
-		while (iterator.hasNext()) {
+		while (iterator.hasNext()) {			
 			JsonObject meal = iterator.next().getAsJsonObject();
 			ActionByLocator.click(driver, addButton, TIME_OUT_SECONDS);
 			new NgWebDriver((JavascriptExecutor) driver).waitForAngularRequestsToFinish();
+			
+			// Select row click button
+			driver.findElement(ByAngular.withRootSelector("[ng-controller]").model("meal.selected")).click();
 			
 			if (meal.has("datetime")) {
 				ActionByLocator.sendKeys(driver, By.xpath("//input[@ng-model='meal.datetime']"), meal.get("datetime").getAsString(), TIME_OUT_SECONDS);
@@ -181,5 +184,20 @@ public class UserPage extends Page {
 	public void reset() {
 		ActionByLocator.click(driver, By.xpath("//button[text()='Reset']"), TIME_OUT_SECONDS);
 		new NgWebDriver((JavascriptExecutor) driver).waitForAngularRequestsToFinish();
+	}
+
+	public void selectFirstRow() {
+		new NgWebDriver((JavascriptExecutor) driver).waitForAngularRequestsToFinish();
+		driver.findElement(ByAngular.withRootSelector("[ng-controller]").model("meal.selected")).click();
+	}
+
+	public boolean isSaveButtonEnabled() {
+		new NgWebDriver((JavascriptExecutor) driver).waitForAngularRequestsToFinish();
+		return ActionByLocator.isEnabled(driver, By.xpath("//button[text()='Save']"), TIME_OUT_SECONDS);
+	}
+
+	public boolean isGoalDisplayed() {
+		new NgWebDriver((JavascriptExecutor) driver).waitForAngularRequestsToFinish();
+		return ActionByLocator.isDisplayed(driver, By.id("goal-calories"), TIME_OUT_SECONDS);
 	}
 }

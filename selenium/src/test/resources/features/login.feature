@@ -13,11 +13,12 @@ Scenario: Login page contains the welcome image
 Given I am on the login page
 Then the welcome image is displayed
 
-@smoke
+@story5
 Scenario: Login with valid credentials
 Given I am on the login page
 When I use valid username and password
 Then my calories for today are displayed
+And all existing records are returned
 
 @smoke
 Scenario: Login with invalid username and password
