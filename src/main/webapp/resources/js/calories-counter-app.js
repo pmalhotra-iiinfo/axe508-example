@@ -161,22 +161,62 @@ angular.module('caloriesCounterApp', ['editableTableWidgets', 'frontendServices'
                 if ($scope.vm.currentPage > 1) {
                     $scope.vm.currentPage-= 1;
                     loadMealData($scope.vm.fromDate, $scope.vm.fromTime,
-                        $scope.vm.toDate, $scope.vm.toTime, $scope.vm.currentPage);
+                        $scope.vm.toDate, $scope.vm.toTime,$scope.vm.description, $scope.vm.currentPage,1);
                 }
             };
 
-            $scope.next = function () {
+            $scope.next= function () {
+            	var page;
+            	if ($scope.vm.currentPage < $scope.vm.totalPages) {
+                   page= $scope.vm.currentPage + 1;
+            	}
+            	$scope.vm.currentPage< $scope.vm.totalPages?page= $scope.vm.currentPage += 1:$scope.vm.currentPage;
+
+                var fromDate = new Date($scope.vm.fromDate);
+                var toDate = new Date($scope.vm.toDate);
+
+                console.log('search from ' + $scope.vm.fromDate + ' ' + ' to ' + $scope.vm.toDate + ' ' + ' description: ' + $scope.vm.description);
+
+                var errorsFound = false;
+
+                if ($scope.vm.fromDate && !$scope.vm.toDate || !$scope.vm.fromDate && $scope.vm.toDate) {
+                    showErrorMessage("Both from and to dates are needed");
+                    errorsFound = true;
+                    return;
+                }
+
+                if (fromDate > toDate) {
+                    showErrorMessage("From date cannot be larger than to date");
+                    errorsFound = true;
+                }
+
+                if (fromDate.getTime() == toDate.getTime() && $scope.vm.fromTime &&
+                    $scope.vm.toTime && $scope.vm.fromTime > $scope.vm.toTime) {
+                    showErrorMessage("Inside same day, from time cannot be larger than to time");
+                    errorsFound = true;
+                }
+
+                if (!errorsFound) {
+                    loadMealData($scope.vm.fromDate, $scope.vm.fromTime, $scope.vm.toDate, $scope.vm.toTime, $scope.vm.description, page == undefined ? 1 : page, 1);
+                }
+
+            };
+           /* = function () {
                 if ($scope.vm.currentPage < $scope.vm.totalPages) {
                     $scope.vm.currentPage += 1;
+                    console.log("Iam in next"+$scope.vm.currentPage);
                     loadMealData($scope.vm.fromDate, $scope.vm.fromTime,
-                        $scope.vm.toDate, $scope.vm.toTime, $scope.vm.currentPage);
+                        $scope.vm.toDate, $scope.vm.toTime,$scope.vm.description, $scope.vm.currentPage);
+                    loadMealData($scope.vm.fromDate, $scope.vm.fromTime, $scope.vm.toDate, $scope.vm.toTime, $scope.vm.description, page == undefined ? 1 : page, 1);
                 }
-            };
+            };*/
 
             $scope.goToPage = function (pageNumber) {
                 if (pageNumber > 0 && pageNumber <= $scope.vm.totalPages) {
+                	var fromDate = new Date($scope.vm.fromDate);
+                    var toDate = new Date($scope.vm.toDate);
                     $scope.vm.currentPage = pageNumber;
-                    loadMealData($scope.vm.fromDate, $scope.vm.fromTime, $scope.vm.toDate, $scope.vm.toTime, pageNumber);
+                    loadMealData($scope.vm.fromDate, $scope.vm.fromTime, $scope.vm.toDate, $scope.vm.toTime,$scope.vm.description, pageNumber,1);
                 }
             };
 
