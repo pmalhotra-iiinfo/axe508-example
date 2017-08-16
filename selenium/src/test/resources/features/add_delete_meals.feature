@@ -9,7 +9,7 @@ Given I am on the user page
 When I add a meal entry
 Then consecutive meal entries show current date-time
 
-@smoke
+@wip
 Scenario: Copy meals from previous entry
 Given I am on the user page
 When I copy a meal entry
