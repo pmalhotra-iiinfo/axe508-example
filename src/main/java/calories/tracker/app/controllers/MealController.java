@@ -62,9 +62,13 @@ public class MealController {
 //        if (fromDate == null && toDate == null) {
         if (fullSearch == 0) {
             if (fromDate == null && toDate == null) {
+                fromDate = new Date(0);
+                toDate = new Date();
+            }
+/*            if (fromDate == null && toDate == null) {
                 fromDate = new Date(System.currentTimeMillis() - (3 * DAY_IN_MS));
                 toDate = new Date(System.currentTimeMillis() + DAY_IN_MS);
-            }
+            }*/
         } else {
             if (fromDate == null && toDate == null) {
                 fromDate = new Date(0);

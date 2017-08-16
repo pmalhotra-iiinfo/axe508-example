@@ -55,6 +55,7 @@ angular.module('caloriesCounterApp', ['editableTableWidgets', 'frontendServices'
                         $scope.vm.errorMessages = [];
                         $scope.vm.currentPage = data.currentPage;
                         $scope.vm.totalPages = data.totalPages;
+                        console.log(data.totalPages);
 
                         $scope.vm.originalMeals = _.map(data.meals, function (meal) {
                             meal.datetime = meal.date + ' ' + meal.time;

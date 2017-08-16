@@ -168,7 +168,7 @@
     <div class="form-separator"></div>
 
     <div class="main-controls">
-        <button type="submit" class="pure-button pure-button-primary" ng-click="save()">Save</button>
+        <button type="submit" class="pure-button pure-button-primary" ng-disabled="vm.isSelectionEmpty" ng-click="save()">Save</button>
         <button type="reset" class="pure-button" ng-click="reset()">Reset</button>
     </div>
 
