@@ -3,13 +3,13 @@ Feature: Add, delete meals
 	I want to add and delete meals
 	so that I can track my eating habits
 
-@story4
+@smoke
 Scenario: Save button is disabled unless a row is selected
 Given I am on the user page
 When I select a meal entry on table
 Then the "Save" button is enabled
 
-@story6
+@smoke
 Scenario: Rename 'Max Calories' to 'Goal Calories' 
 Given I am on the user page
 Then the calories goal for the day is clearly displayed

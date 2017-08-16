@@ -13,7 +13,7 @@ Scenario: Login page contains the welcome image
 Given I am on the login page
 Then the welcome image is displayed
 
-@story5
+@smoke
 Scenario: Login with valid credentials
 Given I am on the login page
 When I use valid username and password
