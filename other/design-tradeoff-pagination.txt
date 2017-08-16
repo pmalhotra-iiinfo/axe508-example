@@ -1,0 +1,4 @@
+Analysis of Tradeoffs for Pagination
+
+- Dismissed idea to have absolutely all records shown on the login screen after it became evident it would be a performance bottleneck
+- Worked on identifying the issue with query and decided to stay with 10 records as default.
