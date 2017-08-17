@@ -1,7 +1,22 @@
-Feature: Add, delete meals
+Feature: Add meals
 	As a user,
-	I want to add and delete meals
+	I want to add meals
 	so that I can track my eating habits
+
+@story2
+Scenario: Add meals
+Given I am on the user page
+When I add a meal entry
+Then I receive a confirmation message
+And the number of calories for the day is updated
+
+@wip
+Scenario: Add and delete meals
+Given I am on the user page
+When I add meal entries
+And I delete a meal entry
+Then I receive a confirmation message
+And the number of calories for the day is updated
 
 @smoke
 Scenario: Save button is disabled unless a row is selected
