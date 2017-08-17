@@ -6,9 +6,9 @@ angular.module('caloriesCounterApp', ['editableTableWidgets', 'frontendServices'
             });
         }
     })
-    .controller('CaloriesTrackerCtrl', ['$scope' , 'MealService', 'UserService', '$timeout',
-        function ($scope, MealService, UserService, $timeout) {
-
+     .controller('CaloriesTrackerCtrl', ['$scope' ,'$http',  'MealService', 'UserService', '$timeout',
+        function ($scope,$http,  MealService, UserService, $timeout) {
+    	$scope.meal=[];
             $scope.vm = {
                 maxCaloriesPerDay: 2000,
                 currentPage: 1,
@@ -47,15 +47,26 @@ angular.module('caloriesCounterApp', ['editableTableWidgets', 'frontendServices'
                     $scope.vm.appReady = true;
                 }
             }
+            $scope.getTypeOfMeal=function(){
+            	  $http.get('/meal/type')
+                  .then(function (response) {
+                      if (response.status == 200) {
+                    	  $scope.vm.type=response.data;
+                      }
+                      else {
+                         console.log('Error retrieving list of meal type');
+                      }
+                  });
+            }
+            $scope.getTypeOfMeal();
 
-            function loadMealData(fromDate, fromTime, toDate, toTime, description, pageNumber, fullSearch) {
-                MealService.searchMeals(fromDate, fromTime, toDate, toTime, description, pageNumber, fullSearch)
+            function loadMealData(fromDate, fromTime, toDate, toTime,description, pageNumber, fullSearch) {
+                MealService.searchMeals(fromDate, fromTime, toDate, toTime,description, pageNumber, fullSearch)
                     .then(function (data) {
 
                         $scope.vm.errorMessages = [];
                         $scope.vm.currentPage = data.currentPage;
                         $scope.vm.totalPages = data.totalPages;
-                        console.log(data.totalPages);
 
                         $scope.vm.originalMeals = _.map(data.meals, function (meal) {
                             meal.datetime = meal.date + ' ' + meal.time;
@@ -66,8 +77,12 @@ angular.module('caloriesCounterApp', ['editableTableWidgets', 'frontendServices'
 
                         _.each($scope.vm.meals, function (meal) {
                             meal.selected = false;
-                        });
-
+                        });  
+                        
+                        for(var i=0;i<$scope.vm.meals.length;i++){
+                    		
+                    		$scope.vm.meals[i].total=$scope.vm.meals[i].servings*$scope.vm.meals[i].calories;
+                    	}
                         markAppAsInitialized();
 
                         if ($scope.vm.meals && $scope.vm.meals.length == 0) {
@@ -221,11 +236,12 @@ angular.module('caloriesCounterApp', ['editableTableWidgets', 'frontendServices'
             };
 
             $scope.add = function () {
-                rightNow = new Date();
                 $scope.vm.meals.unshift({
                     id: null,
-                    datetime: rightNow.getFullYear() + '/' + (rightNow.getMonth() + 1) + '/' + rightNow.getDate() + ' ' + rightNow.getHours() + ':' + (rightNow.getMinutes() <10?'0':'')+rightNow.getMinutes(),
+                    datetime: null,
+                    type:[],
                     description: null,
+                    servings:null,
                     calories: null,
                     selected: false,
                     new: true
@@ -247,6 +263,8 @@ angular.module('caloriesCounterApp', ['editableTableWidgets', 'frontendServices'
                 	 $scope.vm.meals.unshift({
                          id: null,
                          datetime: rightNow.getFullYear() + '/' + (rightNow.getMonth() + 1) + '/' + rightNow.getDate() + ' ' + rightNow.getHours() + ':' + (rightNow.getMinutes() <10?'0':'')+rightNow.getMinutes(),
+                         type:selectedMeals[meal].type,
+                         servings:selectedMeals[meal].servings,
                          description: selectedMeals[meal].description,
                          calories: selectedMeals[meal].calories,
                          selected: false,
@@ -309,18 +327,31 @@ angular.module('caloriesCounterApp', ['editableTableWidgets', 'frontendServices'
                     })
                     .map(function (meal) {
                         return {
-                            id: meal.id,
-                            date: meal.date,
-                            time: meal.time,
-                            description: meal.description,
-                            calories: meal.calories,
-                            version: meal.version
+                        	 id: meal.id,
+                             date: meal.date,                            
+                             time: meal.time,
+                             type:meal.type,
+                             description: meal.description,
+                             servings:meal.servings,
+                             calories: meal.calories,
+                             version: meal.version
                         }
                     })
-                    .value();
+                    .value(); 
             }
 
             $scope.save = function () {
+            	for(var i=0;i<$scope.vm.meals.length;i++){
+            		$scope.vm.meals[i].servings=parseInt($scope.vm.meals[i].servings);
+            		if($scope.vm.meals[i].type.id!=undefined){
+                		$scope.vm.meals[i].type=$scope.vm.meals[i].type;
+                		}
+            		else{
+            		$scope.vm.meals[i].type=$scope.vm.type[$scope.vm.meals[i].type.description];
+            		}
+            		
+            		$scope.vm.meals[i].total=$scope.vm.meals[i].servings*$scope.vm.meals[i].calories;
+            	}
 
                 var maybeDirty = prepareMealsDto(getNotNew($scope.vm.meals));
 
@@ -337,8 +368,8 @@ angular.module('caloriesCounterApp', ['editableTableWidgets', 'frontendServices'
                     }
 
                     return originalMeal && ( originalMeal.date != meal.date ||
-                        originalMeal.time != meal.time || originalMeal.description != meal.description ||
-                        originalMeal.calories != meal.calories)
+                            originalMeal.time != meal.time || originalMeal.type != meal.type || originalMeal.description != meal.description || originalMeal.servings != meal.servings ||
+                            originalMeal.calories != meal.calories)
                 });
 
                 var newItems = _.filter($scope.vm.meals, function (meal) {
@@ -361,6 +392,7 @@ angular.module('caloriesCounterApp', ['editableTableWidgets', 'frontendServices'
                     });
 
             };
+
 
             $scope.logout = function () {
                 UserService.logout();
