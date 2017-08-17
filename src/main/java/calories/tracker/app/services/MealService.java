@@ -117,7 +117,8 @@ public class MealService {
         List<Meal> meals = mealRepository.findMealsByDateTime(username, theDate, theDate, null, null,null, 1);
         for (Meal meal : meals) {
             if (!meal.getId().equals(id)) {
-                assertNotEquals(meal.getDescription(), description, "Meal duplicate");
+            	if(meal.getType().equals(type))
+                assertNotEquals(meal.getDescription(), description, "Meal type and description match an existing record for the same day, please correct this error ");
             }
         }
 
