@@ -4,12 +4,14 @@ package gov.uscis.odds.user;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Iterator;
 
 import gov.uscis.odds.util.Util;
 
 import org.junit.Assert;
 import org.springframework.stereotype.Component;
 
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.karsun.kic.tan.duke.Steps;
 import cucumber.api.PendingException;
@@ -31,14 +33,14 @@ public class UserPageSteps extends Steps {
 	@Then("^my calories for today are displayed$")
 	public void my_calories_for_today_are_displayed() {
 		init();
-		String todaysCalories = executionContext.getCurrentScenarioObj().get("todaysCalories").getAsString();
-		Assert.assertEquals("Today's calories do not match", todaysCalories, userPage.getTodaysCalories());
+		Assert.assertTrue("Today's calories do not match", Long.valueOf(userPage.getTodaysCalories().trim()) >= 0);
 	}
 	
 	@Given("^I am on the user page$")
 	public void i_am_on_the_user_page() {
 		init();
 		userPage.reset();
+		executionContext.getCurrentScenarioObj().addProperty("initialTotalCalories", userPage.getTodaysCalories());
 	}
 	
 	@When("^I add a meal entry$")
@@ -73,9 +75,16 @@ public class UserPageSteps extends Steps {
 
 	@Then("^the number of calories for the day is updated$")
 	public void the_number_of_calories_for_the_day_is_updated() {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new PendingException();
+		init();
+		int caloriesAtStart = Integer.valueOf(executionContext.getCurrentScenarioObj().get("initialTotalCalories").getAsString());
+		int caloriesForEntry = getCaloriesForMeals();
+		int caloriesForToday = Integer.valueOf(userPage.getTodaysCalories().trim());
+		
+	    Assert.assertEquals("Total calories not updated",
+	    		caloriesAtStart + caloriesForEntry, caloriesForToday);
+	    Assert.assertEquals("Entry calories not correct", caloriesForEntry, userPage.getCaloriesForLastEntry());
 	}
+
 
 	@When("^I add a meal entry without its type$")
 	public void i_add_a_meal_entry_without_its_type() {
@@ -127,10 +136,7 @@ public class UserPageSteps extends Steps {
 
 	@Then("^all existing records are returned$")
 	public void all_existing_records_are_returned() {
-	    JsonObject searchObj = executionContext.getCurrentScenarioObj().get("search").getAsJsonObject(); 
-	    
-	    int expectedCount = searchObj.get("count").getAsInt();
-	    Assert.assertEquals("Record count is incorrect", expectedCount, userPage.getSearchResultCount(expectedCount));
+	    Assert.assertTrue("Record count is incorrect", userPage.getSearchResultCount(1) >= 1);
 	}
 
 	@When("^I specify a date-time period to search$")
@@ -224,5 +230,17 @@ public class UserPageSteps extends Steps {
 	public void the_calories_goal_for_the_day_is_clearly_displayed() {
 	   init();
 	   Assert.assertTrue("'Goal Calories' was not found", userPage.isGoalDisplayed());
+	}
+	
+	private int getCaloriesForMeals() {
+		Iterator<JsonElement> iterator = executionContext.getCurrentScenarioObj().get("meals").getAsJsonArray().iterator();
+		int totalCalories = 0;
+		while (iterator.hasNext()) {			
+			JsonObject meal = iterator.next().getAsJsonObject();
+			int calories = Integer.valueOf(meal.get("calories").getAsString());
+			int servings = Integer.valueOf(meal.get("servings").getAsString());
+			totalCalories+=(calories*servings);
+		}
+		return totalCalories;
 	}
 }

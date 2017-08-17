@@ -1,10 +1,38 @@
 {
+	"Add meals": {
+		"signIn": {
+			"username": "test123",
+			"password": "Password2"
+		},
+		"meals": [
+			{
+				"type": "Breakfast",
+				"description": "coffee",
+				"calories": "150",
+				"servings": 2
+			}
+		],
+		"message": "Changes saved successfully"
+	},
+	"Add and delete meals": {
+		"signIn": {
+			"username": "test123",
+			"password": "Password2"
+		},
+		"meals": [
+			{
+				"type": "Breakfast",
+				"description": "coffee",
+				"calories": "150"
+			}
+		],
+		"message": "Changes saved successfully"
+	},
 	"Login with valid credentials": {
 		"signIn": {
 			"username": "test123",
 			"password": "Password2"
 		},
-		"todaysCalories": "500",
 		"search": {
 				"startDate": "",
 				"endDate": "",
@@ -35,19 +63,6 @@
 			"password": "Password2"
 		},
 	    "welcomeMessage": "Helping you manage what you eat by measuring your calorie intake on a daily basis"
-	},
-	"Add meals": {
-		"signIn": {
-			"username": "test123",
-			"password": "Password2"
-		},
-		"meals": [
-			{
-				"description": "coffee",
-				"calories": "150"
-			}
-		],
-		"message": "Changes saved successfully"
 	},
 	"Date-only search": {
 		"signIn": {

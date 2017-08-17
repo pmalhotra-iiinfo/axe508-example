@@ -13,6 +13,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.Select;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -71,7 +72,21 @@ public class UserPage extends Page {
 			new NgWebDriver((JavascriptExecutor) driver).waitForAngularRequestsToFinish();
 			
 			// Select row click button
+			new NgWebDriver((JavascriptExecutor) driver).waitForAngularRequestsToFinish();
 			driver.findElement(ByAngular.withRootSelector("[ng-controller]").model("meal.selected")).click();
+			
+			// Select pull-down for meal type
+			new NgWebDriver((JavascriptExecutor) driver).waitForAngularRequestsToFinish();
+			
+			String mealType = meal.get("type").getAsString();
+			Select select = new Select(driver.findElement(ByAngular.withRootSelector("[ng-controller]").model("mealselected")));
+			new NgWebDriver((JavascriptExecutor) driver).waitForAngularRequestsToFinish();
+			select.selectByVisibleText(mealType);
+			
+			// Send text for servings
+			String servings = meal.get("servings").getAsString();
+			ActionByLocator.sendKeys(driver, By.xpath("//input[@ng-model='meal.servings']"), servings, TIME_OUT_SECONDS);
+			new NgWebDriver((JavascriptExecutor) driver).waitForAngularRequestsToFinish();
 			
 			if (meal.has("datetime")) {
 				ActionByLocator.sendKeys(driver, By.xpath("//input[@ng-model='meal.datetime']"), meal.get("datetime").getAsString(), TIME_OUT_SECONDS);
@@ -199,5 +214,11 @@ public class UserPage extends Page {
 	public boolean isGoalDisplayed() {
 		new NgWebDriver((JavascriptExecutor) driver).waitForAngularRequestsToFinish();
 		return ActionByLocator.isDisplayed(driver, By.id("goal-calories"), TIME_OUT_SECONDS);
+	}
+
+	public int getCaloriesForLastEntry() {
+		new NgWebDriver((JavascriptExecutor) driver).waitForAngularRequestsToFinish();
+		List<WebElement> elements = driver.findElements(ByAngular.withRootSelector("[ng-controller]").model("meal.total"));
+		return Integer.valueOf(elements.get(1).getAttribute("value"));
 	}
 }
