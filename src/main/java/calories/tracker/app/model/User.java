@@ -20,7 +20,7 @@ import javax.persistence.Table;
         ),
         @NamedQuery(
                 name = User.COUNT_TODAYS_CALORIES,
-                query = "select sum(m.calories) from Meal m where m.user.username = :username and m.date = CURRENT_DATE"
+                query = "select sum(m.calories * m.servings) from Meal m where m.user.username = :username and m.date = CURRENT_DATE"
         )
 })
 public class User extends AbstractEntity {
