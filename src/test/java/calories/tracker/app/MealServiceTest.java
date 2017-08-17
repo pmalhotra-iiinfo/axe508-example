@@ -23,6 +23,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import calories.tracker.app.dto.MealDTO;
 import calories.tracker.app.model.Meal;
+import calories.tracker.app.model.MealType;
 import calories.tracker.app.model.SearchResult;
 import calories.tracker.app.services.MealService;
 import calories.tracker.config.root.RootContextConfig;
@@ -106,7 +107,8 @@ public class MealServiceTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void saveMealWithDuplicateDescription() {
-        Meal m = mealService.saveMeal(UserServiceTest.USERNAME, null, new Date(), null, "Pizza", 200L);
+    	MealType breakfast = new MealType("Breakfast");
+        Meal m = mealService.saveMeal(UserServiceTest.USERNAME, null, new Date(), null, "Pizza", 200L,1,breakfast);
     }
     @Test
     public void testFindMealsByDescription() {
